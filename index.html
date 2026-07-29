@@ -4,55 +4,40 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#c91f2c">
-  <meta name="description" content="A mobile-first research companion for Pokémon name origins, localization, and future living-dex routes.">
-  <title>Poké Etymology · Pokémon names across languages</title>
+  <meta name="description" content="Pokémon names across English, French, and Japanese, with etymology, localization notes, and EV yields.">
+  <title>Poké Etymology</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="site-header">
     <div class="header-inner">
-      <p class="kicker">Kanto language research</p>
       <h1>Poké Etymology</h1>
-      <p class="tagline">How Pokémon names work across languages—and, eventually, how to catch every one without missing the story along the way.</p>
     </div>
   </header>
 
   <nav class="primary-nav" aria-label="Main navigation">
     <div class="nav-inner">
-      <a href="#explore">Name research</a>
-      <a href="#guides">Living-dex guides</a>
-      <a href="https://github.com/natanai/poke-etymology">Project data</a>
+      <a href="#explore">Names</a>
+      <a href="#guides">Living Dex</a>
+      <a href="https://github.com/natanai/poke-etymology">Data</a>
     </div>
   </nav>
 
   <main class="main-inner">
     <div id="browse">
-      <section class="intro-grid" aria-labelledby="mission-title">
-        <div class="intro-copy">
-          <p class="eyebrow">A reference for word nerds</p>
-          <h2 id="mission-title">Not another general Pokédex.</h2>
-          <p>This project focuses on the names themselves: roots, puns, sound symbolism, cultural references, what a native speaker may hear, and how each localization changes the idea.</p>
-        </div>
-        <aside class="scope-note" aria-label="Current project scope">
-          <strong>Current scope</strong>
-          <p>Generation I species. English, French, and Japanese first. No sprites. No attempt to duplicate encyclopedic resources that already exist.</p>
-        </aside>
-      </section>
-
       <section id="explore" class="explorer" aria-labelledby="explore-title">
         <div class="section-heading">
-          <p class="eyebrow">Name research</p>
-          <h2 id="explore-title">Explore Generation I</h2>
-          <p>Search by National Pokédex number or by an English, French, Japanese, or romanized Japanese name.</p>
+          <h2 id="explore-title">Generation I</h2>
+          <span id="count">25 entries</span>
         </div>
+
         <div class="explorer-controls">
-          <label for="q">Search any language</label>
+          <label for="q">Search</label>
           <div class="search-wrap">
-            <span class="search-mark" aria-hidden="true">›</span>
-            <input id="q" type="search" placeholder="Bulbizarre, Pikachu, フシギダネ, or #001" autocomplete="off">
+            <input id="q" type="search" placeholder="Name or #001" autocomplete="off">
           </div>
           <fieldset class="language-picker">
-            <legend>Show the index using</legend>
+            <legend>Index language</legend>
             <div class="tabs">
               <button type="button" class="btn on" data-lang="e" aria-pressed="true">English</button>
               <button type="button" class="btn" data-lang="f" aria-pressed="false">Français</button>
@@ -60,71 +45,65 @@
             </div>
           </fieldset>
         </div>
-        <div class="result-summary"><span>Research index</span><span id="count">25 entries</span></div>
+
         <ol id="list" class="list"></ol>
-        <p id="none" class="empty" hidden>No matching name was found in the current research set.</p>
+        <p id="none" class="empty" hidden>No match.</p>
       </section>
 
       <section id="guides" class="guide-panel" aria-labelledby="guide-title">
-        <p class="eyebrow">Next major feature</p>
-        <h2 id="guide-title">Kanto living-dex routes</h2>
-        <p>The route guides will grow from the same data rather than becoming a separate generic walkthrough. They will tell you what to catch, where to catch it, how many copies a living dex requires, what can be missed, and which encounters provide useful EVs.</p>
-        <div class="guide-status">
-          <strong>First planned guide: FireRed / LeafGreen</strong><br>
-          <span>Planned after the Gen I name foundation is stable</span>
+        <div class="section-heading">
+          <h2 id="guide-title">Living Dex</h2>
         </div>
-        <ul class="guide-list">
-          <li>Route-by-route and floor-by-floor encounter planning</li>
-          <li>French (English; Japanese) naming throughout</li>
-          <li>EV-aware defeat, catch, and flee advice</li>
-          <li>Version exclusives, evolution quantities, trades, fossils, and irreversible choices</li>
-          <li>Red, Blue, and Yellow guides added within the Kanto phase—not every game at once</li>
-        </ul>
-        <p class="project-note">The goal is a Pokémon language and completion companion: deep enough for people who love words, practical enough to keep beside an active playthrough.</p>
+        <div class="guide-row">
+          <strong>FireRed / LeafGreen</strong>
+          <span>In development</span>
+        </div>
+        <div class="guide-row muted-row">
+          <strong>Red / Blue / Yellow</strong>
+          <span>Later</span>
+        </div>
       </section>
     </div>
 
     <article id="detail" class="detail-shell" hidden>
       <div class="detail-toolbar">
-        <button id="back" type="button" class="btn">← Back to index</button>
+        <button id="back" type="button" class="btn">← Index</button>
         <span id="pos"></span>
       </div>
+
       <header class="entry-head">
         <p id="dex" class="eyebrow"></p>
         <h2 id="name"></h2>
         <div id="sub" class="entry-sub"></div>
         <div id="chips" class="chips"></div>
       </header>
-      <section class="entry-section">
-        <h3>Names across languages</h3>
-        <div id="names" class="names"></div>
-      </section>
+
       <section class="entry-section comparison">
-        <h3>What changes in localization</h3>
+        <h3>Localization</h3>
         <p id="compare"></p>
       </section>
+
       <section class="entry-section">
-        <h3>Roots, meaning, and confidence</h3>
+        <h3>Names</h3>
+        <div id="names" class="names"></div>
+      </section>
+
+      <section class="entry-section">
+        <h3>Roots & meaning</h3>
         <div id="ety" class="ety"></div>
       </section>
+
       <section class="entry-section">
         <h3>EV yield</h3>
         <div id="ev" class="ev"></div>
-        <p class="context-note">EV data is included because it will support the living-dex playthrough guides. This project is not intended to replace a full competitive or battle-data reference.</p>
       </section>
+
       <nav class="entry-nav" aria-label="Pokémon entries">
         <button id="prev" type="button" class="btn">← Previous</button>
         <button id="next" type="button" class="btn">Next →</button>
       </nav>
     </article>
   </main>
-
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <p><strong>Poké Etymology</strong> · a mobile-first language and completion research project.</p>
-      <p class="footer-small"><a href="https://github.com/natanai/poke-etymology">View the data and research history on GitHub</a>. Early etymologies are working drafts and use confidence labels where origins are uncertain.</p>
-    </div>
-  </footer>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
