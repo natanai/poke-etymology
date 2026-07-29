@@ -1,112 +1,135 @@
-let lang="e", filtered=DATA, current=null;
-const $=s=>document.querySelector(s);
-const pad=n=>String(n).padStart(3,"0");
-const norm=s=>String(s).normalize("NFD").replace(/\p{Diacritic}/gu,"").toLowerCase();
+let lang="e", filtered=DATA;
+const $=selector=>document.querySelector(selector);
+const pad=value=>String(value).padStart(3,"0");
+const norm=value=>String(value).normalize("NFD").replace(/\p{Diacritic}/gu,"").toLowerCase();
+const esc=value=>String(value)
+  .replaceAll("&","&amp;")
+  .replaceAll("<","&lt;")
+  .replaceAll(">","&gt;")
+  .replaceAll('"',"&quot;")
+  .replaceAll("'","&#039;");
 
-function displayName(p){
-  if(lang==="j") return `${p.j} (${p.r})`;
-  return p[lang];
+function displayName(pokemon){
+  return lang==="j" ? `${pokemon.j} (${pokemon.r})` : pokemon[lang];
+}
+
+function renderDetails(pokemon){
+  const reviewed=Boolean(pokemon.reviewed || pokemon.x?.length);
+  const associations=typeof ASSOCIATIONS!=="undefined" ? ASSOCIATIONS[pokemon.d] : null;
+  const languages=["日本語 — Japanese","Français — French","English"];
+  const labels=["HP / PV","Attack / Attaque","Defense / Défense","Sp. Atk / Atq. Spé.","Sp. Def / Déf. Spé.","Speed / Vitesse"];
+
+  const etymology=reviewed ? `
+    <section class="entry-section">
+      <h3>Roots, meaning & native associations</h3>
+      <div class="ety">
+        ${pokemon.x.map((item,index)=>`
+          <article>
+            <h4>${languages[index]}</h4>
+            <p class="roots"><strong>Roots:</strong> ${esc(item[0])}</p>
+            <p>${esc(item[1])}</p>
+            <p class="associations"><strong>May evoke:</strong> ${esc(associations?.[index] || "Association examples pending review.")}</p>
+            <span class="confidence">${esc(item[2])} confidence</span>
+          </article>`).join("")}
+      </div>
+    </section>` : `
+    <section class="entry-section pending">
+      <h3>Etymology</h3>
+      <p>Roots, native associations, and localization comparison pending research.</p>
+    </section>`;
+
+  const comparison=reviewed && pokemon.c ? `
+    <section class="entry-section comparison">
+      <h3>Localization</h3>
+      <p>${esc(pokemon.c)}</p>
+    </section>` : "";
+
+  return `
+    <div class="inline-entry-head">
+      <p class="eyebrow">National Pokédex #${pad(pokemon.d)}</p>
+      <h3>${esc(pokemon.e)}</h3>
+      <p>${esc(pokemon.f)} · ${esc(pokemon.j)} — ${esc(pokemon.r)}</p>
+      <div class="chips">${pokemon.t.map(type=>`<span class="chip">${esc(type)}</span>`).join("")}</div>
+    </div>
+    ${comparison}
+    <section class="entry-section">
+      <h3>Names</h3>
+      <div class="names">
+        ${[["English",pokemon.e],["Français",pokemon.f],["日本語",pokemon.j],["Romanization",pokemon.r]]
+          .map(([label,value])=>`<div><strong>${label}</strong><span>${esc(value)}</span></div>`).join("")}
+      </div>
+    </section>
+    ${etymology}
+    <section class="entry-section">
+      <h3>EV yield</h3>
+      <div class="ev">${pokemon.v.map((value,index)=>`<div><small>${labels[index]}</small><strong>${value}</strong></div>`).join("")}</div>
+    </section>
+    <div class="collapse-row"><button type="button" class="btn collapse-entry" data-collapse="${pokemon.d}">Collapse entry</button></div>`;
 }
 
 function draw(){
-  $("#list").innerHTML=filtered.map(p=>`
-    <li>
-      <button type="button" data-d="${p.d}" aria-label="Open ${p.e}">
-        <span class="dex-no">#${pad(p.d)}</span>
-        <strong>${displayName(p)}</strong>
-        <span class="type">${p.t.join(" / ")}</span>
+  $("#list").innerHTML=filtered.map(pokemon=>`
+    <li class="pokemon-item">
+      <button type="button" class="entry-toggle" data-d="${pokemon.d}" aria-expanded="false" aria-controls="entry-${pad(pokemon.d)}">
+        <span class="dex-no">#${pad(pokemon.d)}</span>
+        <span class="entry-summary"><strong>${esc(displayName(pokemon))}</strong><small>${esc(pokemon.t.join(" / "))}</small></span>
+        <span class="expand-mark" aria-hidden="true">＋</span>
       </button>
+      <div id="entry-${pad(pokemon.d)}" class="entry-panel" hidden></div>
     </li>`).join("");
   $("#count").textContent=`${filtered.length} ${filtered.length===1?"entry":"entries"}`;
   $("#none").hidden=filtered.length>0;
 }
 
 function filter(){
-  const q=norm($("#q").value.trim());
-  filtered=DATA.filter(p=>norm([p.d,pad(p.d),p.e,p.f,p.j,p.r,...p.t].join(" ")).includes(q));
+  const query=norm($("#q").value.trim());
+  filtered=DATA.filter(pokemon=>norm([pokemon.d,pad(pokemon.d),pokemon.e,pokemon.f,pokemon.j,pokemon.r,...pokemon.t].join(" ")).includes(query));
   draw();
 }
 
-function show(d){
-  const p=DATA.find(x=>x.d===+d);
-  if(!p) return;
-  current=p;
-  history.replaceState(null,"",`#${pad(p.d)}`);
-  $("#dex").textContent=`National Pokédex #${pad(p.d)}`;
-  $("#name").textContent=p.e;
-  $("#sub").textContent=`${p.f} · ${p.j} — ${p.r}`;
-  $("#pos").textContent=`${p.d} / ${DATA.length}`;
-  $("#chips").innerHTML=p.t.map(x=>`<span class="chip">${x}</span>`).join("");
-  $("#names").innerHTML=[
-    ["English",p.e],
-    ["Français",p.f],
-    ["日本語",p.j],
-    ["Romanization",p.r]
-  ].map(x=>`<div><strong>${x[0]}</strong><span>${x[1]}</span></div>`).join("");
-
-  const labs=["HP / PV","Attack / Attaque","Defense / Défense","Sp. Atk / Atq. Spé.","Sp. Def / Déf. Spé.","Speed / Vitesse"];
-  $("#ev").innerHTML=p.v.map((x,i)=>`<div><small>${labs[i]}</small><strong>${x}</strong></div>`).join("");
-
-  const reviewed=Array.isArray(p.x)&&p.x.length>0;
-  $("#comparison-section").hidden=!reviewed;
-  $("#roots-section").hidden=!reviewed;
-  $("#pending-section").hidden=reviewed;
-  if(reviewed){
-    const ll=["日本語 — Japanese","Français — French","English"];
-    $("#ety").innerHTML=p.x.map((x,i)=>`
-      <article>
-        <h4>${ll[i]}</h4>
-        <p class="roots"><strong>Roots:</strong> ${x[0]}</p>
-        <p>${x[1]}</p>
-        <span class="confidence">${x[2]} confidence</span>
-      </article>`).join("");
-    $("#compare").textContent=p.c;
+function toggle(button,forceOpen){
+  const pokemon=DATA.find(item=>item.d===Number(button.dataset.d));
+  if(!pokemon) return;
+  const panel=document.getElementById(button.getAttribute("aria-controls"));
+  const open=forceOpen ?? button.getAttribute("aria-expanded")!=="true";
+  if(open && !panel.dataset.loaded){
+    panel.innerHTML=renderDetails(pokemon);
+    panel.dataset.loaded="true";
   }
-
-  $("#prev").disabled=p.d===1;
-  $("#next").disabled=p.d===DATA.length;
-  $("#browse").hidden=true;
-  $("#detail").hidden=false;
-  document.title=`${p.e} · Poké Etymology`;
-  scrollTo(0,0);
-}
-
-function closeEntry(){
-  history.replaceState(null,"",`${location.pathname}#explore`);
-  $("#detail").hidden=true;
-  $("#browse").hidden=false;
-  document.title="Poké Etymology";
-  requestAnimationFrame(()=>$("#explore").scrollIntoView());
+  button.setAttribute("aria-expanded",String(open));
+  button.querySelector(".expand-mark").textContent=open?"−":"＋";
+  panel.hidden=!open;
 }
 
 $("#q").addEventListener("input",filter);
-$("#list").addEventListener("click",e=>{
-  const b=e.target.closest("[data-d]");
-  if(b) show(b.dataset.d);
+$("#list").addEventListener("click",event=>{
+  const toggleButton=event.target.closest(".entry-toggle");
+  if(toggleButton){
+    toggle(toggleButton);
+    return;
+  }
+  const collapseButton=event.target.closest("[data-collapse]");
+  if(collapseButton){
+    const item=collapseButton.closest(".pokemon-item");
+    const button=item.querySelector(".entry-toggle");
+    toggle(button,false);
+    button.focus({preventScroll:true});
+  }
 });
-document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{
-  lang=b.dataset.lang;
-  document.querySelectorAll("[data-lang]").forEach(x=>{
-    const selected=x===b;
-    x.classList.toggle("on",selected);
-    x.setAttribute("aria-pressed",String(selected));
+
+document.querySelectorAll("[data-lang]").forEach(button=>button.addEventListener("click",()=>{
+  lang=button.dataset.lang;
+  document.querySelectorAll("[data-lang]").forEach(item=>{
+    const selected=item===button;
+    item.classList.toggle("on",selected);
+    item.setAttribute("aria-pressed",String(selected));
   });
   draw();
 }));
-$("#back").addEventListener("click",closeEntry);
-$("#prev").addEventListener("click",()=>show(current.d-1));
-$("#next").addEventListener("click",()=>show(current.d+1));
-addEventListener("keydown",e=>{
-  if($("#detail").hidden) return;
-  if(e.key==="Escape") closeEntry();
-  else if(e.key==="ArrowLeft"&&current.d>1) show(current.d-1);
-  else if(e.key==="ArrowRight"&&current.d<DATA.length) show(current.d+1);
-});
-addEventListener("hashchange",()=>{
-  const n=+location.hash.slice(1);
-  if(n) show(n);
-});
 
 draw();
-const initial=+location.hash.slice(1);
-if(initial) show(initial);
+const initial=Number(location.hash.slice(1));
+if(initial){
+  const initialButton=document.querySelector(`[data-d="${initial}"]`);
+  if(initialButton) toggle(initialButton,true);
+}
