@@ -19,45 +19,28 @@
   </nav>
 
   <main class="main-inner">
-    <div id="browse">
-      <section id="explore" class="explorer" aria-labelledby="explore-title">
-        <div class="section-heading"><h2 id="explore-title">Generation I</h2><span id="count">151 entries</span></div>
-        <div class="explorer-controls">
-          <label for="q">Search</label>
-          <div class="search-wrap"><input id="q" type="search" placeholder="Name or #001" autocomplete="off"></div>
-          <fieldset class="language-picker">
-            <legend>Index language</legend>
-            <div class="tabs">
-              <button type="button" class="btn on" data-lang="e" aria-pressed="true">English</button>
-              <button type="button" class="btn" data-lang="f" aria-pressed="false">Français</button>
-              <button type="button" class="btn" data-lang="j" aria-pressed="false">日本語</button>
-            </div>
-          </fieldset>
-        </div>
-        <ol id="list" class="list"></ol>
-        <p id="none" class="empty" hidden>No match.</p>
-      </section>
-    </div>
-
-    <article id="detail" class="detail-shell" hidden>
-      <div class="detail-toolbar"><button id="back" type="button" class="btn">← Index</button><span id="pos"></span></div>
-      <header class="entry-head">
-        <p id="dex" class="eyebrow"></p>
-        <h2 id="name"></h2>
-        <div id="sub" class="entry-sub"></div>
-        <div id="chips" class="chips"></div>
-      </header>
-      <section id="comparison-section" class="entry-section comparison"><h3>Localization</h3><p id="compare"></p></section>
-      <section class="entry-section"><h3>Names</h3><div id="names" class="names"></div></section>
-      <section id="roots-section" class="entry-section"><h3>Roots & meaning</h3><div id="ety" class="ety"></div></section>
-      <section id="pending-section" class="entry-section pending" hidden><h3>Etymology</h3><p>Research pending.</p></section>
-      <section class="entry-section"><h3>EV yield</h3><div id="ev" class="ev"></div></section>
-      <nav class="entry-nav" aria-label="Pokémon entries"><button id="prev" type="button" class="btn">← Previous</button><button id="next" type="button" class="btn">Next →</button></nav>
-    </article>
+    <section id="explore" class="explorer" aria-labelledby="explore-title">
+      <div class="section-heading"><h2 id="explore-title">Generation I</h2><span id="count">151 entries</span></div>
+      <div class="explorer-controls">
+        <label for="q">Search</label>
+        <div class="search-wrap"><input id="q" type="search" placeholder="Name or #001" autocomplete="off"></div>
+        <fieldset class="language-picker">
+          <legend>Index language</legend>
+          <div class="tabs">
+            <button type="button" class="btn on" data-lang="e" aria-pressed="true">English</button>
+            <button type="button" class="btn" data-lang="f" aria-pressed="false">Français</button>
+            <button type="button" class="btn" data-lang="j" aria-pressed="false">日本語</button>
+          </div>
+        </fieldset>
+      </div>
+      <ol id="list" class="list"></ol>
+      <p id="none" class="empty" hidden>No match.</p>
+    </section>
   </main>
 
   <script src="data.js"></script>
   <script src="generated-data.js"></script>
+  <script src="associations.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
