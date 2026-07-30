@@ -1,0 +1,45 @@
+.task-check:has(input:focus-visible),
+.starter-option:has(input:focus-visible){
+  outline:3px solid var(--red);
+  outline-offset:-5px;
+}
+
+@media (hover:none), (pointer:coarse){
+  .stage-tab:hover:not([aria-current="step"]){
+    color:var(--ink);
+    background:transparent;
+    outline:0;
+  }
+  .version-picker button:hover:not([aria-pressed="true"]),
+  .stage-pager button:hover:not(:disabled),
+  .guide-back:hover,
+  .task-more:hover:not([aria-expanded="true"]),
+  .guide-sources summary:hover,
+  .stage-drawer summary:hover,
+  .guide-sources a:hover{
+    color:var(--ink);
+    background:var(--screen-light);
+    outline:0;
+  }
+  .task-more:hover:not([aria-expanded="true"]){
+    background:var(--screen-mid);
+  }
+  .guide-sources summary:hover{
+    background:var(--screen-light);
+  }
+  .stage-drawer summary:hover{
+    background:transparent;
+  }
+  .guide-sources a:hover{
+    background:var(--screen-light);
+  }
+  .task-check:focus-within,
+  .starter-option:focus-within{
+    outline:0;
+  }
+  .task-check:has(input:focus-visible),
+  .starter-option:has(input:focus-visible){
+    outline:3px solid var(--red);
+    outline-offset:-5px;
+  }
+}
