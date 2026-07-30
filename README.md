@@ -16,7 +16,7 @@ The interface does not infer tags or naming authorship from prose.
 ## Current release
 
 - all 151 Generation I species in English, French, Japanese, and Japanese romanization;
-- audited comparative name research for #001–#126;
+- audited comparative name research for #001–#135;
 - pending entries clearly separated from audited research;
 - current structured types and EV yields for the Names index;
 - in-place Pokémon and per-language disclosures;
@@ -55,4 +55,4 @@ https://natanai.github.io/poke-etymology/
 
 ## Current next work
 
-See [`HANDOFF.md`](HANDOFF.md) and [issue #5](https://github.com/natanai/poke-etymology/issues/5). After the #118–#126 audit, the next normal name batch begins at #127 Pinsir.
+See [`HANDOFF.md`](HANDOFF.md) and [issue #5](https://github.com/natanai/poke-etymology/issues/5). After the #127–#135 audit, the next normal name batch begins at #136 Flareon.
