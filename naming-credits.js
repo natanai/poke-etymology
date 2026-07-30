@@ -34,6 +34,22 @@ const NAMING_CREDIT_DEFAULTS=Object.freeze({
   })
 });
 
+const BARD_AKOFF_EEVEE_FAMILY_SOURCE=Object.freeze({
+  label:"Julien Bardakoff interview: Évoli family discussion at 40:11",
+  url:"https://www.dailymotion.com/video/xa47qxo"
+});
+
+function bardakoffEeveeFamilyCredit(name){
+  return Object.freeze({
+    kind:"specific",
+    people:Object.freeze(["Julien Bardakoff"]),
+    organization:"Nintendo France",
+    role:"Specific French family-name contribution",
+    detail:`Bardakoff explains choosing ${name} as part of the coordinated Évoli, Aquali, Voltali, and Pyroli system; the wider localization project also had a documented Nintendo France team.`,
+    source:BARD_AKOFF_EEVEE_FAMILY_SOURCE
+  });
+}
+
 const NAMING_CREDIT_OVERRIDES=Object.freeze({
   60:Object.freeze({english:Object.freeze({
     kind:"specific",
@@ -68,17 +84,34 @@ const NAMING_CREDIT_OVERRIDES=Object.freeze({
       url:"https://johtotimes.com/issues/2025-12-18-interview-with-gail-tilden"
     })
   })}),
-  130:Object.freeze({english:Object.freeze({
-    kind:"specific",
-    people:Object.freeze(["Nob Ogasawara"]),
-    organization:"Nintendo of America",
-    role:"Specific retention recommendation",
-    detail:"Ogasawara says he recommended retaining Gyarados after the proposed English name Skulkraken failed legal review; Hiro Nakamura led the wider naming program.",
-    source:Object.freeze({
-      label:"ANMTV interview with Nob Ogasawara",
-      url:"https://www.anmtvla.com/2022/09/exclusiva-entrevista-con-nob-ogasawara.html"
+  130:Object.freeze({
+    french:Object.freeze({
+      kind:"specific",
+      people:Object.freeze(["Julien Bardakoff"]),
+      organization:"Nintendo France",
+      role:"Specific French name contribution",
+      detail:"Bardakoff describes choosing Léviator for the mythological sea-monster association; the wider localization project also had a documented Nintendo France team.",
+      source:Object.freeze({
+        label:"Julien Bardakoff interview: Léviator discussion at 31:29",
+        url:"https://www.dailymotion.com/video/xa47qxo"
+      })
+    }),
+    english:Object.freeze({
+      kind:"specific",
+      people:Object.freeze(["Nob Ogasawara"]),
+      organization:"Nintendo of America",
+      role:"Specific retention recommendation",
+      detail:"Ogasawara says he recommended retaining Gyarados after the proposed English name Skulkraken failed legal review; Hiro Nakamura led the wider naming program.",
+      source:Object.freeze({
+        label:"ANMTV interview with Nob Ogasawara",
+        url:"https://www.anmtvla.com/2022/09/exclusiva-entrevista-con-nob-ogasawara.html"
+      })
     })
-  })}),
+  }),
+  133:Object.freeze({french:bardakoffEeveeFamilyCredit("Évoli")}),
+  134:Object.freeze({french:bardakoffEeveeFamilyCredit("Aquali")}),
+  135:Object.freeze({french:bardakoffEeveeFamilyCredit("Voltali")}),
+  136:Object.freeze({french:bardakoffEeveeFamilyCredit("Pyroli")}),
   144:Object.freeze({english:Object.freeze({
     kind:"specific",
     people:Object.freeze(["Bill Giese"]),
