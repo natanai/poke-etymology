@@ -17,30 +17,40 @@ function renderDetails(pokemon){
   const reviewed=Boolean(pokemon.reviewed || pokemon.x?.length);
   const audit=pokemon.audit || null;
   const associations=audit?.associations || (typeof ASSOCIATIONS!=="undefined" ? ASSOCIATIONS[pokemon.d] : null);
-  const languageHeadings=[
-    `日本語 · ${pokemon.j} (${pokemon.r})`,
-    `Français · ${pokemon.f}`,
-    `English · ${pokemon.e}`
+  const languages=[
+    {label:"日本語",name:`${pokemon.j} (${pokemon.r})`},
+    {label:"Français",name:pokemon.f},
+    {label:"English",name:pokemon.e}
   ];
   const labels=["HP / PV","Attack / Attaque","Defense / Défense","Sp. Atk / Atq. Spé.","Sp. Def / Déf. Spé.","Speed / Vitesse"];
 
-  const etymology=reviewed ? `
-    <section class="entry-section">
-      <h3>Roots, meaning & native associations</h3>
-      <div class="ety">
-        ${pokemon.x.map((item,index)=>`
-          <article>
-            <h4>${esc(languageHeadings[index])}</h4>
-            <p class="roots"><strong>Roots:</strong> ${esc(item[0])}</p>
-            <p>${esc(item[1])}</p>
-            <p class="associations"><strong>May evoke:</strong> ${esc(associations?.[index] || "Association examples pending review.")}</p>
-            <span class="confidence">${esc(item[2])}</span>
-          </article>`).join("")}
+  const languageDetails=`
+    <section class="entry-section language-section">
+      <h3>Names & etymology</h3>
+      <div class="language-list">
+        ${languages.map((language,index)=>{
+          const item=pokemon.x?.[index];
+          const body=reviewed && item ? `
+            <div class="language-body">
+              <p class="roots"><strong>Roots:</strong> ${esc(item[0])}</p>
+              <p>${esc(item[1])}</p>
+              <p class="associations"><strong>May evoke:</strong> ${esc(associations?.[index] || "Association examples pending review.")}</p>
+              <span class="confidence">${esc(item[2])}</span>
+            </div>` : `
+            <div class="language-body pending-language">
+              <p>Roots, meaning, and native associations pending research.</p>
+            </div>`;
+          return `
+            <details class="language-detail">
+              <summary>
+                <span class="language-label">${esc(language.label)}</span>
+                <strong>${esc(language.name)}</strong>
+                <span class="language-mark" aria-hidden="true"></span>
+              </summary>
+              ${body}
+            </details>`;
+        }).join("")}
       </div>
-    </section>` : `
-    <section class="entry-section pending">
-      <h3>Etymology</h3>
-      <p>Roots, native associations, and localization comparison pending research.</p>
     </section>`;
 
   const comparison=reviewed && pokemon.c ? `
@@ -65,11 +75,10 @@ function renderDetails(pokemon){
     <div class="inline-entry-head">
       <p class="eyebrow">National Pokédex #${pad(pokemon.d)}</p>
       <h3>${esc(pokemon.e)}</h3>
-      <p>${esc(pokemon.f)} · ${esc(pokemon.j)} — ${esc(pokemon.r)}</p>
       <div class="entry-meta"><div class="chips">${pokemon.t.map(type=>`<span class="chip">${esc(type)}</span>`).join("")}</div>${status}</div>
     </div>
+    ${languageDetails}
     ${comparison}
-    ${etymology}
     <section class="entry-section">
       <h3>EV yield</h3>
       <div class="ev">${pokemon.v.map((value,index)=>`<div><small>${labels[index]}</small><strong>${value}</strong></div>`).join("")}</div>
