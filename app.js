@@ -17,7 +17,11 @@ function renderDetails(pokemon){
   const reviewed=Boolean(pokemon.reviewed || pokemon.x?.length);
   const audit=pokemon.audit || null;
   const associations=audit?.associations || (typeof ASSOCIATIONS!=="undefined" ? ASSOCIATIONS[pokemon.d] : null);
-  const languages=["日本語 — Japanese","Français — French","English"];
+  const languageHeadings=[
+    `日本語 · ${pokemon.j} (${pokemon.r})`,
+    `Français · ${pokemon.f}`,
+    `English · ${pokemon.e}`
+  ];
   const labels=["HP / PV","Attack / Attaque","Defense / Défense","Sp. Atk / Atq. Spé.","Sp. Def / Déf. Spé.","Speed / Vitesse"];
 
   const etymology=reviewed ? `
@@ -26,7 +30,7 @@ function renderDetails(pokemon){
       <div class="ety">
         ${pokemon.x.map((item,index)=>`
           <article>
-            <h4>${languages[index]}</h4>
+            <h4>${esc(languageHeadings[index])}</h4>
             <p class="roots"><strong>Roots:</strong> ${esc(item[0])}</p>
             <p>${esc(item[1])}</p>
             <p class="associations"><strong>May evoke:</strong> ${esc(associations?.[index] || "Association examples pending review.")}</p>
@@ -65,13 +69,6 @@ function renderDetails(pokemon){
       <div class="entry-meta"><div class="chips">${pokemon.t.map(type=>`<span class="chip">${esc(type)}</span>`).join("")}</div>${status}</div>
     </div>
     ${comparison}
-    <section class="entry-section">
-      <h3>Names</h3>
-      <div class="names">
-        ${[["English",pokemon.e],["Français",pokemon.f],["日本語",pokemon.j],["Romanization",pokemon.r]]
-          .map(([label,value])=>`<div style="grid-template-columns:minmax(0,1fr);gap:2px"><strong style="min-width:0;font-size:10px;text-transform:uppercase;color:var(--muted);overflow-wrap:anywhere">${label}</strong><span style="min-width:0;overflow-wrap:anywhere;word-break:break-word">${esc(value)}</span></div>`).join("")}
-      </div>
-    </section>
     ${etymology}
     <section class="entry-section">
       <h3>EV yield</h3>
