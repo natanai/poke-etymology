@@ -123,9 +123,10 @@ const VERIFIED_RESEARCH_064_072={
       ["empiffrer, to stuff oneself + flore","Gluttonous flora.","strong"],
       ["victory + tree + bell","Victorious tree-bell.","strong"]
     ],
+    tags:{japanese:[{type:"loanword",text:"pot",sourceLanguage:"English"}]},
     c:"Japanese likely turns the pitcher plant into a pot-shaped final form. French escalates the appetite into outright stuffing oneself, while English combines victory with the family’s plant and bell imagery.",
     a:[
-      "靫葛 keeps the pitcher-plant family root. ポット is a familiar English loan for pot, but the exact boundary is compressed enough to remain plausible rather than certain.",
+      "靫葛 keeps the pitcher-plant family root. ポット is a familiar English loanword for pot, but the exact boundary is compressed enough to remain plausible rather than certain.",
       "s’empiffrer is an expressive everyday verb for stuffing oneself with food, while flore keeps the plant-family link.",
       "victory is triumph, tree is a woody plant, and bell retains the family shape. Victreebel historically fits the old ten-character name limit by dropping one l."
     ],
@@ -156,5 +157,5 @@ for(const [id,research] of Object.entries(VERIFIED_RESEARCH_064_072)){
   pokemon.x=research.x;
   pokemon.c=research.c;
   pokemon.reviewed=true;
-  pokemon.audit={status:research.status,reviewedOn:research.reviewedOn,associations:research.a,sources:research.sources};
+  pokemon.audit={status:research.status,reviewedOn:research.reviewedOn,associations:research.a,sources:research.sources,tags:research.tags};
 }
