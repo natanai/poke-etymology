@@ -1,0 +1,28 @@
+name: Validate static data
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check JavaScript syntax
+        run: |
+          node --check app.js
+          node --check scripts/validate-language-tags.mjs
+
+      - name: Validate language-analysis tags
+        run: node scripts/validate-language-tags.mjs
