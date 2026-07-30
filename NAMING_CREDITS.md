@@ -26,10 +26,13 @@ Nintendo and Game Freak have described dedicated staff who assign Pokémon names
 
 ### French
 
-- Display: **Julien Bardakoff**
-- Role: **French name creator**
+- Display: **Nintendo France localization team**
+- Role: **French name adaptation**
+- Detail: contemporary reporting names Jean-Baptiste Fleury, Daniel Charbit, Nicolas Robert, Nicolas Gourio, and Pokémon specialist Julien Bardakoff; the exact coiner is not publicly mapped for most species.
 
-Bardakoff is publicly credited with creating the French names of the first 251 Pokémon. The per-entry French line may therefore identify him directly unless a stronger species-specific source establishes a different or additional contributor.
+The historical record is not perfectly uniform. A December 2000 report describes all five translators as adapting the 150 Japanese names and identifies Bardakoff as Nintendo's Pokémon specialist. Later interviews and profiles frequently summarize Bardakoff as the creator of the first 250 or 251 French names, and Bardakoff himself often uses singular first-person language when explaining the work.
+
+The site therefore does **not** present sole authorship by Bardakoff as an uncontested species-by-species fact. It credits the documented Nintendo France team by default while preserving Bardakoff's central specialist role in the detail. A species-specific override may identify Bardakoff or another contributor only when a source clearly ties that exact person to that exact naming decision.
 
 ### English
 
@@ -61,11 +64,11 @@ const NAMING_CREDIT_DEFAULTS = {
     source: {label, url}
   },
   french: {
-    kind: "creator",
-    people: ["Julien Bardakoff"],
-    organization: "Nintendo France",
-    role: "French name creator",
-    detail: "...",
+    kind: "team",
+    people: [],
+    organization: "Nintendo France localization team",
+    role: "French name adaptation",
+    detail: "Contemporary reporting credits five named translators ...",
     source: {label, url}
   },
   english: {
@@ -135,12 +138,13 @@ A `specific`, `creator`, or `lead` record requires at least one named person.
 1. Prefer direct interviews, official publications, game credits, and statements from the people involved.
 2. Distinguish **specific coinage** from **program leadership**.
 3. Do not infer a namer from character-design credit.
-4. Do not treat the game’s text translator as the species-name creator unless the source says they handled those names.
+4. Do not treat the game's text translator as the species-name creator unless the source says they handled those names.
 5. Do not convert “worked on localization” into “coined this name.”
 6. When a source identifies a team but not an individual, show the team and say the individual is not publicly documented.
 7. When a source identifies an exact contribution, add a species override and preserve the source.
 8. If sources conflict, document the conflict in `detail` and the relevant batch notes rather than selecting the more famous person.
 9. Credits are historical provenance, separate from etymology confidence. A confirmed name origin does not establish its creator, and a confirmed creator does not automatically confirm every proposed root.
+10. Later first-person recollection can be valuable primary testimony, but it must be reconciled with contemporary team credits rather than automatically replacing them.
 
 ## Display rules
 
@@ -157,6 +161,7 @@ It should show:
 The line must not:
 
 - imply that a naming lead personally coined every name;
+- imply sole authorship where contemporary evidence credits a team;
 - hide unknown attribution;
 - crowd the language summary header;
 - become a second large source drawer;
