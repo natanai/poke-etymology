@@ -18,6 +18,7 @@ Before doing any work:
 2. Read, in order:
    - [`PROJECT_GOALS.md`](PROJECT_GOALS.md)
    - [`RESEARCH_METHOD.md`](RESEARCH_METHOD.md)
+   - [`LANGUAGE_TAGS.md`](LANGUAGE_TAGS.md)
    - [`LIVING_DEX_METHOD.md`](LIVING_DEX_METHOD.md)
    - [`UX_CONTENT_STANDARDS.md`](UX_CONTENT_STANDARDS.md)
    - [`TECHNICAL_ARCHITECTURE.md`](TECHNICAL_ARCHITECTURE.md)
@@ -25,8 +26,8 @@ Before doing any work:
    - [`CONTRIBUTING.md`](CONTRIBUTING.md)
 3. Inspect current `main`; do not assume this snapshot is still current.
 4. Check issue #5 for the live Generation I audit checklist.
-5. Review the newest merged PRs and any open branch or PR relevant to Nat’s request.
-6. Reconcile discrepancies and update this handoff whenever status, architecture, scope, next work, known risks, research rules, or established UX behavior changes.
+5. Review the newest merged PRs and any relevant open branch or PR.
+6. Reconcile discrepancies and update this handoff whenever status, architecture, scope, next work, known risks, research rules, tag schema, or established UX behavior changes.
 7. Make the smallest coherent change that satisfies the request.
 
 A future conversation should be able to begin with:
@@ -44,7 +45,7 @@ The site has two linked purposes:
 1. explain why Pokémon names work across languages; and
 2. act as a clean route-by-route completion companion during a playthrough.
 
-Nat values linguistic nuance, useful familiar-word examples, uncertainty stated honestly, citations close to the claims they support, restrained mobile UX, and documentation that lets future contributors continue safely.
+Nat values linguistic nuance, useful familiar-word examples, uncertainty stated honestly, citations close to claims, restrained mobile UX, and documentation that lets future contributors continue safely.
 
 Nat dislikes generic mission copy, explanatory clutter, fake controls, long prose where compact structure works, polished claims without support, and background processing for static text.
 
@@ -67,13 +68,13 @@ Preserve these boundaries:
 - Keep the site mobile-first and comfortable during active play.
 - Preserve the Generation I visual language: warm cream/paper, black, restrained red, Courier-like typography, hard borders and shadows, and light scanline texture.
 - Do not return to a full green Game Boy simulation.
-- Do not add fake A/B buttons, movement pads, POWER labels, decorative status readouts, or anything else that looks interactive but is not.
+- Do not add fake A/B buttons, movement pads, POWER labels, decorative status readouts, or anything that looks interactive but is not.
 - Every visible control must perform a clear action.
 - Prefer hierarchy and spacing over extra instructions.
 
 The site should feel like **instantaneously loaded raw text**.
 
-Do not add frameworks, hydration, runtime content requests, polling, recurring timers, persistent or broad `MutationObserver`s, animation libraries, large images, webfonts, dependency bundles, or work that repeats after initial render without a direct user action.
+Do not add frameworks, hydration, runtime content requests, polling, recurring timers, persistent or broad `MutationObserver`s, animation libraries, large images, webfonts, dependency bundles, or work that repeats after initial render without direct user action.
 
 Acceptable JavaScript is small, deterministic, and event-driven.
 
@@ -90,7 +91,7 @@ The Names page provides:
 - current structured types and EV yields;
 - in-place expandable Pokémon entries;
 - independently expandable Japanese, French, and English analyses;
-- Roots, meaning/effect, native-language Notes, local confidence, localization comparison, audit date, and collapsed source links;
+- Roots, meaning/effect, native-language Notes, confidence, entry-owned word tags, localization comparison, audit date, and collapsed source links;
 - clearly labeled pending research for unaudited entries;
 - shared language preference saved in local storage;
 - direct hashes such as `/#25`.
@@ -118,28 +119,74 @@ Completed ranges have decision records in `research-batches/`.
 
 Important #091–#108 decisions remain documented in `research-batches/091-108-notes.md`, including unresolved readings for Gengar, Iwark, Kingler, Nassy, Sawamular, Ebiwalar, and Beroringa.
 
-### 4.2 Word-level loanword annotations
+### 4.2 Entry-owned language tags
 
-The Roots inset may place a small white, black-bordered **[loanword]** tag centered directly above the specific borrowed token.
+[`LANGUAGE_TAGS.md`](LANGUAGE_TAGS.md) is authoritative.
 
-Rules:
+The current supported type is `loanword`. Its visible treatment is a small white, black-bordered box containing plain lowercase `loanword`, centered directly above the exact tagged Roots token.
 
-- the annotation belongs to an exact displayed root term, never to the Roots box as a whole;
-- keep the source language and fuller borrowing explanation in Roots or Notes prose rather than inside the tag;
-- audited entries should use the optional fourth language-row value `{loanwords:["exact displayed token"]}` when the borrowed term is known;
-- every configured token must occur exactly in that language row’s Roots string;
-- multiple borrowed components may each receive their own tag;
-- the renderer may use only narrow fallbacks for an unmistakable leading direct transcription or similarly explicit wording;
-- if the exact term boundary is uncertain, show no tag rather than guessing;
-- generate annotations during the ordinary deterministic render; do not observe or mutate the DOM afterward.
+The box does not contain literal brackets and does not display the donor language. The donor language and explanation stay in Roots or Notes.
 
-### 4.3 Living Dex guide
+Tags are authored inside the same audited entry as the linguistic claim:
+
+```js
+tags: {
+  japanese: [
+    {type:"loanword",text:"ディグ",sourceLanguage:"English"}
+  ]
+}
+```
+
+Non-negotiable rules:
+
+- tags belong to an exact Roots component, never to the Roots panel as a whole;
+- use named receiving-language keys: `japanese`, `french`, `english`;
+- `text` must exactly match the displayed Roots substring;
+- `sourceLanguage` is required for `loanword` and must be explained in Roots or Notes;
+- optional `occurrence` selects a repeated exact substring;
+- multiple components may each receive their own tag;
+- do not store tags in a fourth `x` array item;
+- do not maintain a separate global tag map;
+- `app.js` renders authored tags only and performs no borrowing inference;
+- if lexical status, donor language, or exact boundary is uncertain, defer the tag rather than guess;
+- do not automatically tag proper names, international scientific terms, learned roots, historical cognates, or English components in the English analysis;
+- a new tag type or language requires schema, renderer, validator, UX, architecture, and documentation updates together.
+
+All audited entries through #108 were reviewed during the migration. Secure lexical borrowings were moved into the entry-owned schema, including the previously missing Japanese Diglett component `ディグ`.
+
+### 4.3 Tag validation and workflows
+
+`scripts/validate-language-tags.mjs` loads the committed dataset and all audited overlays, then rejects:
+
+- the retired `loanwords` shortcut;
+- fourth-item language-row metadata;
+- malformed tag containers;
+- unsupported language keys or tag types;
+- absent target text or invalid occurrence values;
+- duplicates and overlaps;
+- missing donor language;
+- donor language not named in Roots or Notes;
+- standardized explicit borrowing claims with no authored loanword tag.
+
+Run:
+
+```bash
+node --check app.js
+node --check scripts/validate-language-tags.mjs
+node scripts/validate-language-tags.mjs
+```
+
+`.github/workflows/validate.yml` runs this on pull requests. `.github/workflows/pages.yml` runs it again before Pages deployment.
+
+The validator may identify missing entry data from standardized explicit wording, but the runtime renderer never infers or adds a tag.
+
+### 4.4 Living Dex guide
 
 The FireRed / LeafGreen guide includes 14 stages from Pallet Town through Route 5, with version switching, persistent completion state, exact living-dex quantities, decision-relevant encounter information, optional-task handling, starter-dependent roaming beasts, localized linked Pokémon names, compact task disclosures, and one collapsed source drawer.
 
 **Known language limitation:** full explanatory prose remains primarily English. Interface text, stage copy, proper nouns, and important terminology have controlled English/French/Japanese localization.
 
-### 4.4 Guide hotfix state
+### 4.5 Guide hotfix state
 
 PR #13 introduced a self-triggering `MutationObserver` render loop. The emergency hotfix prevents the observer from attaching, restores the browser constructor, renders dynamic labels directly, and leaves no background observer, timer, polling loop, or repeated mutation process.
 
@@ -160,7 +207,9 @@ Allowed labels:
 
 Distinguish what the name visibly contains, literal component meanings, native-speaker associations, register, borrowed vocabulary, localization choices, and unresolved alternatives.
 
-Notes must add real native-language context, register, sound symbolism, familiar examples, cultural recognition, or relative-likelihood reasoning. Do not pad them.
+Notes must add real native-language context, register, sound symbolism, familiar examples, cultural recognition, borrowing explanation, or relative-likelihood reasoning. Do not pad them.
+
+A tag is a scan aid and structured claim reference, not evidence by itself. Prose, confidence, and sources must still support it.
 
 Prefer sources in this order:
 
@@ -173,7 +222,7 @@ Prefer sources in this order:
 
 A dictionary establishes meaning and register; it does not prove naming intent.
 
-Use [`RESEARCH_METHOD.md`](RESEARCH_METHOD.md).
+Use [`RESEARCH_METHOD.md`](RESEARCH_METHOD.md) and [`LANGUAGE_TAGS.md`](LANGUAGE_TAGS.md).
 
 ---
 
@@ -185,15 +234,15 @@ For each batch:
 2. Verify official English, French, and Japanese names and romanization.
 3. Verify factual records while remembering current structured data is not FireRed-specific.
 4. Use specialist summaries as leads, not proof.
-5. Seek stronger sources for people, mythology, science, sound symbolism, and localization intent.
+5. Seek stronger sources for people, mythology, science, sound symbolism, borrowing, and localization intent.
 6. Write each language’s Roots, meaning/effect, Notes, and confidence independently.
-7. When borrowing is established and the exact displayed token is clear, add `{loanwords:[...]}` to that language row.
+7. Identify supported borrowed components and author their tags inside the entry.
 8. Preserve competing readings where evidence does not choose.
 9. Add visible, descriptively labeled sources.
 10. Record the actual review date.
 11. Add `research-batches/<range>-notes.md`.
 12. Load new files in numerical order before `reference-data.js` and `app.js`.
-13. Run syntax and completeness checks.
+13. Run syntax, structure, and language-tag validation.
 14. Update issue #5 and this handoff in the same work cycle.
 
 Reliability matters more than reaching a round number.
@@ -210,13 +259,19 @@ Names-page order:
 2. `generated-data.js`
 3. `associations.js`
 4. `verified-research.js`
-5. audited `verified-research-*.js` files in numeric order
+5. audited `verified-research-*.js` files in numerical order
 6. `reference-data.js`
 7. `app.js`
 
 Do not hand-edit `generated-data.js` as research storage. Later research files may rely on `sourceSet()` and `expandedSourceSet()`.
 
+Every research overlay that has tags must copy `tags: research.tags` into `pokemon.audit`.
+
+`app.js` defines controlled tag labels in `ROOT_TAG_DEFINITIONS` and renders only the exact entry-provided ranges. It must not scan prose or mutate the DOM after render to discover linguistic features.
+
 Current PokeAPI types and EV yields are not guaranteed to match Generation III. The guide requires game- and version-specific research.
+
+Use [`TECHNICAL_ARCHITECTURE.md`](TECHNICAL_ARCHITECTURE.md).
 
 ---
 
@@ -228,13 +283,17 @@ Preserve:
 - independent language disclosures;
 - one collapsed source drawer;
 - structural Roots and Notes labels;
-- compact boxed **[loanword]** annotations centered over exact borrowed root terms only;
+- small noninteractive word tags centered over exact Roots components;
+- plain `loanword` label with a white background and black border;
+- no literal brackets or donor language inside the tiny box;
 - shared `+` / `−` disclosure grammar;
 - safe mobile wrapping;
 - touch-specific ghost-hover correction while retaining keyboard focus;
 - one deterministic render followed only by direct events.
 
-Do not reintroduce fake controls, separate detail pages, all-languages-open behavior, fixed overlapping columns, visible source-button walls, or broad DOM observation.
+Do not reintroduce Roots-wide loanword banners, runtime tag inference, fake controls, separate detail pages, all-languages-open behavior, fixed overlapping columns, visible source-button walls, or broad DOM observation.
+
+Use [`UX_CONTENT_STANDARDS.md`](UX_CONTENT_STANDARDS.md).
 
 ---
 
@@ -248,25 +307,28 @@ Normal workflow:
 4. compare against `main`;
 5. validate;
 6. open a descriptive PR;
-7. merge only after GitHub reports it mergeable;
+7. merge only after GitHub reports it mergeable and required checks pass;
 8. update trackers and handoff;
 9. verify `main`;
 10. verify Pages separately when possible.
 
 Research batches must verify exact intended IDs, language order, required fields, targeted sources, explicit uncertainty, numerical script order, syntax, issue #5, and handoff status.
 
-For loanword-annotation changes, additionally verify:
+For language-tag work additionally verify:
 
-- each configured token occurs in its Roots string and only that token receives the tag;
-- multiple configured loanwords each receive one tag;
-- source-language information remains available in Roots or Notes prose;
-- incidental mentions of “loanwords” do not create annotations;
-- negated wording such as “not a loanword” creates no annotation;
-- root and Notes text remain escaped;
-- uncertain term boundaries remain unmarked;
-- no observer, timer, storage key, extra render pass, or repeated background work is introduced.
+- each tag is stored inside the correct audited entry;
+- each named language key matches the analyzed row;
+- each exact target occurs in Roots at the requested occurrence;
+- tags do not overlap;
+- loanword donor language is named in Roots or Notes;
+- explicit standardized borrowing claims are not left untagged;
+- uncertain foreign material remains untagged;
+- the visible box contains plain `loanword`, no brackets, and no donor language;
+- source and Notes text remain escaped;
+- no observer, timer, storage key, extra render pass, or repeated background work is introduced;
+- `node scripts/validate-language-tags.mjs` and the PR workflow pass.
 
-Be precise about branch, PR, merge, workflow, and live deployment as separate facts.
+Be precise about branch, PR, merge, workflow, Pages deployment, and live visual verification as separate facts.
 
 ---
 
@@ -278,7 +340,10 @@ Be precise about branch, PR, merge, workflow, and live deployment as separate fa
 - **Current data mistaken for FireRed data:** current canonical values can differ from Generation III.
 - **Mobile overlap:** fixed-width columns collided with long names and romanization.
 - **Sticky touch state:** use touch-specific overrides without removing keyboard focus.
-- **Documentation drift:** update this handoff when state, rules, or risks change.
+- **Roots-wide loanword label:** a section label obscures which exact word is borrowed.
+- **Runtime language inference:** prose parsing misses valid cases and can misread examples, alternatives, and negation; tags belong in entry data.
+- **Positional tag metadata:** the retired fourth language-row item hides meaning and fails validation.
+- **Documentation drift:** update the schema and every relevant standard together.
 - **Deployment claims:** never equate merge with Pages deployment.
 
 ---
@@ -287,7 +352,7 @@ Be precise about branch, PR, merge, workflow, and live deployment as separate fa
 
 Unless Nat requests another priority:
 
-1. Audit **#109–#117: Koffing through Seadra**.
+1. Audit **#109–#117: Koffing through Seadra**, authoring entry-owned language tags during research.
 2. Continue the FireRed / LeafGreen route beyond Route 5 when requested.
 3. Replace the disabled guide observer code only as one fully tested cleanup.
 4. Improve full guide-language coverage only through controlled, reviewed translation.
@@ -301,9 +366,10 @@ Scope order remains excellent Generation I names, a complete FireRed / LeafGreen
 A PR is not handoff-safe until:
 
 - the change is merged or clearly left as an open PR;
-- relevant tests pass;
+- relevant tests and workflows pass;
 - reliability and performance decisions are documented;
 - unresolved questions are explicit;
 - issue trackers are updated when applicable;
+- authoritative schemas and standards are current;
 - this handoff is current;
 - a replacement contributor can determine what happened without reading the old chat.
