@@ -147,28 +147,54 @@ const NAMING_CREDIT_OVERRIDES=Object.freeze({
       })
     })
   }),
-  145:Object.freeze({english:Object.freeze({
-    kind:"specific",
-    people:Object.freeze(["Bill Giese"]),
-    organization:"Nintendo of America",
-    role:"Specific English name contribution",
-    detail:"Giese recalls creating the Articuno, Zapdos, and Moltres naming pattern; Hiro Nakamura led the wider naming program.",
-    source:Object.freeze({
-      label:"TIME interview on the Generation I English localization",
-      url:"https://time.com/6796536/history-origins-pokemon/"
+  145:Object.freeze({
+    french:Object.freeze({
+      kind:"specific",
+      people:Object.freeze(["Julien Bardakoff"]),
+      organization:"Nintendo France",
+      role:"Specific French legendary-bird contribution",
+      detail:"Bardakoff identifies Électhor as the electrical member of his coordinated element-plus-deity trio, combining electricity with Thor; the wider localization project also had a documented Nintendo France team.",
+      source:Object.freeze({
+        label:"Poképédia: Électhor etymology citing the French localizer",
+        url:"https://www.pokepedia.fr/%C3%89lecthor#%C3%89tymologies"
+      })
+    }),
+    english:Object.freeze({
+      kind:"specific",
+      people:Object.freeze(["Bill Giese"]),
+      organization:"Nintendo of America",
+      role:"Specific English name contribution",
+      detail:"Giese recalls creating the Articuno, Zapdos, and Moltres naming pattern; Hiro Nakamura led the wider naming program.",
+      source:Object.freeze({
+        label:"TIME interview on the Generation I English localization",
+        url:"https://time.com/6796536/history-origins-pokemon/"
+      })
     })
-  })}),
-  146:Object.freeze({english:Object.freeze({
-    kind:"specific",
-    people:Object.freeze(["Bill Giese"]),
-    organization:"Nintendo of America",
-    role:"Specific English name contribution",
-    detail:"Giese recalls creating the Articuno, Zapdos, and Moltres naming pattern; Hiro Nakamura led the wider naming program.",
-    source:Object.freeze({
-      label:"TIME interview on the Generation I English localization",
-      url:"https://time.com/6796536/history-origins-pokemon/"
+  }),
+  146:Object.freeze({
+    french:Object.freeze({
+      kind:"specific",
+      people:Object.freeze(["Julien Bardakoff"]),
+      organization:"Nintendo France",
+      role:"Specific French legendary-bird contribution",
+      detail:"Bardakoff identifies Sulfura as the sulfur-and-sun member of his coordinated element-plus-deity trio, joining volcanic sulfur with Râ; the wider localization project also had a documented Nintendo France team.",
+      source:Object.freeze({
+        label:"Poképédia: Sulfura etymology citing the French localizer",
+        url:"https://www.pokepedia.fr/Sulfura#%C3%89tymologies"
+      })
+    }),
+    english:Object.freeze({
+      kind:"specific",
+      people:Object.freeze(["Bill Giese"]),
+      organization:"Nintendo of America",
+      role:"Specific English name contribution",
+      detail:"Giese recalls creating the Articuno, Zapdos, and Moltres naming pattern; Hiro Nakamura led the wider naming program.",
+      source:Object.freeze({
+        label:"TIME interview on the Generation I English localization",
+        url:"https://time.com/6796536/history-origins-pokemon/"
+      })
     })
-  })})
+  })
 });
 
 function namingCreditFor(id,languageKey){
