@@ -54,7 +54,7 @@ Gail Tilden identifies Nakamura as the person who led the English-language Poké
 
 - **Léviator:** Julien Bardakoff describes selecting the mythological sea-monster name in first person.
 - **Évoli, Aquali, Voltali, Pyroli:** Bardakoff explains the coordinated family system in first person, including the evolution/volition reading and the shared stone-associated `-li` ending.
-- **Artikodin:** Bardakoff says he selected Odin partly because the Odin armor in *Saint Seiya* reminded him of the Pokémon's design.
+- **Artikodin, Électhor, Sulfura:** Bardakoff describes the coordinated element-plus-deity legendary-bird pattern using Odin, Thor, and Râ. Artikodin also has a specific *Saint Seiya* design association in his account.
 
 These French overrides do not erase the contemporary evidence for a wider Nintendo France localization team. The record names Bardakoff for the exact decisions he personally recounts while retaining the team as the baseline for species without equally specific evidence.
 
@@ -170,6 +170,7 @@ A `specific`, `creator`, or `lead` record requires at least one named person.
 10. Later first-person recollection can be valuable primary testimony, but it must be reconciled with contemporary team credits rather than automatically replacing them.
 11. A specific family explanation may justify an override for a still-pending etymology entry, because provenance and etymology audit status are separate. Do not mark the name analysis audited merely because its creator credit is known.
 12. When the strongest exact-name evidence is a reputable published account rather than direct testimony, the displayed detail and source label must say so. Do not silently upgrade secondary attribution into a first-person claim.
+13. Designing, programming, or introducing a Pokémon does not establish personal authorship of its final name. Mew is the current explicit example: Shigeki Morimoto's creation role is documented, but no separate exact-name credit is displayed without direct naming evidence.
 
 ## Display rules
 
