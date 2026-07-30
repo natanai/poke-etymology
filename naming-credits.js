@@ -115,7 +115,9 @@ const NAMING_CREDIT_OVERRIDES=Object.freeze({
 });
 
 function namingCreditFor(id,languageKey){
+  const numericId=Number(id);
+  if(!Number.isInteger(numericId) || numericId<1 || numericId>151) return null;
   const base=NAMING_CREDIT_DEFAULTS[languageKey];
-  const override=NAMING_CREDIT_OVERRIDES[id]?.[languageKey];
+  const override=NAMING_CREDIT_OVERRIDES[numericId]?.[languageKey];
   return override || base || null;
 }
