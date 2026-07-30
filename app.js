@@ -61,10 +61,16 @@ function renderDetails(pokemon){
 
   const sources=audit?.sources?.length ? `
     <section class="entry-section sources-section">
-      <h3>Sources</h3>
-      <ul class="source-list">
-        ${audit.sources.map(source=>`<li><a href="${esc(source.url)}" target="_blank" rel="noopener noreferrer">${esc(source.label)}</a></li>`).join("")}
-      </ul>
+      <details class="sources-detail">
+        <summary>
+          <span class="sources-label">Sources</span>
+          <span class="sources-count">${audit.sources.length}</span>
+          <span class="source-mark" aria-hidden="true"></span>
+        </summary>
+        <ul class="source-list">
+          ${audit.sources.map(source=>`<li><a href="${esc(source.url)}" target="_blank" rel="noopener noreferrer">${esc(source.label)}</a></li>`).join("")}
+        </ul>
+      </details>
     </section>` : "";
 
   const status=audit
@@ -84,7 +90,11 @@ function renderDetails(pokemon){
       <div class="ev">${pokemon.v.map((value,index)=>`<div><small>${labels[index]}</small><strong>${value}</strong></div>`).join("")}</div>
     </section>
     ${sources}
-    <div class="collapse-row"><button type="button" class="btn collapse-entry" data-collapse="${pokemon.d}">Collapse entry</button></div>`;
+    <div class="collapse-row">
+      <button type="button" class="collapse-entry" data-collapse="${pokemon.d}" aria-label="Collapse entry">
+        <span class="collapse-icon" aria-hidden="true">−</span>
+      </button>
+    </div>`;
 }
 
 function draw(){
