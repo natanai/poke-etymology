@@ -5,7 +5,7 @@
 **Snapshot:** 2026-07-30  
 **Repository:** `natanai/poke-etymology`  
 **Live site:** `https://natanai.github.io/poke-etymology/`  
-**Generation I name audit:** #001–#126 complete; next normal batch is #127 Pinsir through #135 Jolteon  
+**Generation I name audit:** #001–#135 complete; next normal batch is #136 Flareon through #144 Articuno  
 **Naming credits:** all 453 Japanese/French/English Generation I language disclosures resolve documented attribution records  
 **FireRed / LeafGreen guide:** 14 stages from Pallet Town through Route 5
 
@@ -99,8 +99,8 @@ The Names page provides:
 - shared language preference saved in local storage;
 - direct hashes such as `/#25`.
 
-**Audited at this snapshot:** #001 Bulbasaur through #126 Magmar.  
-**Next normal batch:** #127 Pinsir through #135 Jolteon.  
+**Audited at this snapshot:** #001 Bulbasaur through #135 Jolteon.  
+**Next normal batch:** #136 Flareon through #144 Articuno.  
 **Live tracker:** issue #5.
 
 Research files:
@@ -119,10 +119,17 @@ Research files:
 - `verified-research-100-108.js`
 - `verified-research-109-117.js`
 - `verified-research-118-126.js`
+- `verified-research-127-135.js`
 
 Completed ranges have decision records in `research-batches/`.
 
-Important unresolved decisions remain explicit in those records, including Gengar, Iwark, Kingler, Nassy, Sawamular/Ebiwalar endings, Beroringa, English Rhydon, Japanese Monjara/Garura, Starmie's Japanese second element, Rougela's final element, Eleboo's ending, and Boober's source cluster.
+Important unresolved or deliberately non-neat decisions remain explicit in those records. Recent examples:
+
+- `Kailios` and `Kentauros` retain secondary or compressed readings rather than false clean splits.
+- Ken Sugimori stated that `Gyarados` has no specific lexical origin and was selected for its force; later Japanese word similarities remain Notes only.
+- `Laplace` is linked to Pierre-Simon Laplace, but the surviving evidence does not explain why that person was selected.
+- Eevee/Eievui is confirmed E-V letter-name wordplay, not an ordinary lexical loanword.
+- Earlier unresolved cases include Gengar, Iwark, Kingler, Nassy, Sawamular/Ebiwalar endings, Beroringa, English Rhydon, Japanese Monjara/Garura, Starmie's Japanese second element, Rougela's final element, Eleboo's ending, and Boober's source cluster.
 
 ### 4.2 Entry-owned language tags
 
@@ -150,9 +157,14 @@ Non-negotiable rules:
 - do not store tags in a fourth `x` item or separate global map;
 - `app.js` renders authored tags only and performs no borrowing inference;
 - defer uncertain lexical status, donor language, or token boundaries;
-- do not automatically tag proper names, international scientific terms, learned roots, historical cognates, or English components in English analysis.
+- do not automatically tag proper names, international scientific terms, learned roots, historical cognates, letter-name wordplay, or English components in English analysis.
 
-The #118–#126 batch adds ten tags across eight language analyses, including Japanese/French star-family components, Barrierd, Strike, Rougela/Lippoutou, and Eleboo. The donor-language validator now recognizes Occitan.
+The #127–#135 batch adds five tags across four Japanese analyses:
+
+- Koiking `キング`;
+- Metamon `メタ` and `モン`;
+- Showers `シャワーズ`;
+- Thunders `サンダース`.
 
 ### 4.3 Naming credits and attribution
 
@@ -172,11 +184,15 @@ Generation I baseline conclusions:
 - **French:** Nintendo France localization team. Contemporary reporting names Jean-Baptiste Fleury, Daniel Charbit, Nicolas Robert, Nicolas Gourio, and Pokémon specialist Julien Bardakoff. Later interviews often summarize Bardakoff as creator of the first 251 names. The site preserves the conflict and does not claim uncontested sole authorship per species.
 - **English:** Hiro Nakamura is naming lead. Gail Tilden says he led the team and was responsible for the English names, but the default does not claim he personally coined every final word.
 
-Documented English overrides currently include:
+Documented exact overrides currently include:
 
-- Gail Tilden — Poliwag, Poliwhirl, Poliwrath;
-- Nob Ogasawara — recommendation to retain Gyarados after *Skulkraken* failed legal review;
-- Bill Giese — Articuno, Zapdos, Moltres naming pattern.
+- Gail Tilden — English Poliwag, Poliwhirl, Poliwrath;
+- Nob Ogasawara — English recommendation to retain Gyarados after *Skulkraken* failed legal review;
+- Bill Giese — English Articuno, Zapdos, Moltres naming pattern;
+- Julien Bardakoff — French Léviator;
+- Julien Bardakoff — French Évoli, Aquali, Voltali, and Pyroli family system.
+
+Pyroli's attribution is documented even though Flareon's etymology remains pending until the next batch. Attribution and etymology audit status are separate.
 
 Credits are provenance, separate from Roots confidence. Do not infer a namer from design credit, direction, general translation, or later etymology commentary.
 
@@ -349,6 +365,8 @@ Be precise about branch, PR, merge, workflow, Pages deployment, and live visual 
 - **Universal `Created by`:** falsely collapses exact contributor, lead, team, and unknown evidence.
 - **Famous-person substitution:** designer/director/translator credit is not exact name coinage.
 - **French sole-author simplification:** later Bardakoff profiles must be reconciled with contemporary five-person team reporting.
+- **Creator statement overreach:** a statement that a coined name has no specific origin must override attractive later portmanteau theories.
+- **Letter names mislabeled as lexical borrowing:** E-V in Eevee is not automatically a loanword tag.
 - **Generation leakage:** do not apply Generation I naming defaults to later reference entries.
 - **Documentation drift:** update authoritative schemas and related standards together.
 - **Deployment claims:** never equate merge with Pages deployment.
@@ -359,7 +377,7 @@ Be precise about branch, PR, merge, workflow, Pages deployment, and live visual 
 
 Unless Nat requests another priority:
 
-1. Audit **#127–#135: Pinsir through Jolteon**, authoring entry-owned tags and reviewing exact naming-credit overrides during research.
+1. Audit **#136–#144: Flareon through Articuno**, authoring entry-owned tags and reviewing exact naming-credit overrides during research.
 2. Continue the FireRed / LeafGreen route beyond Route 5 when requested.
 3. Replace the disabled guide observer code only as one fully tested cleanup.
 4. Improve full guide-language coverage only through controlled, reviewed translation.

@@ -25,7 +25,7 @@ jobs:
           node --check naming-credits.js
           node --check scripts/validate-language-tags.mjs
           node --check scripts/validate-naming-credits.mjs
-          node --check verified-research-118-126.js
+          for file in verified-research*.js; do node --check "$file"; done
 
       - name: Validate language-analysis tags
         run: node scripts/validate-language-tags.mjs
