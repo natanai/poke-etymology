@@ -43,9 +43,18 @@ Gail Tilden identifies Nakamura as the person who led the English-language Poké
 
 ## Exact-name overrides currently documented
 
+### English
+
 - **Poliwag, Poliwhirl, Poliwrath:** Gail Tilden identifies the family as her personal contribution.
 - **Gyarados:** Nob Ogasawara says he recommended retaining the Japanese name after the proposed English name *Skulkraken* failed legal review.
 - **Articuno, Zapdos, Moltres:** Bill Giese recalls creating the shared elemental plus *uno/dos/tres* pattern.
+
+### French
+
+- **Léviator:** Julien Bardakoff describes selecting the mythological sea-monster name in first person.
+- **Évoli, Aquali, Voltali, Pyroli:** Bardakoff explains the coordinated family system in first person, including the evolution/volition reading and the shared stone-associated `-li` ending.
+
+These French overrides do not erase the contemporary evidence for a wider Nintendo France localization team. The record names Bardakoff for the exact decisions he personally recounts while retaining the team as the baseline for species without equally specific evidence.
 
 Overrides replace the default display record for that language disclosure, but their detail should preserve the wider naming-program context when useful.
 
@@ -95,9 +104,21 @@ const NAMING_CREDIT_OVERRIDES = {
       detail: "...",
       source: {label, url}
     }
+  },
+  133: {
+    french: {
+      kind: "specific",
+      people: ["Julien Bardakoff"],
+      organization: "Nintendo France",
+      role: "Specific French family-name contribution",
+      detail: "...",
+      source: {label, url}
+    }
   }
 };
 ```
+
+Small helpers may construct repeated family records, but the resolved object for each species and language must still satisfy the complete schema and retain the exact supporting source.
 
 The renderer resolves a record through:
 
@@ -145,6 +166,7 @@ A `specific`, `creator`, or `lead` record requires at least one named person.
 8. If sources conflict, document the conflict in `detail` and the relevant batch notes rather than selecting the more famous person.
 9. Credits are historical provenance, separate from etymology confidence. A confirmed name origin does not establish its creator, and a confirmed creator does not automatically confirm every proposed root.
 10. Later first-person recollection can be valuable primary testimony, but it must be reconciled with contemporary team credits rather than automatically replacing them.
+11. A specific family explanation may justify an override for a still-pending etymology entry, because provenance and etymology audit status are separate. Do not mark the name analysis audited merely because its creator credit is known.
 
 ## Display rules
 
