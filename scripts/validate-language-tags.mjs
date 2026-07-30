@@ -8,6 +8,11 @@ const root=path.resolve(here,"..");
 const languageKeys=["japanese","french","english"];
 const languageIndex={japanese:0,french:1,english:2};
 const supportedTypes=new Set(["loanword"]);
+const donorNames="English|French|Japanese|German|Latin|Greek|Italian|Spanish|Portuguese";
+const explicitBorrowingPattern=new RegExp(
+  `\\b(?:${donorNames})(?:\\s+(?:loanword|loanwords|loan|loans|borrowing|borrowings|loanword material)|-derived\\s+(?:word|words|form|forms|name|names|vocabulary))\\b`,
+  "i"
+);
 const errors=[];
 
 function loadScript(context,file){
@@ -32,16 +37,26 @@ function nthIndex(text,needle,occurrence){
   return found;
 }
 
+function escapeRegex(value){
+  return value.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+}
+
+const researchFiles=[
+  "verified-research.js",
+  ...fs.readdirSync(root).filter(file=>/^verified-research-\d{3}-\d{3}\.js$/.test(file)).sort()
+];
+for(const file of researchFiles){
+  const source=fs.readFileSync(path.join(root,file),"utf8");
+  if(/\bloanwords\s*:/.test(source)){
+    errors.push(`${file}: retired loanwords shortcut found; use entry.tags with typed tag objects`);
+  }
+}
+
 const context=vm.createContext({console});
 loadScript(context,"data.js");
 loadScript(context,"generated-data.js");
 loadScript(context,"associations.js");
-loadScript(context,"verified-research.js");
-
-const batchFiles=fs.readdirSync(root)
-  .filter(file=>/^verified-research-\d{3}-\d{3}\.js$/.test(file))
-  .sort();
-for(const file of batchFiles) loadScript(context,file);
+for(const file of researchFiles) loadScript(context,file);
 
 const data=vm.runInContext("DATA",context);
 let tagCount=0;
@@ -56,34 +71,35 @@ for(const pokemon of data){
   });
 
   const tagsByLanguage=pokemon.audit?.tags;
-  if(tagsByLanguage==null) continue;
-  if(!tagsByLanguage || typeof tagsByLanguage!=="object" || Array.isArray(tagsByLanguage)){
+  if(tagsByLanguage!=null && (!tagsByLanguage || typeof tagsByLanguage!=="object" || Array.isArray(tagsByLanguage))){
     errors.push(`#${pokemon.d}: tags must be an object keyed by language name`);
     continue;
   }
 
-  for(const key of Object.keys(tagsByLanguage)){
+  for(const key of Object.keys(tagsByLanguage || {})){
     if(!languageKeys.includes(key)){
       errors.push(`#${pokemon.d}: unsupported language tag key ${JSON.stringify(key)}`);
     }
   }
 
   for(const key of languageKeys){
-    const tags=tagsByLanguage[key];
-    if(tags==null) continue;
-    if(!Array.isArray(tags)){
-      errors.push(`#${pokemon.d} ${key}: tag collection must be an array`);
-      continue;
-    }
-    if(tags.length) taggedLanguageCount+=1;
-
     const index=languageIndex[key];
     const roots=analysisRoots(analyses[index]);
     const notes=pokemon.audit?.associations?.[index] || "";
     const combined=`${roots} ${notes}`;
+    const tags=tagsByLanguage?.[key] ?? [];
+
+    if(!Array.isArray(tags)){
+      errors.push(`#${pokemon.d} ${key}: tag collection must be an array`);
+      continue;
+    }
+    if(explicitBorrowingPattern.test(combined) && !tags.some(tag=>tag?.type==="loanword")){
+      errors.push(`#${pokemon.d} ${key}: explicit borrowing language is present in Roots or Notes but no loanword tag is authored`);
+    }
+    if(tags.length) taggedLanguageCount+=1;
+
     const seen=new Set();
     const ranges=[];
-
     tags.forEach((tag,tagIndex)=>{
       const prefix=`#${pokemon.d} ${key} tag ${tagIndex+1}`;
       if(!tag || typeof tag!=="object" || Array.isArray(tag)){
@@ -127,7 +143,7 @@ for(const pokemon of data){
           errors.push(`${prefix}: loanword tags require sourceLanguage`);
           return;
         }
-        const sourcePattern=new RegExp(`\\b${tag.sourceLanguage.replace(/[.*+?^${}()|[\\]\\]/g,"\\$&")}\\b`,"i");
+        const sourcePattern=new RegExp(`\\b${escapeRegex(tag.sourceLanguage)}\\b`,"i");
         if(!sourcePattern.test(combined)){
           errors.push(`${prefix}: sourceLanguage ${JSON.stringify(tag.sourceLanguage)} is not named in Roots or Notes`);
           return;
