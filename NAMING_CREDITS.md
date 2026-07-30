@@ -47,12 +47,14 @@ Gail Tilden identifies Nakamura as the person who led the English-language Poké
 
 - **Poliwag, Poliwhirl, Poliwrath:** Gail Tilden identifies the family as her personal contribution.
 - **Gyarados:** Nob Ogasawara says he recommended retaining the Japanese name after the proposed English name *Skulkraken* failed legal review.
+- **Snorlax:** a published naming history attributes the English name suggestion to Bill Giese. The displayed detail identifies this as a published attribution rather than presenting it as direct first-person testimony.
 - **Articuno, Zapdos, Moltres:** Bill Giese recalls creating the shared elemental plus *uno/dos/tres* pattern.
 
 ### French
 
 - **Léviator:** Julien Bardakoff describes selecting the mythological sea-monster name in first person.
 - **Évoli, Aquali, Voltali, Pyroli:** Bardakoff explains the coordinated family system in first person, including the evolution/volition reading and the shared stone-associated `-li` ending.
+- **Artikodin:** Bardakoff says he selected Odin partly because the Odin armor in *Saint Seiya* reminded him of the Pokémon's design.
 
 These French overrides do not erase the contemporary evidence for a wider Nintendo France localization team. The record names Bardakoff for the exact decisions he personally recounts while retaining the team as the baseline for species without equally specific evidence.
 
@@ -167,6 +169,7 @@ A `specific`, `creator`, or `lead` record requires at least one named person.
 9. Credits are historical provenance, separate from etymology confidence. A confirmed name origin does not establish its creator, and a confirmed creator does not automatically confirm every proposed root.
 10. Later first-person recollection can be valuable primary testimony, but it must be reconciled with contemporary team credits rather than automatically replacing them.
 11. A specific family explanation may justify an override for a still-pending etymology entry, because provenance and etymology audit status are separate. Do not mark the name analysis audited merely because its creator credit is known.
+12. When the strongest exact-name evidence is a reputable published account rather than direct testimony, the displayed detail and source label must say so. Do not silently upgrade secondary attribution into a first-person claim.
 
 ## Display rules
 
