@@ -112,17 +112,41 @@ const NAMING_CREDIT_OVERRIDES=Object.freeze({
   134:Object.freeze({french:bardakoffEeveeFamilyCredit("Aquali")}),
   135:Object.freeze({french:bardakoffEeveeFamilyCredit("Voltali")}),
   136:Object.freeze({french:bardakoffEeveeFamilyCredit("Pyroli")}),
-  144:Object.freeze({english:Object.freeze({
+  143:Object.freeze({english:Object.freeze({
     kind:"specific",
     people:Object.freeze(["Bill Giese"]),
     organization:"Nintendo of America",
-    role:"Specific English name contribution",
-    detail:"Giese recalls creating the Articuno, Zapdos, and Moltres naming pattern; Hiro Nakamura led the wider naming program.",
+    role:"Specific English name suggestion",
+    detail:"A published account attributes the English name Snorlax to Giese, who assisted with Generation I naming; Hiro Nakamura led the wider English naming program.",
     source:Object.freeze({
-      label:"TIME interview on the Generation I English localization",
-      url:"https://time.com/6796536/history-origins-pokemon/"
+      label:"Monster Kids account, cited by Bulbapedia's Snorlax development history",
+      url:"https://bulbapedia.bulbagarden.net/wiki/Snorlax_(Pok%C3%A9mon)#Concept_and_development"
     })
   })}),
+  144:Object.freeze({
+    french:Object.freeze({
+      kind:"specific",
+      people:Object.freeze(["Julien Bardakoff"]),
+      organization:"Nintendo France",
+      role:"Specific French name contribution",
+      detail:"Bardakoff says he chose Odin in Artikodin partly because the Odin armor in Saint Seiya reminded him of the Pokémon's design; the wider localization project also had a documented Nintendo France team.",
+      source:Object.freeze({
+        label:"Poképédia: Bardakoff's Artikodin and Odin-armor explanation",
+        url:"https://www.pokepedia.fr/Artikodin#Anecdote"
+      })
+    }),
+    english:Object.freeze({
+      kind:"specific",
+      people:Object.freeze(["Bill Giese"]),
+      organization:"Nintendo of America",
+      role:"Specific English name contribution",
+      detail:"Giese recalls creating the Articuno, Zapdos, and Moltres naming pattern; Hiro Nakamura led the wider naming program.",
+      source:Object.freeze({
+        label:"TIME interview on the Generation I English localization",
+        url:"https://time.com/6796536/history-origins-pokemon/"
+      })
+    })
+  }),
   145:Object.freeze({english:Object.freeze({
     kind:"specific",
     people:Object.freeze(["Bill Giese"]),
