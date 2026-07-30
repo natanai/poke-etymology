@@ -24,6 +24,7 @@ const VERIFIED_RESEARCH_100_108={
       ["électrode, an existing scientific word","Electrode.","strong"],
       ["electrode, an existing scientific word","Electrode.","strong"]
     ],
+    tags:{japanese:[{type:"loanword",text:"mine",sourceLanguage:"English"}]},
     c:"Japanese describes the body as a spherical explosive. French and English instead use the same existing electrical term, allowing the species name to sound technical while its explosive behavior remains contextual.",
     a:[
       "丸 is an everyday root for roundness or a circle, and マイン is the English loanword mine. The name makes the Poké Ball shape and self-detonating behavior equally prominent.",
@@ -117,10 +118,11 @@ const VERIFIED_RESEARCH_100_108={
       ["kick + Bruce Lee, as documented by the French localizer","Kicking Bruce Lee tribute.","confirmed"],
       ["hit + monster + Bruce Lee","A striking monster named for Bruce Lee.","strong"]
     ],
+    tags:{french:[{type:"loanword",text:"kick",sourceLanguage:"English"}]},
     c:"Japanese and the Western localizations independently honor martial artists associated with kicking. Japanese points to Tadashi Sawamura, while French and English use Bruce Lee and add their own fighting-family structure.",
     a:[
       "サワムラ closely matches the surname Sawamura, and the Pokémon’s kicking specialty fits Tadashi Sawamura’s public identity as a kickboxer. The final -ラー may resemble English -er, but the exact segmentation lacks a direct creator statement.",
-      "kick is the ordinary English loan for a foot strike and Lee identifies Bruce Lee. The name makes the Pokémon’s combat specialty explicit rather than translating the Japanese athlete reference.",
+      "kick is the ordinary English loanword in French for a foot strike and Lee identifies Bruce Lee. The name makes the Pokémon’s combat specialty explicit rather than translating the Japanese athlete reference.",
       "Bruce Lee supplies the final element. hit and mon can be heard as strike and monster, creating a shared Hitmon family frame, though the person-name tribute is more secure than every internal boundary."
     ],
     sources:expandedSourceSet(106,"Hitmonlee_%28Pok%C3%A9mon%29",[
@@ -175,5 +177,5 @@ for(const [id,research] of Object.entries(VERIFIED_RESEARCH_100_108)){
   pokemon.x=research.x;
   pokemon.c=research.c;
   pokemon.reviewed=true;
-  pokemon.audit={status:research.status,reviewedOn:research.reviewedOn,associations:research.a,sources:research.sources};
+  pokemon.audit={status:research.status,reviewedOn:research.reviewedOn,associations:research.a,sources:research.sources,tags:research.tags};
 }

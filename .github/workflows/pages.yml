@@ -32,11 +32,15 @@ jobs:
       - name: Check JavaScript syntax
         run: |
           node --check app.js
+          node --check scripts/validate-language-tags.mjs
           node --check guides/guide.js
           node --check guides/guide-i18n.js
           node --check guides/guide-copy-overrides.js
           node --check guides/guide-touch.js
           node --check guides/index-i18n.js
+
+      - name: Validate language-analysis tags
+        run: node scripts/validate-language-tags.mjs
 
       - name: Build Generation I data
         run: node scripts/build-data.mjs

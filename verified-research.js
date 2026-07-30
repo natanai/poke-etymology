@@ -66,6 +66,7 @@ const VERIFIED_RESEARCH={
       ["reptile + étincelle","Spark reptile.","strong"],
       ["char + chameleon","A fire-charred chameleon.","strong"]
     ],
+    tags:{japanese:[{type:"loanword",text:"リザード",sourceLanguage:"English"}]},
     c:"Japanese becomes unusually literal through an English loanword. French and English retain constructed fire puns, with French emphasizing a spark and English a chameleon.",
     a:[
       "リザード is readily heard as the English loanword lizard written in Japanese phonology.",
@@ -81,6 +82,7 @@ const VERIFIED_RESEARCH={
       ["draco + Au feu!","A dragon paired with the warning ‘Fire!’ or ‘There’s a fire!’","strong"],
       ["char + lizard","A fire-charred lizard.","strong"]
     ],
+    tags:{japanese:[{type:"loanword",text:"lizard",sourceLanguage:"English"}]},
     c:"French explicitly turns the creature into a fire dragon. English keeps the lizard construction, while Japanese may bridge lizard, dragon, and prehistoric-name morphology.",
     a:[
       "リザード repeats the English loanword lizard. ドン may suggest dragon or the -don ending encountered in prehistoric-animal names.",
@@ -111,6 +113,7 @@ const VERIFIED_RESEARCH={
       ["carapace + baffe","A shell-bearing creature that can deliver a smack.","strong"],
       ["war or warrior, possibly water, + tortoise / turtle","A battle-ready water turtle.","plausible"]
     ],
+    tags:{japanese:[{type:"loanword",text:"tail",sourceLanguage:"English"}]},
     c:"Japanese foregrounds the tail, French turns the shell-and-strike idea into a joke, and English emphasizes a more mature, battle-ready turtle.",
     a:[
       "亀 is the everyday word for turtle. The English word tail is recognizable as a loaned sound inside カメール.",
@@ -126,10 +129,14 @@ const VERIFIED_RESEARCH={
       ["tortue + tank","Turtle tank.","strong"],
       ["blast + tortoise","A tortoise that fires powerful blasts.","strong"]
     ],
+    tags:{
+      japanese:[{type:"loanword",text:"マックス",sourceLanguage:"English"}],
+      french:[{type:"loanword",text:"tank",sourceLanguage:"English"}]
+    },
     c:"All three names converge on a heavily armed final form: maximum turtle in Japanese, tank turtle in French, and blasting tortoise in English.",
     a:[
-      "亀 is turtle; マックス is the common loanword max, heard in brand names, titles, and expressions of maximum power or size.",
-      "tortue is turtle and tank is the familiar armored vehicle loanword.",
+      "亀 is turtle; マックス is the common English loanword max, heard in brand names, titles, and expressions of maximum power or size.",
+      "tortue is turtle and tank is the familiar English armored-vehicle loanword.",
       "blast suggests an explosion or powerful discharge; tortoise is the familiar shelled animal name."
     ],
     sources:sourceSet(9,"Blastoise_%28Pok%C3%A9mon%29")
@@ -156,6 +163,7 @@ for(const [id,research] of Object.entries(VERIFIED_RESEARCH)){
     status:research.status,
     reviewedOn:research.reviewedOn,
     associations:research.a,
-    sources:research.sources
+    sources:research.sources,
+    tags:research.tags
   };
 }

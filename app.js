@@ -8,6 +8,9 @@ if(VALID_LANGUAGES.includes(queryLanguage)) localStorage.setItem(LANGUAGE_KEY,qu
 
 const REFERENCE_DATA=typeof REFERENCE_POKEMON!=="undefined" ? REFERENCE_POKEMON : [];
 const ALL_POKEMON=[...DATA,...REFERENCE_DATA];
+const ROOT_TAG_DEFINITIONS=Object.freeze({
+  loanword:{label:"loanword"}
+});
 let filtered=DATA;
 const $=selector=>document.querySelector(selector);
 const pad=value=>String(value).padStart(3,"0");
@@ -19,48 +22,40 @@ const esc=value=>String(value)
   .replaceAll('"',"&quot;")
   .replaceAll("'","&#039;");
 
-const LOANWORD_EVIDENCE=/\b(?:loanword|loanwords|direct transcription of|borrowed from|loanword material|loans compressed as)\b/i;
-
-function loanwordTerms(item,notesText){
-  const rootText=item?.[0] || "";
-  const explicit=item?.[3]?.loanwords;
-  if(Array.isArray(explicit)){
-    return [...new Set(explicit.map(String).filter(term=>term && rootText.includes(term)))];
+function languageAnalysis(item){
+  if(Array.isArray(item)){
+    return {roots:item[0] || "",meaning:item[1] || "",confidence:item[2] || ""};
   }
-
-  const combined=`${rootText} ${notesText || ""}`;
-  if(/\bnot (?:an? )?loanword\b/i.test(combined)) return [];
-
-  const terms=[];
-  const leading=rootText.match(/^([^\s,;+()]+)\s*\([^)]*\)/u);
-  if(leading && LOANWORD_EVIDENCE.test(combined)) terms.push(leading[1]);
-
-  const firstClause=rootText.split(/[;,]/,1)[0];
-  if(/\b(?:loanword material|loans compressed as|loanwords?)\b/i.test(rootText) && firstClause.includes(" + ")){
-    terms.push(...firstClause.split(/\s+\+\s+/).map(term=>term.trim()).filter(Boolean));
-  }
-
-  const subjectPattern=/(?:^|[.;]\s*)([^.;]+?)\s+(?:is|are)\s+(?:(?:the|a|an|familiar|common|recognizable|directly recognizable as)\s+)*(?:(?:English|French|Japanese|German|Latin|Greek|Italian|Spanish)(?:-derived)?\s+)?(?:loanword|loanwords|borrowed word|borrowed words)\b/gi;
-  for(const match of combined.matchAll(subjectPattern)){
-    const subjects=match[1].split(/\s+(?:and|or)\s+|,\s*/).map(term=>term.trim()).filter(Boolean);
-    subjects.forEach(term=>{
-      if(rootText.includes(term)) terms.push(term);
-    });
-  }
-
-  return [...new Set(terms)];
+  return {
+    roots:item?.roots || "",
+    meaning:item?.meaning || "",
+    confidence:item?.confidence || ""
+  };
 }
 
-function rootsMarkup(rootText,terms){
-  const matches=[];
-  const candidates=[...new Set((terms || []).map(String).filter(Boolean))].sort((a,b)=>b.length-a.length);
+function occurrenceIndex(text,needle,occurrence=1){
+  let from=0;
+  let found=-1;
+  for(let count=0;count<occurrence;count+=1){
+    found=text.indexOf(needle,from);
+    if(found<0) return -1;
+    from=found+needle.length;
+  }
+  return found;
+}
 
-  for(const term of candidates){
-    const start=rootText.indexOf(term);
+function rootsMarkup(rootText,tags=[]){
+  const matches=[];
+  for(const tag of Array.isArray(tags) ? tags : []){
+    const definition=ROOT_TAG_DEFINITIONS[tag?.type];
+    const text=typeof tag?.text==="string" ? tag.text : "";
+    const occurrence=Number.isInteger(tag?.occurrence) && tag.occurrence>0 ? tag.occurrence : 1;
+    if(!definition || !text) continue;
+    const start=occurrenceIndex(rootText,text,occurrence);
     if(start<0) continue;
-    const end=start+term.length;
+    const end=start+text.length;
     if(matches.some(match=>start<match.end && end>match.start)) continue;
-    matches.push({start,end});
+    matches.push({start,end,label:definition.label,type:tag.type});
   }
 
   if(!matches.length) return esc(rootText);
@@ -70,7 +65,7 @@ function rootsMarkup(rootText,terms){
   let markup="";
   for(const match of matches){
     markup+=esc(rootText.slice(cursor,match.start));
-    markup+=`<span class="loanword-term"><span class="loanword-tag">[loanword]</span><span class="loanword-token">${esc(rootText.slice(match.start,match.end))}</span></span>`;
+    markup+=`<span class="root-tagged-term"><span class="root-tag root-tag-${esc(match.type)}">${esc(match.label)}</span><span class="root-tag-token">${esc(rootText.slice(match.start,match.end))}</span></span>`;
     cursor=match.end;
   }
   return markup+esc(rootText.slice(cursor));
@@ -88,10 +83,11 @@ function renderDetails(pokemon){
   const reviewed=Boolean(pokemon.reviewed || pokemon.x?.length);
   const audit=pokemon.audit || null;
   const associations=audit?.associations || (typeof ASSOCIATIONS!=="undefined" ? ASSOCIATIONS[pokemon.d] : null);
+  const rootTags=audit?.tags || {};
   const languages=[
-    {label:"日本語",name:`${pokemon.j} (${pokemon.r})`},
-    {label:"Français",name:pokemon.f},
-    {label:"English",name:pokemon.e}
+    {key:"japanese",label:"日本語",name:`${pokemon.j} (${pokemon.r})`},
+    {key:"french",label:"Français",name:pokemon.f},
+    {key:"english",label:"English",name:pokemon.e}
   ];
   const labels=["HP / PV","Attack / Attaque","Defense / Défense","Sp. Atk / Atq. Spé.","Sp. Def / Déf. Spé.","Speed / Vitesse"];
 
@@ -101,13 +97,14 @@ function renderDetails(pokemon){
       <div class="language-list">
         ${languages.map((language,index)=>{
           const item=pokemon.x?.[index];
+          const analysis=languageAnalysis(item);
           const notes=associations?.[index] || "Association examples pending review.";
           const body=reviewed && item ? `
             <div class="language-body">
-              <p class="roots"><strong>Roots:</strong><span class="roots-copy">${rootsMarkup(item[0],loanwordTerms(item,notes))}</span></p>
-              <p>${esc(item[1])}</p>
+              <p class="roots"><strong>Roots:</strong><span class="roots-copy">${rootsMarkup(analysis.roots,rootTags[language.key])}</span></p>
+              <p>${esc(analysis.meaning)}</p>
               <p class="associations"><strong>May evoke:</strong> ${esc(notes)}</p>
-              <span class="confidence">${esc(item[2])}</span>
+              <span class="confidence">${esc(analysis.confidence)}</span>
             </div>` : `
             <div class="language-body pending-language">
               <p>Roots, meaning, and native associations pending research.</p>

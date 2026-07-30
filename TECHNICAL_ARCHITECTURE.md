@@ -1,23 +1,21 @@
 # Technical architecture
 
-This is a deliberately small static site. The architecture should remain understandable by opening the repository and reading plain HTML, CSS, and JavaScript.
+This is a deliberately small static site. The architecture should remain understandable by opening the repository and reading plain HTML, CSS, JavaScript, and local data files.
 
 ## Performance model
 
 The desired experience is effectively **instant raw text**:
 
-- no framework;
-- no dependency bundle;
+- no framework or dependency bundle;
 - no runtime fetch for normal page content;
 - no hydration;
 - no persistent observer;
 - no polling or interval;
 - no animation library;
-- no image payload required for core use;
-- no webfont download;
+- no image or webfont payload required for core use;
 - no repeated computation after the initial render unless the user acts.
 
-A small number of static script files is acceptable. They should parse local data, render once, and then respond to direct events.
+A small number of static scripts is acceptable. They parse local data, render deterministically, and respond to direct events.
 
 ## Top-level pages
 
@@ -29,34 +27,19 @@ Responsibilities:
 
 - load the 151-record species dataset;
 - overlay audited research files;
-- search in all supported name fields;
+- search supported name fields;
 - save the selected primary language;
-- expand Pokémon entries in place;
-- expand each language independently;
-- display audit metadata, EV yield, localization comparison, and collapsed sources;
-- open a direct hash such as `#25` and scroll to that entry.
+- expand Pokémon entries and languages in place;
+- display Roots, meaning/effect, Notes, entry-owned word tags, confidence, comparison, audit metadata, EV yield, and collapsed sources;
+- open direct hashes such as `#25`.
 
 ### `/guides/index.html`
 
-The Living Dex guide selector.
-
-Responsibilities:
-
-- inherit the saved primary language;
-- link to the FireRed / LeafGreen guide;
-- remain compact and static.
+The compact static Living Dex guide selector.
 
 ### `/guides/firered-leafgreen.html`
 
-The FireRed / LeafGreen play companion.
-
-Responsibilities:
-
-- load all local stage data;
-- perform one-time localization preparation;
-- render one stage at a time;
-- save version, stage, starter, and checklist state in local storage;
-- handle only direct user events after rendering.
+The FireRed / LeafGreen play companion. It loads local stage data, performs one-time localization preparation, renders one stage at a time, saves state, and responds only to direct user events.
 
 ## Names-page data flow
 
@@ -64,61 +47,33 @@ Responsibilities:
 
 The historical seed array named `DATA`.
 
-Important:
-
 - It must exist before `generated-data.js` runs.
-- It is not the authoritative place for the continuing audited batches.
+- It is not the authoritative place for continuing audited batches.
 - Do not delete it unless the generated-data architecture is deliberately redesigned.
 
 ### `generated-data.js`
 
-A committed generated snapshot of all 151 Generation I records.
-
-It begins by mutating the already-created `DATA` array:
+A committed generated snapshot of all 151 Generation I records. It mutates the existing `DATA` array:
 
 ```js
 DATA.splice(0, DATA.length, ...records);
 ```
 
-Therefore, loading it before `data.js` causes a fatal `DATA is not defined` error.
+Loading it before `data.js` causes `DATA is not defined`.
 
-It contains:
-
-- National Pokédex ID;
-- English name;
-- French name;
-- Japanese name;
-- romanization;
-- current PokeAPI types;
-- current PokeAPI EV yield;
-- legacy seed etymology fields when present.
-
-Do not manually store new audited research here.
+It contains official names, romanization, current PokeAPI types and EV yield, and legacy seed fields. Do not manually store audited etymology or language tags here.
 
 ### `scripts/build-data.mjs`
 
-Builds `generated-data.js` from PokeAPI CSV sources.
-
-Current source tables:
-
-- `pokemon_species_names.csv`
-- `pokemon_stats.csv`
-- `pokemon_types.csv`
-- `type_names.csv`
-
-Important limitation: these are current canonical values, not guaranteed Generation III values.
+Builds `generated-data.js` from the committed PokeAPI CSV sources. These are current canonical values and are not guaranteed to match Generation III.
 
 ### `associations.js`
 
-Legacy/fallback native-association text. New audited batches normally provide their own `a` arrays, which take priority.
-
-Do not expand this file as the primary research store unless the data architecture is intentionally normalized.
+Legacy/fallback native-association text. Audited batch `a` arrays take priority. Do not expand this as the primary research store unless the architecture is intentionally normalized.
 
 ### `verified-research*.js`
 
-Audited research overlays.
-
-Each entry generally contains:
+Audited research overlays. Each entry generally contains:
 
 ```js
 {
@@ -129,42 +84,113 @@ Each entry generally contains:
     [frenchRoots, frenchMeaning, frenchConfidence],
     [englishRoots, englishMeaning, englishConfidence]
   ],
+  tags: {
+    japanese: [
+      {type: "loanword", text: "ディグ", sourceLanguage: "English"}
+    ]
+  },
   c: "Localization comparison",
   a: [japaneseNotes, frenchNotes, englishNotes],
   sources: [{label, url}, ...]
 }
 ```
 
-Language order is always:
+Language order in `x` and `a` is always Japanese, French, English. `tags` uses named keys instead of positional indexes.
 
-1. Japanese
-2. French
-3. English
+The base `verified-research.js` defines `sourceSet()`. `verified-research-037-045.js` defines `expandedSourceSet()`. Later files may rely on both.
 
-The base `verified-research.js` also defines `sourceSet()`. Later batch files assume it already exists.
+Each batch mutates the matching `DATA` object and must copy its tag data:
 
-Each batch file mutates the matching object in `DATA`, setting `pokemon.x`, `pokemon.c`, `pokemon.reviewed`, and `pokemon.audit`.
+```js
+pokemon.audit = {
+  status: research.status,
+  reviewedOn: research.reviewedOn,
+  associations: research.a,
+  sources: research.sources,
+  tags: research.tags
+};
+```
+
+Do not store tags in a fourth `x` row item. Do not create a separate global tag map.
+
+### Language-tag architecture
+
+[`LANGUAGE_TAGS.md`](LANGUAGE_TAGS.md) is the authoritative schema.
+
+Core contract:
+
+- tags are authored and reviewed inside the same audited entry as the linguistic claim;
+- the renderer never scans Roots or Notes to infer tags;
+- `type` selects a renderer definition from `ROOT_TAG_DEFINITIONS`;
+- `text` is an exact Roots substring;
+- `sourceLanguage` is research metadata required for `loanword`;
+- optional `occurrence` selects a repeated exact substring;
+- language keys currently are `japanese`, `french`, and `english`;
+- unsupported types and keys fail validation;
+- adding another tag type or language requires coordinated schema, renderer, validator, UX, and documentation changes.
+
+The first type is:
+
+```js
+loanword: {label: "loanword"}
+```
+
+The visible donor language stays in Roots or Notes rather than the tiny annotation.
+
+### `scripts/validate-language-tags.mjs`
+
+Loads the committed dataset and every audited research overlay in a Node VM, then validates the rendered data contract.
+
+It rejects:
+
+- the retired `loanwords` shortcut;
+- fourth-item language-row metadata;
+- malformed tag containers;
+- unsupported language keys and tag types;
+- empty or absent target text;
+- invalid occurrences;
+- duplicate or overlapping tags;
+- loanword tags without `sourceLanguage`;
+- donor languages not named in Roots or Notes;
+- standardized explicit borrowing claims with no authored loanword tag.
+
+It is intentionally validation, not runtime inference. It prevents incomplete entries from merging while leaving the interface entirely data-driven.
 
 ### `reference-data.js`
 
-Contains later-generation reference Pokémon required by the FireRed / LeafGreen completion guide, such as baby forms, later evolutions, and roaming beasts.
-
-These records are not included in the visible 151-entry Generation I list unless a direct guide link opens one.
+Contains later-generation reference Pokémon required by the guide. They are not included in the visible 151 list unless a direct guide link opens one.
 
 ### `app.js`
 
 Names-page interaction code.
 
+Relevant functions:
+
+- `languageAnalysis()` normalizes historical three-item arrays and possible future named objects;
+- `rootsMarkup()` renders authored tags over exact Roots substrings;
+- `occurrenceIndex()` locates a requested repeated target;
+- `renderDetails()` selects the tags stored under the current language key.
+
 Performance expectations:
 
 - one list render at startup;
 - rerender only for search, language selection, and direct state changes;
-- no background observer or timer;
-- delegated click handling rather than one listener per row where practical.
+- no background observer, timer, fetch, or post-render annotation pass;
+- delegated click handling where practical.
+
+### `label-fixes.css`
+
+Contains the small Roots/Notes labels and generic root-tag layout:
+
+- `.root-tagged-term`
+- `.root-tag`
+- `.root-tag-token`
+
+The current loanword box displays plain `loanword`, without literal brackets, on white with a black border. Styling is generic enough for a future approved tag type but should remain restrained.
 
 ## Names-page script order
 
-The order in `index.html` is a contract:
+The order in `index.html` is an architectural contract:
 
 1. `data.js`
 2. `generated-data.js`
@@ -178,96 +204,35 @@ Do not reorder these casually.
 
 ## Living Dex data flow
 
-### Stage data files
+### Stage data
 
 - `guides/guide-stages-opening.js`
 - `guides/guide-stages-moon.js`
 - `guides/guide-stages-cerulean.js`
 
-They define arrays of stage objects. A stage has:
+Stage objects contain IDs, labels, headings, optional warnings/pickers, tasks, and optional drawers. Task objects contain stable IDs, groups, title/meta/detail content, optional state, and version variants.
 
-```js
-{
-  id,
-  tab,
-  title,
-  subtitle,
-  warning?,
-  starterPicker?,
-  tasks: [...],
-  drawer?
-}
-```
-
-A task has:
-
-```js
-{
-  id,
-  group: "Catch" | "Story" | "Items",
-  title,
-  meta,
-  detail?,
-  optional?,
-  variants?: {
-    fr: {...},
-    lg: {...}
-  }
-}
-```
-
-Pokémon references inside text use `[[number]]`. `guide.js` converts them into localized links to the Names page.
+Pokémon references inside text use `[[number]]`; `guide.js` turns them into localized Names-page links.
 
 ### `guides/guide-i18n.js`
 
-Performs one-time static localization of stage headings, proper nouns, major items, moves, and page-level UI.
+Performs one-time static localization. It still contains dead broken broad-observer code, but the HTML temporarily replaces `window.MutationObserver` with a no-op only while the file executes, then restores the native constructor. The observer therefore never attaches.
 
-Current emergency state:
-
-- the file still contains a broken broad `MutationObserver` block;
-- `firered-leafgreen.html` temporarily replaces `window.MutationObserver` with a no-op only while this script executes;
-- the native browser constructor is restored immediately afterward;
-- therefore the observer never attaches and there is no ongoing process.
-
-Future cleanup goal:
-
-1. remove the observer and `translateRenderedControls()` block from `guide-i18n.js`;
-2. retain the one-time stage/static-copy work;
-3. confirm `guide.js` still renders all dynamic labels directly;
-4. remove the temporary guard from the HTML;
-5. test all three languages and mobile behavior.
-
-Do not remove only the guard. That would reintroduce the infinite render loop.
+Future cleanup must remove the dead observer block and guard together after testing all languages. Removing only the guard would reintroduce the infinite render loop.
 
 ### `guides/guide-copy-overrides.js`
 
-Small one-time corrections that need grammar or number-aware wording beyond the generic terminology replacement, such as plural Moon Stones and one-use tutor wording.
-
-Prefer folding durable copy into the stage data or future normalized translation data rather than allowing this file to grow indefinitely.
+Small one-time grammar or number-aware corrections. Prefer durable stage or normalized translation data rather than indefinite growth.
 
 ### `guides/guide.js`
 
-The deterministic renderer and event handler.
-
-Responsibilities:
-
-- load and migrate saved state;
-- render version buttons, stage tabs, current stage, tasks, and progress;
-- render dynamic language labels directly;
-- translate Pokémon ID tokens into links;
-- update local storage after direct user actions;
-- expand/collapse task details;
-- move between stages.
-
-It must not install observers, timers, or polling loops.
+The deterministic renderer and event handler. It loads/migrates state, renders version/stage/task/progress UI, localizes dynamic labels directly, creates Pokémon links, updates storage after user action, and handles navigation/disclosures. It must not install observers, timers, or polling loops.
 
 ### `guides/guide-touch.js`
 
-Clears touch or pen focus after activation to prevent iOS sticky focus/hover appearance. It is event-driven and does no background work.
+Clears touch/pen focus after activation to avoid sticky iOS states. It is event-driven.
 
 ### Guide script order
-
-Current order:
 
 1. `../data.js`
 2. `../generated-data.js`
@@ -282,95 +247,76 @@ Current order:
 
 ## Local storage
 
-### Names language
-
-Key:
+Names language key:
 
 ```text
 poke-etymology-language
 ```
 
-Values:
+Values: `e`, `f`, `j`.
 
-- `e`
-- `f`
-- `j`
-
-Both Names and Living Dex pages use this key.
-
-### FireRed / LeafGreen guide
-
-Current key:
+FireRed / LeafGreen current guide key:
 
 ```text
 poke-etymology-frlg-guide-v2
 ```
 
-Legacy key:
+Legacy key: `poke-etymology-frlg-guide-v1`.
 
-```text
-poke-etymology-frlg-guide-v1
-```
+Saved fields include version, stage, starter, and per-version checks. Preserve task IDs and stage meaning; increment the storage version and write a migration when schema or ordering changes.
 
-Saved fields:
-
-- `version`
-- `stage`
-- `starter`
-- `checks.fr`
-- `checks.lg`
-
-Preserve task IDs and stage meaning. If the schema or ordering changes, increment the storage version and write a migration.
+Language tags are static research data and create no local-storage state.
 
 ## CSS structure
 
 - `styles.css` — shared site and Names-page base
 - `audit-styles.css` — audited entry and language/source drawer behavior
-- `label-fixes.css` — small Roots/Notes structural labels
+- `label-fixes.css` — Roots/Notes labels and root tags
 - `guides/guide.css` — Living Dex layout
 - `guides/guide-links.css` — Pokémon links and starter picker
 - `guides/guide-ux-fixes.css` — mobile/touch corrections
 
-Avoid piling on many tiny override files indefinitely. When a section stabilizes, consolidate related rules carefully while preserving cache busting and load order.
+Avoid piling on tiny override files indefinitely. Consolidate stable related rules carefully.
 
-## Deployment
+## Workflows and deployment
+
+### `.github/workflows/validate.yml`
+
+Runs on pull requests and manual dispatch. It checks `app.js`, checks the validator’s syntax, and executes `node scripts/validate-language-tags.mjs`.
 
 ### `.github/workflows/pages.yml`
 
-Builds data, checks JavaScript syntax, uploads the repository as a static Pages artifact, and deploys it.
+On `main`, it checks syntax, validates language tags, builds Generation I data, uploads the static artifact, and deploys Pages. Validation occurs before publishing.
 
-The workflow currently fetches PokeAPI data during deployment. A network failure there can fail the build even though the committed static snapshot exists. Any future reliability improvement should preserve the ability to deploy a known-good committed dataset when upstream data is unavailable.
+The build currently uses PokeAPI source data. A future resilience improvement should preserve deployment from a known-good committed snapshot when upstream data is unavailable.
 
 ### `.github/workflows/refresh-data.yml`
 
-Refreshes the committed `generated-data.js` snapshot so the repository—not only a temporary Pages artifact—contains all 151 records.
-
-The original 25-entry failure happened because the generated file was only temporary. Never assume a generated artifact exists in `main` without checking.
+Refreshes the committed generated snapshot. The historical 25-entry failure occurred because a complete generated file existed only in a temporary deployment artifact.
 
 ## Validation
 
-The Pages workflow runs syntax checks. Contributors should still validate before PR merge:
+Before a Names or research PR:
 
 ```bash
 node --check app.js
 node --check scripts/build-data.mjs
-node --check guides/guide.js
-node --check guides/guide-i18n.js
-node --check guides/guide-copy-overrides.js
-node --check guides/guide-touch.js
-node --check guides/index-i18n.js
+node --check scripts/validate-language-tags.mjs
+node scripts/validate-language-tags.mjs
 ```
 
-Syntax checks do not catch DOM feedback loops. Manual or automated smoke testing must also confirm:
+Run relevant guide syntax checks for guide changes.
 
-- guide progress is populated;
-- tasks appear once;
-- CPU use settles after initial render;
-- no text duplicates continuously;
-- no observer or timer remains active;
-- stage and version actions work;
-- saved progress persists.
+Syntax and schema checks do not catch every visual or runtime issue. Smoke testing must also confirm:
+
+- the list and guide populate;
+- entries and language rows expand correctly;
+- authored tags sit over the exact token on narrow screens;
+- the tag box contains no brackets and does not show donor-language text;
+- CPU use settles after rendering;
+- no observer, timer, fetch, or repeated mutation loop is active;
+- state and links still work.
 
 ## Architectural decision rule
 
-Prefer the simplest change that can be explained in a few sentences and inspected in plain source. Do not introduce a build framework to solve a problem that can be handled by static data and a deterministic render.
+Prefer the simplest change that can be explained in a few sentences and inspected in plain source. Keep linguistic semantics in audited entry data, not in renderer heuristics. Do not introduce a build framework to solve a problem that static data and deterministic rendering already handle.

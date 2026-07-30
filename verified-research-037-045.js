@@ -81,9 +81,10 @@ const VERIFIED_RESEARCH_037_045={
       ["Nosferatu + petit","A small vampire.","strong"],
       ["The Japanese Zubat name retained; bat remains transparent in English","A sharply striking bat whose original Japanese sound-play is mostly opaque in English.","strong"]
     ],
+    tags:{japanese:[{type:"loanword",text:"bat",sourceLanguage:"English"}]},
     c:"Japanese combines a dramatic motion word with bat. French replaces that sound effect with an explicit miniature-vampire reference, while English retains the Japanese form and leaves bat as the clearest native element.",
     a:[
-      "ずばっと is used for something done sharply, cleanly, or piercingly and has the energetic feel of a manga sound effect. bat is an English loan.",
+      "ずばっと is used for something done sharply, cleanly, or piercingly and has the energetic feel of a manga sound effect. bat is an English loanword.",
       "Nosferatu strongly evokes the classic vampire name and film tradition; petit is the ordinary word for small.",
       "bat is immediately recognizable, but zu- does not carry its Japanese adverbial meaning for most English speakers."
     ],
@@ -98,9 +99,10 @@ const VERIFIED_RESEARCH_037_045={
       ["Nosferatu + alto (high)","A higher or more developed vampire bat.","plausible"],
       ["The Japanese Golbat name retained; probably gore, ghoul, or gulp + bat","A large bat whose first element may suggest blood, monsters, or swallowing.","plausible"]
     ],
+    tags:{japanese:[{type:"loanword",text:"bat",sourceLanguage:"English"}]},
     c:"Japanese and English share an intentionally dark but unresolved bat compound. French preserves the Nosferatu family and replaces petit with alto, suggesting elevation, growth, or a higher form.",
     a:[
-      "bat is fully transparent as an English loan. gore, ghoul, and gulp all fit the creature, but no single first root is securely established.",
+      "bat is fully transparent as an English loanword. gore, ghoul, and gulp all fit the creature, but no single first root is securely established.",
       "Nosferatu continues the vampire reference. alto is Italian for high and is familiar through music, though its exact intended nuance here remains uncertain.",
       "bat is obvious; gore, ghoul, and gulp are all familiar English possibilities, so the entry keeps them as alternatives instead of choosing one as fact."
     ],
@@ -166,5 +168,5 @@ for(const [id,research] of Object.entries(VERIFIED_RESEARCH_037_045)){
   pokemon.x=research.x;
   pokemon.c=research.c;
   pokemon.reviewed=true;
-  pokemon.audit={status:research.status,reviewedOn:research.reviewedOn,associations:research.a,sources:research.sources};
+  pokemon.audit={status:research.status,reviewedOn:research.reviewedOn,associations:research.a,sources:research.sources,tags:research.tags};
 }

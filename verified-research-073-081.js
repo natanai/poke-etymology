@@ -78,6 +78,7 @@ const VERIFIED_RESEARCH_073_081={
       ["the international Ponyta name retained; probably pony + bonita","Pretty pony.","plausible"],
       ["pony + probably bonita (pretty)","Pretty pony.","plausible"]
     ],
+    tags:{japanese:[{type:"loanword",text:"pony",sourceLanguage:"English"}]},
     c:"Ponyta is shared across Japanese, French, and English rather than independently localized. Pony is clear in every version, while the proposed bonita ending supplies an attractive, name-like quality but lacks direct creator confirmation.",
     a:[
       "ポニー is the familiar English loanword pony. The remaining タ is not a Japanese word meaning pretty, so the bonita reading only becomes visible through knowledge of an Iberian language.",
@@ -95,9 +96,10 @@ const VERIFIED_RESEARCH_073_081={
       ["galop or galopade, reshaped to continue Ponyta’s -a ending","A galloping horse.","strong"],
       ["rapid + dash; ash may be a secondary fire echo","A horse that moves with sudden speed.","strong"]
     ],
+    tags:{japanese:[{type:"loanword",text:"ギャロップ",sourceLanguage:"English"}]},
     c:"Japanese and French name the horse’s fastest gait almost literally, while English turns speed into a compact two-part action name and leaves room for a secondary fire association.",
     a:[
-      "ギャロップ is an established loanword for a horse’s gallop and sounds more like equestrian vocabulary than a hidden pun. The evolution therefore advances from a small pony to its full-speed gait.",
+      "ギャロップ is an established English loanword for a horse’s gallop and sounds more like equestrian vocabulary than a hidden pun. The evolution therefore advances from a small pony to its full-speed gait.",
       "galop is gallop and galopade is a galloping run. Galopa also matches the literary past-tense form il or elle galopa, ‘he or she galloped,’ while its final -a neatly preserves the family resemblance to Ponyta.",
       "rapid means fast, and dash is a sudden quick run. ash fits the Fire type and is audible at the end, but rapid plus dash provides the complete grammatical and semantic construction."
     ],
@@ -149,9 +151,10 @@ const VERIFIED_RESEARCH_073_081={
       ["magnétique + petit","Small magnetic object or creature.","strong"],
       ["magnet + probably mite; might, magnetite, and maghemite may reinforce the sound","Tiny magnet.","plausible"]
     ],
+    tags:{japanese:[{type:"loanword",text:"コイル",sourceLanguage:"English"}]},
     c:"Japanese names an electrical component, French makes magnetism explicitly diminutive, and English probably combines a magnet with a word for something tiny while preserving several secondary power and mineral echoes.",
     a:[
-      "コイル is established technical vocabulary for a coil of wire and is especially familiar in compounds involving electricity and electromagnets. It sounds literal and mechanical rather than mascot-like in Japanese.",
+      "コイル is established English-derived technical vocabulary for a coil of wire and is especially familiar in compounds involving electricity and electromagnets. It sounds literal and mechanical rather than mascot-like in Japanese.",
       "magnétique is the ordinary adjective magnetic, while petit is the basic adjective small. Their overlap compresses the concept into a compact diminutive name.",
       "magnet is unmistakable. mite can mean a very small creature or thing and fits the Pokémon’s size; might suggests power, while magnetite and maghemite are magnetic iron-oxide minerals. Those secondary echoes are attractive, but the intended ending is not explicitly documented."
     ],
@@ -169,5 +172,5 @@ for(const [id,research] of Object.entries(VERIFIED_RESEARCH_073_081)){
   pokemon.x=research.x;
   pokemon.c=research.c;
   pokemon.reviewed=true;
-  pokemon.audit={status:research.status,reviewedOn:research.reviewedOn,associations:research.a,sources:research.sources};
+  pokemon.audit={status:research.status,reviewedOn:research.reviewedOn,associations:research.a,sources:research.sources,tags:research.tags};
 }

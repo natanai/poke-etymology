@@ -6,6 +6,10 @@ const VERIFIED_RESEARCH_055_063={
       ["aquatique + couac","Aquatic quack.","strong"],
       ["gold + duck","Gold duck; the intended reason for gold is less certain than the word boundary itself.","plausible"]
     ],
+    tags:{japanese:[
+      {type:"loanword",text:"gold",sourceLanguage:"English"},
+      {type:"loanword",text:"duck",sourceLanguage:"English"}
+    ]},
     c:"Japanese and English share the same gold-and-duck construction even though the Pokémon is blue. French discards the symbolic color and instead makes an aquatic quacking joke.",
     a:[
       "ゴールド and ダック are familiar English loanwords, but ゴルダック compresses gold and leaves the symbolic reason for it open to interpretation.",
@@ -23,9 +27,13 @@ const VERIFIED_RESEARCH_055_063={
       ["féroce + singe","Ferocious monkey.","strong"],
       ["man or mad + monkey; cranky may also contribute","An angry, humanlike monkey.","plausible"]
     ],
+    tags:{japanese:[
+      {type:"loanword",text:"man",sourceLanguage:"English"},
+      {type:"loanword",text:"monkey",sourceLanguage:"English"}
+    ]},
     c:"Japanese most directly presents a man-monkey blend. French makes its temperament explicit, while English leaves several overlapping anger-related sounds around the monkey root.",
     a:[
-      "マン and モンキー are recognizable English loans. The finished form is name-like, but the monkey component remains easy to hear.",
+      "マン and モンキー are recognizable English loanwords. The finished form is name-like, but the monkey component remains easy to hear.",
       "féroce means fierce or ferocious and singe is the everyday word for monkey.",
       "monkey is clearly present. man, mad, and cranky all fit the sound or personality, but no single opening explanation should be treated as certain."
     ],
@@ -58,9 +66,13 @@ const VERIFIED_RESEARCH_055_063={
       ["canin / canine + a name-like -os ending","Canine creature.","strong"],
       ["growl + lithe","A flexible, agile growling dog.","strong"]
     ],
+    tags:{japanese:[
+      {type:"loanword",text:"guard",sourceLanguage:"English"},
+      {type:"loanword",text:"guardian",sourceLanguage:"English"}
+    ]},
     c:"Japanese foregrounds its protective role, French simply marks it as canine, and English combines a warning sound with agility.",
     a:[
-      "ガード and ガーディアン are familiar guard-related English loans; the -ie-like ending makes the result sound affectionate and name-like.",
+      "ガード and ガーディアン are familiar guard-related English loanwords; the -ie-like ending makes the result sound affectionate and name-like.",
       "canin is the ordinary adjective for canine or dog-related. The final -os gives the species name a compact proper-name shape.",
       "growl is the low warning sound of an animal. lithe means flexible or gracefully agile, though it is a more literary word than growl."
     ],
@@ -76,9 +88,13 @@ const VERIFIED_RESEARCH_055_063={
       ["arcane + canin","Mysterious or legendary canine.","strong"],
       ["arcane + canine","Mysterious or legendary canine.","strong"]
     ],
+    tags:{japanese:[
+      {type:"loanword",text:"wind",sourceLanguage:"English"},
+      {type:"loanword",text:"windy",sourceLanguage:"English"}
+    ]},
     c:"Japanese highlights extraordinary speed, while French and English independently use nearly identical arcane-canine constructions to make the evolution feel legendary.",
     a:[
-      "ウインド and ウインディ are readily recognizable as English wind and windy rendered in Japanese sounds.",
+      "ウインド and ウインディ are readily recognizable as the English loanwords wind and windy rendered in Japanese sounds.",
       "arcane suggests something mysterious, secret, or difficult to understand; canin means canine.",
       "arcane is a learned word for mysterious or esoteric, while canine is the ordinary adjective and noun relating to dogs."
     ],
@@ -166,5 +182,5 @@ for(const [id,research] of Object.entries(VERIFIED_RESEARCH_055_063)){
   pokemon.x=research.x;
   pokemon.c=research.c;
   pokemon.reviewed=true;
-  pokemon.audit={status:research.status,reviewedOn:research.reviewedOn,associations:research.a,sources:research.sources};
+  pokemon.audit={status:research.status,reviewedOn:research.reviewedOn,associations:research.a,sources:research.sources,tags:research.tags};
 }
