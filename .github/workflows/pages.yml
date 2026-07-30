@@ -35,6 +35,7 @@ jobs:
           node --check naming-credits.js
           node --check scripts/validate-language-tags.mjs
           node --check scripts/validate-naming-credits.mjs
+          for file in verified-research*.js; do node --check "$file"; done
           node --check guides/guide.js
           node --check guides/guide-i18n.js
           node --check guides/guide-copy-overrides.js
