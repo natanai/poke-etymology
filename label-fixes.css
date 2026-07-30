@@ -31,7 +31,7 @@
   padding:1px 4px;
   border:1px solid var(--ink);
   color:var(--ink);
-  background:var(--screen-light);
+  background:#fff;
   font-size:6px;
   font-weight:700;
   letter-spacing:.02em;
