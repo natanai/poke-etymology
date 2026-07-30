@@ -6,9 +6,10 @@ const VERIFIED_RESEARCH_046_054={
       ["The Japanese name retained; parasite, shortened","A parasite-associated creature.","strong"],
       ["parasite, shortened","A parasite-associated creature.","strong"]
     ],
+    tags:{japanese:[{type:"loanword",text:"parasite",sourceLanguage:"English"}]},
     c:"Paras is shared across Japanese, French, and English. The same clipped parasite root works internationally and points to the fungus-host relationship rather than a separate local pun.",
     a:[
-      "パラス resembles the borrowed word parasite, but functions mainly as a proper name in Japanese.",
+      "パラス resembles the English loanword parasite, but functions mainly as a proper name in Japanese.",
       "parasite is an ordinary French word, so Paras feels like a transparent clipping even though the final form is borrowed unchanged.",
       "paras- immediately evokes parasite, a familiar word for an organism living at another organism’s expense."
     ],
@@ -23,9 +24,13 @@ const VERIFIED_RESEARCH_046_054={
       ["The Japanese name retained; parasite + insect","Parasitized insect.","strong"],
       ["parasite + insect","Parasitized insect.","strong"]
     ],
+    tags:{japanese:[
+      {type:"loanword",text:"parasite",sourceLanguage:"English"},
+      {type:"loanword",text:"insect",sourceLanguage:"English"}
+    ]},
     c:"Parasect is effectively international: all three languages preserve the same parasite-and-insect construction, which neatly describes the fungus controlling its arthropod host.",
     a:[
-      "Both parasite and insect are recognizable English loans, though the finished word is understood primarily as the Pokémon’s proper name.",
+      "Both parasite and insect are recognizable English loanwords, though the finished word is understood primarily as the Pokémon’s proper name.",
       "parasite and insecte are ordinary French cognates, making the construction easy to reconstruct despite the borrowed spelling.",
       "parasite and insect are both common words, and the overlap at -s- produces a compact portmanteau."
     ],
@@ -76,6 +81,7 @@ const VERIFIED_RESEARCH_046_054={
       ["taupe + marteau-piqueur","Mole jackhammer.","strong"],
       ["dig + -let, a diminutive suffix","A small digging creature.","strong"]
     ],
+    tags:{japanese:[{type:"loanword",text:"ディグ",sourceLanguage:"English"}]},
     c:"Japanese borrows the action dig, French turns the animal into a jackhammer pun, and English combines the action with a smallness suffix.",
     a:[
       "ディグ is readily heard as the English loanword dig, though the final ダ mainly makes the result name-like.",
@@ -94,9 +100,13 @@ const VERIFIED_RESEARCH_046_054={
       ["trio + the taupe / marteau-piqueur family stem","A trio of mole-jackhammers.","strong"],
       ["dug + trio","A trio that has dug underground.","strong"]
     ],
+    tags:{japanese:[
+      {type:"loanword",text:"dug",sourceLanguage:"English"},
+      {type:"loanword",text:"trio",sourceLanguage:"English"}
+    ]},
     c:"All three make the number three explicit. Japanese and English share the same dug-plus-trio name, while French rearranges the family’s mole-and-jackhammer pun around trio.",
     a:[
-      "ダグ is the English past-tense form dug rendered in Japanese sounds; トリオ is the familiar loanword trio.",
+      "ダグ is the English past-tense form dug rendered in Japanese sounds; トリオ is the familiar English loanword trio.",
       "trio is ordinary French and international vocabulary. The -piqueur ending preserves Taupiqueur’s jackhammer image.",
       "dug and trio are both ordinary English words; the name directly describes three Diglett-like bodies emerging from the ground."
     ],
@@ -145,9 +155,10 @@ const VERIFIED_RESEARCH_046_054={
       ["psy- / psychique + couac","Psychic quack, with couac also suggesting a mistake or discordant sound.","strong"],
       ["psy- / psychic + duck","Psychic duck.","strong"]
     ],
+    tags:{japanese:[{type:"loanword",text:"duck",sourceLanguage:"English"}]},
     c:"Japanese simply makes it a small or childlike duck. French and English foreground its psychic headaches, while French adds couac’s comic double sense of a quack and an embarrassing wrong note.",
     a:[
-      "小 and 子 can both be read ko and suggest smallness or a child. duck is a familiar English loan within the name.",
+      "小 and 子 can both be read ko and suggest smallness or a child. duck is a familiar English loanword within the name.",
       "psy- is readily recognized from psychique. couac imitates a duck-like or discordant sound and also means a blunder or false note.",
       "psy- commonly appears in words such as psychic and psychology; duck is completely transparent."
     ],
@@ -163,5 +174,5 @@ for(const [id,research] of Object.entries(VERIFIED_RESEARCH_046_054)){
   pokemon.x=research.x;
   pokemon.c=research.c;
   pokemon.reviewed=true;
-  pokemon.audit={status:research.status,reviewedOn:research.reviewedOn,associations:research.a,sources:research.sources};
+  pokemon.audit={status:research.status,reviewedOn:research.reviewedOn,associations:research.a,sources:research.sources,tags:research.tags};
 }
