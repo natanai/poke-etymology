@@ -5,7 +5,7 @@
 **Snapshot:** 2026-07-30  
 **Repository:** `natanai/poke-etymology`  
 **Live site:** `https://natanai.github.io/poke-etymology/`  
-**Generation I name audit:** #001–#108 complete; next normal batch is #109 Koffing through #117 Seadra  
+**Generation I name audit:** #001–#117 complete; next normal batch is #118 Goldeen through #126 Magmar  
 **FireRed / LeafGreen guide:** 14 stages from Pallet Town through Route 5
 
 ---
@@ -68,7 +68,7 @@ Preserve these boundaries:
 - Keep the site mobile-first and comfortable during active play.
 - Preserve the Generation I visual language: warm cream/paper, black, restrained red, Courier-like typography, hard borders and shadows, and light scanline texture.
 - Do not return to a full green Game Boy simulation.
-- Do not add fake A/B buttons, movement pads, POWER labels, decorative status readouts, or anything that looks interactive but is not.
+- Do not add fake controls or decorative readouts that look interactive.
 - Every visible control must perform a clear action.
 - Prefer hierarchy and spacing over extra instructions.
 
@@ -96,8 +96,8 @@ The Names page provides:
 - shared language preference saved in local storage;
 - direct hashes such as `/#25`.
 
-**Audited at this snapshot:** #001 Bulbasaur through #108 Lickitung.  
-**Next normal batch:** #109 Koffing through #117 Seadra.  
+**Audited at this snapshot:** #001 Bulbasaur through #117 Seadra.  
+**Next normal batch:** #118 Goldeen through #126 Magmar.  
 **Live tracker:** issue #5.
 
 Research files:
@@ -114,18 +114,26 @@ Research files:
 - `verified-research-082-090.js`
 - `verified-research-091-099.js`
 - `verified-research-100-108.js`
+- `verified-research-109-117.js`
 
 Completed ranges have decision records in `research-batches/`.
 
-Important #091–#108 decisions remain documented in `research-batches/091-108-notes.md`, including unresolved readings for Gengar, Iwark, Kingler, Nassy, Sawamular, Ebiwalar, and Beroringa.
+Important recent unresolved decisions:
+
+- `Gangar / Gengar` retains an unresolved doppelgänger or related revenant root cluster.
+- `Iwark` securely begins with `岩` but its second element remains unresolved.
+- `Kingler`, `Nassy`, the endings of `Sawamular / Ebiwalar`, and `Beroringa` remain explicitly uncertain.
+- English `Rhydon` preserves competing `don / -don` readings.
+- Japanese `Monjara` gives reported *monjayaki* evidence priority while retaining the strong `もじゃもじゃ / 毛むくじゃら` shaggy-tangle associations.
+- Japanese `Garura` remains plausible for compressed kangaroo + ruler; its uncertain boundary is intentionally untagged.
+
+See `research-batches/091-108-notes.md` and `research-batches/109-117-notes.md`.
 
 ### 4.2 Entry-owned language tags
 
 [`LANGUAGE_TAGS.md`](LANGUAGE_TAGS.md) is authoritative.
 
-The current supported type is `loanword`. Its visible treatment is a small white, black-bordered box containing plain lowercase `loanword`, centered directly above the exact tagged Roots token.
-
-The box does not contain literal brackets and does not display the donor language. The donor language and explanation stay in Roots or Notes.
+The current supported type is `loanword`. Its visible treatment is a small white, black-bordered box containing plain lowercase `loanword`, centered directly above the exact tagged Roots token. The box contains no literal brackets and no donor language.
 
 Tags are authored inside the same audited entry as the linguistic claim:
 
@@ -152,7 +160,7 @@ Non-negotiable rules:
 - do not automatically tag proper names, international scientific terms, learned roots, historical cognates, or English components in the English analysis;
 - a new tag type or language requires schema, renderer, validator, UX, architecture, and documentation updates together.
 
-All audited entries through #108 were reviewed during the migration. Secure lexical borrowings were moved into the entry-owned schema, including the previously missing Japanese Diglett component `ディグ`.
+The #109–#117 batch adds eight tags across seven language analyses: Japanese `ガス` in Dogars and Matadogas, French `smog` in Smogo and Smogogo, Japanese `ホーン` in Sihorn, Japanese `ラッキー`, and Japanese `シー` plus `ドラ` in Seadra.
 
 ### 4.3 Tag validation and workflows
 
@@ -352,7 +360,7 @@ Be precise about branch, PR, merge, workflow, Pages deployment, and live visual 
 
 Unless Nat requests another priority:
 
-1. Audit **#109–#117: Koffing through Seadra**, authoring entry-owned language tags during research.
+1. Audit **#118–#126: Goldeen through Magmar**, authoring entry-owned language tags during research.
 2. Continue the FireRed / LeafGreen route beyond Route 5 when requested.
 3. Replace the disabled guide observer code only as one fully tested cleanup.
 4. Improve full guide-language coverage only through controlled, reviewed translation.
