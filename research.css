@@ -89,21 +89,69 @@
   color:var(--muted);
 }
 
+.sources-section{
+  padding:0;
+}
+.sources-detail summary{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto 26px;
+  align-items:center;
+  gap:9px;
+  padding:11px 13px;
+  cursor:pointer;
+  list-style:none;
+  background:var(--screen-mid);
+}
+.sources-detail summary::-webkit-details-marker{display:none}
+.sources-detail summary:hover,
+.sources-detail summary:focus-visible{
+  color:var(--screen-light);
+  background:var(--ink);
+  outline:3px solid var(--red);
+  outline-offset:-5px;
+}
+.sources-label{
+  font-size:12px;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.sources-count{
+  color:var(--muted);
+  font-size:10px;
+}
+.sources-detail summary:hover .sources-count,
+.sources-detail summary:focus-visible .sources-count{
+  color:var(--screen-mid);
+}
+.source-mark{
+  display:grid;
+  width:24px;
+  height:24px;
+  place-items:center;
+  border:2px solid currentColor;
+}
+.source-mark::before{content:"+"}
+.sources-detail[open] .source-mark::before{content:"−"}
+.sources-detail[open] summary{
+  border-bottom:2px solid var(--ink);
+}
 .source-list{
   display:grid;
-  gap:8px;
+  gap:6px;
   margin:0;
-  padding:0;
+  padding:10px;
   list-style:none;
+  background:var(--screen);
 }
 .source-list a{
   display:block;
-  padding:8px 9px;
+  padding:7px 8px;
   border:2px solid var(--ink);
   color:var(--ink);
   background:var(--screen-light);
   overflow-wrap:anywhere;
   text-decoration:none;
+  font-size:12px;
 }
 .source-list a::after{content:" ↗"}
 .source-list a:hover,
@@ -112,6 +160,38 @@
   background:var(--ink);
   outline:2px solid var(--red);
   outline-offset:-5px;
+}
+
+.collapse-row{
+  padding:0;
+  background:var(--screen-mid);
+}
+.collapse-entry{
+  width:100%;
+  min-height:48px;
+  display:grid;
+  place-items:center;
+  border:0;
+  border-radius:0;
+  color:var(--ink);
+  background:var(--screen-mid);
+  cursor:pointer;
+}
+.collapse-entry:hover,
+.collapse-entry:focus-visible{
+  color:var(--screen-light);
+  background:var(--ink);
+  outline:3px solid var(--red);
+  outline-offset:-6px;
+}
+.collapse-icon{
+  display:grid;
+  width:30px;
+  height:30px;
+  place-items:center;
+  border:2px solid currentColor;
+  font-size:22px;
+  line-height:1;
 }
 
 @media (max-width:420px){
