@@ -16,3 +16,18 @@
 }
 .roots strong::after{content:"Roots"}
 .associations strong::after{content:"Notes"}
+.roots-copy{display:block}
+.loanword-labels{
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px 8px;
+  margin:0 0 5px;
+}
+.loanword-label{
+  color:var(--red-dark);
+  font-size:7px;
+  font-weight:700;
+  letter-spacing:.09em;
+  line-height:1.2;
+  text-transform:uppercase;
+}

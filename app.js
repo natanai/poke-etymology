@@ -19,6 +19,30 @@ const esc=value=>String(value)
   .replaceAll('"',"&quot;")
   .replaceAll("'","&#039;");
 
+const LOANWORD_SOURCE_LANGUAGES=["English","French","Japanese","German","Latin","Greek","Italian","Spanish"];
+
+function loanwordSources(rootText,notesText){
+  const text=`${rootText || ""} ${notesText || ""}`;
+  if(/\bnot (?:an? )?loanword\b/i.test(text)) return [];
+
+  const sources=LOANWORD_SOURCE_LANGUAGES.filter(source=>{
+    const pattern=new RegExp(
+      `\\b(?:${source}\\s+(?:loanword|loanwords|loan|loans|borrowing|borrowings)|${source}-derived\\s+(?:word|words|form|forms|name|names)|borrowed from ${source})\\b`,
+      "i"
+    );
+    return pattern.test(text);
+  });
+
+  if(sources.length) return sources;
+  return /\b(?:loanword|loanwords|borrowed word|borrowed words|borrowing|borrowings)\b/i.test(text) ? [""] : [];
+}
+
+function loanwordMarkup(rootText,notesText){
+  const sources=loanwordSources(rootText,notesText);
+  if(!sources.length) return "";
+  return `<span class="loanword-labels">${sources.map(source=>`<span class="loanword-label">${source ? `Loanword · ${esc(source)}` : "Loanword"}</span>`).join("")}</span>`;
+}
+
 function findPokemon(id){
   return ALL_POKEMON.find(item=>item.d===Number(id));
 }
@@ -44,11 +68,12 @@ function renderDetails(pokemon){
       <div class="language-list">
         ${languages.map((language,index)=>{
           const item=pokemon.x?.[index];
+          const notes=associations?.[index] || "Association examples pending review.";
           const body=reviewed && item ? `
             <div class="language-body">
-              <p class="roots"><strong>Roots:</strong> ${esc(item[0])}</p>
+              <p class="roots"><strong>Roots:</strong>${loanwordMarkup(item[0],notes)}<span class="roots-copy">${esc(item[0])}</span></p>
               <p>${esc(item[1])}</p>
-              <p class="associations"><strong>May evoke:</strong> ${esc(associations?.[index] || "Association examples pending review.")}</p>
+              <p class="associations"><strong>May evoke:</strong> ${esc(notes)}</p>
               <span class="confidence">${esc(item[2])}</span>
             </div>` : `
             <div class="language-body pending-language">

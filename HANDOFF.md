@@ -24,16 +24,14 @@ Before doing any work:
    - [`DECISION_LOG.md`](DECISION_LOG.md)
    - [`CONTRIBUTING.md`](CONTRIBUTING.md)
 3. Inspect current `main`; do not assume this snapshot is still current.
-4. Check [issue #5](https://github.com/natanai/poke-etymology/issues/5) for the live Generation I audit checklist.
+4. Check issue #5 for the live Generation I audit checklist.
 5. Review the newest merged PRs and any open branch or PR relevant to Nat’s request.
-6. Reconcile discrepancies. Update this handoff in the same PR whenever status, architecture, scope, next work, or a meaningful reliability decision changes.
-7. Make the smallest coherent change that satisfies the current request.
+6. Reconcile discrepancies and update this handoff whenever status, architecture, scope, next work, known risks, research rules, or established UX behavior changes.
+7. Make the smallest coherent change that satisfies the request.
 
 A future conversation should be able to begin with:
 
 > “Carefully read `HANDOFF.md`, follow its instructions, and let’s pick up where we left off.”
-
-That instruction is intended to be sufficient.
 
 ---
 
@@ -46,32 +44,17 @@ The site has two linked purposes:
 1. explain why Pokémon names work across languages; and
 2. act as a clean route-by-route completion companion during a playthrough.
 
-Nat values:
+Nat values linguistic nuance, useful familiar-word examples, uncertainty stated honestly, citations close to the claims they support, restrained mobile UX, and documentation that lets future contributors continue safely.
 
-- linguistic nuance;
-- meaningful familiar-word examples;
-- uncertainty stated honestly;
-- citations close to the claims they support;
-- a mobile interface that stays out of the way;
-- minimal, functional visual structure;
-- continuity and documentation that prevents future contributors from repeating mistakes.
+Nat dislikes generic mission copy, explanatory clutter, fake controls, long prose where compact structure works, polished claims without support, and background processing for static text.
 
-Nat dislikes:
-
-- generic mission statements;
-- explanatory UI clutter;
-- fake controls or decorative labels that appear interactive;
-- long prose where compact structure communicates the same thing;
-- polished-sounding claims that are not well supported;
-- background processes, framework overhead, or visibly slow loading for static text.
-
-When showing multiple Pokémon names in prose or walkthrough material, use:
+When showing multiple names in prose, use:
 
 **French (English; Japanese kana — romanization)**
 
 ---
 
-## 3. Non-negotiable product and performance boundaries
+## 3. Product and performance boundaries
 
 Poké Etymology is a **Pokémon language and completion companion**, not a general-purpose Pokédex.
 
@@ -81,24 +64,16 @@ Preserve these boundaries:
 - Completion-guide data belongs only where it helps a living-dex playthrough.
 - Do not add sprites merely because other Pokémon sites use them.
 - Do not reproduce every move, stat, item, ability, or mechanic.
-- Keep the site mobile-first and comfortable to use while actively playing.
+- Keep the site mobile-first and comfortable during active play.
 - Preserve the Generation I visual language: warm cream/paper, black, restrained red, Courier-like typography, hard borders and shadows, and light scanline texture.
 - Do not return to a full green Game Boy simulation.
 - Do not add fake A/B buttons, movement pads, POWER labels, decorative status readouts, or anything else that looks interactive but is not.
 - Every visible control must perform a clear action.
-- Prefer removing copy over adding instructions when hierarchy and structure can communicate the function.
+- Prefer hierarchy and spacing over extra instructions.
 
 The site should feel like **instantaneously loaded raw text**.
 
-Do not add:
-
-- frameworks or hydration;
-- runtime content API requests;
-- polling or recurring timers;
-- persistent or broad `MutationObserver`s;
-- animation libraries;
-- large images, webfonts, or dependency bundles;
-- work that repeats after the initial render without a direct user action.
+Do not add frameworks, hydration, runtime content requests, polling, recurring timers, persistent or broad `MutationObserver`s, animation libraries, large images, webfonts, dependency bundles, or work that repeats after initial render without a direct user action.
 
 Acceptable JavaScript is small, deterministic, and event-driven.
 
@@ -115,10 +90,10 @@ The Names page provides:
 - current structured types and EV yields;
 - in-place expandable Pokémon entries;
 - independently expandable Japanese, French, and English analyses;
-- Roots, meaning/effect, native-language Notes, local confidence, localization comparison, audit date, and collapsed source links for audited entries;
+- Roots, meaning/effect, native-language Notes, local confidence, localization comparison, audit date, and collapsed source links;
 - clearly labeled pending research for unaudited entries;
 - shared language preference saved in local storage;
-- direct hashes such as `/#25`, which expand and scroll to the requested entry.
+- direct hashes such as `/#25`.
 
 **Audited at this snapshot:** #001 Bulbasaur through #108 Lickitung.  
 **Next normal batch:** #109 Koffing through #117 Seadra.  
@@ -126,7 +101,7 @@ The Names page provides:
 
 Research files:
 
-- `verified-research.js` — #001–#009 and shared `sourceSet()` helper
+- `verified-research.js` — #001–#009 and `sourceSet()`
 - `verified-research-010-018.js`
 - `verified-research-019-027.js`
 - `verified-research-028-036.js`
@@ -141,32 +116,23 @@ Research files:
 
 Completed ranges have decision records in `research-batches/`.
 
-### 4.2 Important #091–#108 reliability decisions
+Important #091–#108 decisions remain documented in `research-batches/091-108-notes.md`, including unresolved readings for Gengar, Iwark, Kingler, Nassy, Sawamular, Ebiwalar, and Beroringa.
 
-- `Gangar / Gengar` remains **plausible**, not confirmed, within a doppelgänger or related returning-spirit root cluster.
-- `Iwark` securely begins with `岩` (*iwa*, rock), but snake versus bulwark remains unresolved.
-- `Kingler` remains **plausible** for king crab plus fiddler crab because the design fits but the clipping is compressed.
-- `Tamatama` preserves both repeated round-object language and the ordinary Japanese word meaning “by chance.”
-- `Noeunoeuf`, `Noadkoko`, `Osselait`, `Ossatueur`, `Kicklee`, `Tygnon`, and `Excelangue` use documented French-localizer explanations where available.
-- `Nassy` remains **plausible** for a coconut/nuts plus `椰子` (*yashi*, palm) construction; the exact clipping is unresolved.
-- `Sawamular` and `Ebiwalar` preserve likely athlete-name references without pretending the final ending is confirmed.
-- English `Lickitung` is **confirmed** as `lick + tongue` from the in-game Pokémon Black 2 / White 2 PokéQuiz.
-- A third block was deliberately not appended merely to increase volume; #109 begins a fresh linguistic set requiring its own source review.
+### 4.2 Roots loanword labels
 
-See `research-batches/091-108-notes.md` for the complete decision record.
+The Roots inset can display a small sublabel such as **LOANWORD · ENGLISH** above the root text.
+
+Rules:
+
+- show the label only when the audited Roots or Notes text explicitly identifies a loanword, borrowing, source-language loan, or source-language-derived form;
+- use the source language when the research names it;
+- show the generic **LOANWORD** label when borrowing is explicit but the source language is not stated;
+- do not infer borrowing merely because a spelling looks foreign;
+- do not add labels by observing or mutating the DOM after render; generate them during the ordinary deterministic render.
 
 ### 4.3 Living Dex guide
 
-The FireRed / LeafGreen guide includes 14 stages from Pallet Town through Route 5, with:
-
-- FireRed / LeafGreen version switching;
-- persistent completion state;
-- exact living-dex quantities;
-- encounter rates and version differences where decision-relevant;
-- optional tasks excluded from required progress;
-- starter choice linked to the postgame roaming beast;
-- localized linked Pokémon names;
-- compact per-task disclosures and one collapsed source drawer.
+The FireRed / LeafGreen guide includes 14 stages from Pallet Town through Route 5, with version switching, persistent completion state, exact living-dex quantities, decision-relevant encounter information, optional-task handling, starter-dependent roaming beasts, localized linked Pokémon names, compact task disclosures, and one collapsed source drawer.
 
 **Known language limitation:** full explanatory prose remains primarily English. Interface text, stage copy, proper nouns, and important terminology have controlled English/French/Japanese localization.
 
@@ -178,27 +144,20 @@ Issue #14 tracks a clean one-pass replacement. Do not remove the temporary guard
 
 ---
 
-## 5. Research standards that must not be weakened
+## 5. Research standards
 
 Each language analysis is a collection of separate claims. Do not give an entire Pokémon one blanket confidence score.
 
-Allowed evidence labels:
+Allowed labels:
 
 - **confirmed** — explicitly stated by an official creator, publication, game, localizer, or other primary source;
-- **strong** — linguistically transparent and supported by reliable language references and multiple Pokémon references;
-- **plausible** — fits sound, spelling, design, and context, but alternatives remain reasonable;
-- **speculative** — normally omit from the published entry.
+- **strong** — linguistically transparent and supported by reliable references;
+- **plausible** — fits spelling, sound, design, and context, but alternatives remain reasonable;
+- **speculative** — normally omit.
 
-A good entry distinguishes:
+Distinguish what the name visibly contains, literal component meanings, native-speaker associations, register, borrowed vocabulary, localization choices, and unresolved alternatives.
 
-- what the name visibly contains;
-- what the components literally mean;
-- what a native speaker may notice;
-- everyday versus technical, archaic, literary, slang, regional, or borrowed vocabulary;
-- what each localization preserved, replaced, or added;
-- which readings remain uncertain.
-
-Notes must add native-language context, register, sound symbolism, familiar examples, cultural recognition, or an explanation of relative likelihood. Do not pad Notes with generic prose.
+Notes must add real native-language context, register, sound symbolism, familiar examples, cultural recognition, or relative-likelihood reasoning. Do not pad them.
 
 Prefer sources in this order:
 
@@ -222,7 +181,7 @@ For each batch:
 1. Work in evolutionary families or another linguistically coherent group.
 2. Verify official English, French, and Japanese names and romanization.
 3. Verify factual records while remembering current structured data is not FireRed-specific.
-4. Use specialist summaries as leads, not automatic proof.
+4. Use specialist summaries as leads, not proof.
 5. Seek stronger sources for people, mythology, science, sound symbolism, and localization intent.
 6. Write each language’s Roots, meaning/effect, Notes, and confidence independently.
 7. Preserve competing readings where evidence does not choose.
@@ -251,7 +210,7 @@ Names-page order:
 6. `reference-data.js`
 7. `app.js`
 
-Do not hand-edit `generated-data.js` as research storage. The base research file defines `sourceSet()`; `verified-research-037-045.js` defines `expandedSourceSet()`; later files may rely on both.
+Do not hand-edit `generated-data.js` as research storage. Later research files may rely on `sourceSet()` and `expandedSourceSet()`.
 
 Current PokeAPI types and EV yields are not guaranteed to match Generation III. The guide requires game- and version-specific research.
 
@@ -265,6 +224,7 @@ Preserve:
 - independent language disclosures;
 - one collapsed source drawer;
 - structural Roots and Notes labels;
+- compact loanword sublabels only when explicit research supports them;
 - shared `+` / `−` disclosure grammar;
 - safe mobile wrapping;
 - touch-specific ghost-hover correction while retaining keyboard focus;
@@ -289,31 +249,30 @@ Normal workflow:
 9. verify `main`;
 10. verify Pages separately when possible.
 
-Research batches must verify:
+Research batches must verify exact intended IDs, language order, required fields, targeted sources, explicit uncertainty, numerical script order, syntax, issue #5, and handoff status.
 
-- intended IDs appear exactly once;
-- no unintended IDs are overwritten;
-- Japanese / French / English order is preserved;
-- every entry has `status`, `reviewedOn`, `x`, `c`, `a`, and `sources`;
-- targeted claims have targeted support;
-- weak theories remain omitted or explicitly uncertain;
-- scripts load in numeric order;
-- `node --check` passes;
-- issue #5 and this handoff are updated.
+For loanword-label changes, additionally verify:
 
-Be precise about status: branch, PR, merge, workflow, and live deployment are separate facts.
+- explicit source-language phrases generate the expected label;
+- generic loanword language generates the generic label;
+- negated wording such as “not a loanword” generates no label;
+- root and Notes text remain escaped;
+- labels are absent when borrowing is not explicitly supported;
+- no observer, timer, storage key, or repeated render work is introduced.
+
+Be precise about branch, PR, merge, workflow, and live deployment as separate facts.
 
 ---
 
 ## 10. Known technical traps
 
-- **Only 25 entries appeared live:** the complete generated file once existed only as a deployment artifact. Verify repository files.
+- **Only 25 entries appeared live:** the complete generated file once existed only as a deployment artifact.
 - **`0 / 0` guide:** `generated-data.js` ran before `data.js`.
 - **Infinite render loop:** a broad observer modified the subtree it observed.
 - **Current data mistaken for FireRed data:** current canonical values can differ from Generation III.
 - **Mobile overlap:** fixed-width columns collided with long names and romanization.
 - **Sticky touch state:** use touch-specific overrides without removing keyboard focus.
-- **Documentation drift:** every substantive PR must update this handoff when state or decisions change.
+- **Documentation drift:** update this handoff when state, rules, or risks change.
 - **Deployment claims:** never equate merge with Pages deployment.
 
 ---
@@ -327,17 +286,11 @@ Unless Nat requests another priority:
 3. Replace the disabled guide observer code only as one fully tested cleanup.
 4. Improve full guide-language coverage only through controlled, reviewed translation.
 
-Scope order remains:
-
-1. excellent Generation I names in Japanese, French, and English;
-2. complete FireRed / LeafGreen living-dex route;
-3. Red / Blue / Yellow guides;
-4. additional languages for polished Kanto data;
-5. later regions only after Kanto is trustworthy.
+Scope order remains excellent Generation I names, a complete FireRed / LeafGreen living-dex route, Red/Blue/Yellow guides, additional languages for polished Kanto data, then later regions.
 
 ---
 
-## 12. Definition of done for a handoff-safe PR
+## 12. Definition of done
 
 A PR is not handoff-safe until:
 
@@ -345,8 +298,6 @@ A PR is not handoff-safe until:
 - relevant tests pass;
 - reliability and performance decisions are documented;
 - unresolved questions are explicit;
-- issue trackers are updated;
+- issue trackers are updated when applicable;
 - this handoff is current;
 - a replacement contributor can determine what happened without reading the old chat.
-
-Treat this document as a living operational record, not optional cleanup.
