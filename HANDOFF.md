@@ -1,13 +1,12 @@
 # Poké Etymology — authoritative project handoff
 
-> **Required starting point for any new GPT, coding agent, or human contributor.** Read this entire document before proposing or making changes. Then read the linked standards. Do not rely on an old chat transcript as the source of truth.
+> **Required starting point for any new GPT, coding agent, or human contributor.** Read this document completely before proposing or making changes. Then read the linked standards. Do not rely on an old chat transcript as the source of truth.
 
 **Snapshot:** 2026-07-30  
 **Repository:** `natanai/poke-etymology`  
 **Live site:** `https://natanai.github.io/poke-etymology/`  
-**Latest feature PR:** #13  
-**Latest code change:** emergency Living Dex render-loop hotfix after PR #13  
-**Generation I name audit:** #001–#072 complete; next normal batch starts at #073 Tentacruel  
+**Latest merged feature PR before this audit:** #13  
+**Generation I name audit:** #001–#081 complete; next normal batch is #082 Magneton through #090 Shellder  
 **FireRed / LeafGreen guide:** 14 stages from Pallet Town through Route 5
 
 ---
@@ -25,7 +24,7 @@ Before doing any work:
    - [`TECHNICAL_ARCHITECTURE.md`](TECHNICAL_ARCHITECTURE.md)
    - [`DECISION_LOG.md`](DECISION_LOG.md)
    - [`CONTRIBUTING.md`](CONTRIBUTING.md)
-3. Inspect the current `main` branch. Do not assume this snapshot is still current.
+3. Inspect current `main`; do not assume this snapshot is still current.
 4. Check [issue #5](https://github.com/natanai/poke-etymology/issues/5) for the live Generation I audit checklist.
 5. Review the newest merged PRs and any open branch or PR relevant to Nat’s request.
 6. Reconcile discrepancies. If this handoff is stale, update it in the same PR as the next substantive change.
@@ -63,15 +62,15 @@ Nat dislikes:
 - generic mission statements;
 - explanatory UI clutter;
 - fake controls or decorative labels that appear interactive;
-- long prose where a compact structure can communicate the same thing;
+- long prose where a compact structure communicates the same thing;
 - polished-sounding claims that are not well supported;
-- background processes, framework overhead, or visibly slow loading for what should be a static text site.
+- background processes, framework overhead, or visibly slow loading for static text.
 
 When showing multiple Pokémon names in prose or walkthrough material, the established full format is:
 
 **French (English; Japanese kana — romanization)**
 
-The site itself uses the language selected on the Names page as the primary display language. Japanese display should include romanization where useful.
+The site uses the language selected on the Names page as the primary display language. Japanese display should include romanization where useful.
 
 ---
 
@@ -82,7 +81,7 @@ Poké Etymology is a **Pokémon language and completion companion**, not a gener
 Preserve these boundaries:
 
 - Word and localization research comes first.
-- Completion-guide data is included only when it helps a living-dex playthrough.
+- Completion-guide data belongs only where it helps a living-dex playthrough.
 - Do not add sprites merely because other Pokémon sites use them.
 - Do not reproduce every move, stat, item, ability, or mechanic.
 - Keep the site mobile-first and comfortable to use while actively playing.
@@ -104,13 +103,12 @@ Do not add:
 - service-worker complexity unless Nat explicitly requests it;
 - polling;
 - recurring timers;
-- persistent `MutationObserver`s;
-- broad DOM observers;
+- persistent or broad `MutationObserver`s;
 - animation libraries;
 - large images, webfonts, or dependency bundles;
 - work that repeats after the initial render without a direct user action.
 
-Acceptable JavaScript is small, deterministic, and event-driven: render the static data once, then respond only to taps, search input, expansion controls, language/version selection, and saved checklist changes.
+Acceptable JavaScript is small, deterministic, and event-driven: render local static data once, then respond only to taps, search input, disclosures, language/version selection, and saved checklist changes.
 
 See [`PROJECT_GOALS.md`](PROJECT_GOALS.md), [`UX_CONTENT_STANDARDS.md`](UX_CONTENT_STANDARDS.md), and [`TECHNICAL_ARCHITECTURE.md`](TECHNICAL_ARCHITECTURE.md).
 
@@ -132,8 +130,8 @@ The Names page currently provides:
 - shared language preference saved in local storage;
 - direct hashes such as `/#25`, which expand and scroll to the requested entry.
 
-**Audited at this snapshot:** #001 Bulbasaur through #072 Tentacool.  
-**Next normal batch:** #073 Tentacruel through #081 Magnemite.  
+**Audited at this snapshot:** #001 Bulbasaur through #081 Magnemite.  
+**Next normal batch:** #082 Magneton through #090 Shellder.  
 **Live tracker:** issue #5.
 
 Research files:
@@ -142,12 +140,13 @@ Research files:
 - `verified-research-010-018.js`
 - `verified-research-019-027.js`
 - `verified-research-028-036.js`
-- `verified-research-037-045.js`
+- `verified-research-037-045.js` — also defines `expandedSourceSet()`
 - `verified-research-046-054.js`
 - `verified-research-055-063.js`
 - `verified-research-064-072.js`
+- `verified-research-073-081.js`
 
-Completed ranges have corresponding files in `research-batches/` recording important decisions and unresolved readings.
+Completed ranges have corresponding files in `research-batches/` recording important decisions and unresolved readings. The #073–#081 notes preserve unresolved alternatives for Graveler, the Japanese Geodude-family evolutions, Ponyta, Yadon, and Magnemite rather than promoting one convenient theory.
 
 ### 4.2 Living Dex guide
 
@@ -184,11 +183,11 @@ Current guide behavior:
 - explanations behind compact `+` controls;
 - sources in one collapsed drawer.
 
-**Known language limitation:** full explanatory prose is still primarily English. The current localization layer handles interface text, stage copy, proper nouns, and important game terminology; it is not a fully reviewed translation of every sentence.
+**Known language limitation:** full explanatory prose is still primarily English. The localization layer handles interface text, stage copy, proper nouns, and important game terminology; it is not a fully reviewed translation of every sentence.
 
 ### 4.3 Current guide hotfix state
 
-PR #13 introduced a `MutationObserver` that watched the guide panel and then modified text inside the same panel. Its own text changes triggered it repeatedly, causing a self-sustaining render loop, `0 / 0`, repeated text, a black/frozen-looking page, and severe performance problems.
+PR #13 introduced a `MutationObserver` that watched the guide panel and modified text inside the same panel. Its own changes triggered it repeatedly, causing a self-sustaining render loop, `0 / 0`, repeated text, a black/frozen-looking page, and severe performance problems.
 
 The emergency hotfix on `main` now:
 
@@ -201,13 +200,15 @@ The emergency hotfix on `main` now:
 
 ### 4.4 Deployment verification
 
-The GitHub connector used in the originating chat did not expose push-triggered Pages workflow runs. Future contributors must distinguish:
+The GitHub connector used in the originating work may not expose push-triggered Pages workflow runs. Future contributors must distinguish:
 
-- **committed or merged into `main`**;
+- **written on a branch**;
+- **PR opened**;
+- **merged into `main`**;
 - **workflow completed**; and
 - **live site visibly updated**.
 
-Never claim all three when only one has been verified.
+Never claim all of them when only one has been verified.
 
 ---
 
@@ -217,7 +218,7 @@ Each language analysis is a collection of separate claims. Do not give an entire
 
 Allowed evidence labels:
 
-- **confirmed** — explicitly stated by an official creator, publication, game, or other primary source;
+- **confirmed** — explicitly stated by an official creator, publication, game, localizer, or other primary source;
 - **strong** — linguistically transparent and supported by reliable language references and multiple Pokémon references;
 - **plausible** — fits sound, spelling, design, and context, but alternatives remain reasonable;
 - **speculative** — normally omit from the published entry.
@@ -227,13 +228,26 @@ A good entry distinguishes:
 - what the name visibly contains;
 - what the proposed components literally mean;
 - what a native speaker might readily notice, recognize, or associate with it;
-- what is everyday language versus technical, archaic, literary, regional, or borrowed vocabulary;
+- what is everyday language versus technical, archaic, literary, regional, slang, or borrowed vocabulary;
 - what the localization preserved, replaced, or added;
 - which readings remain uncertain.
 
-The inset labeled **Notes** is not filler. It should add something the root split does not communicate: familiar example words, register, sound symbolism, ordinary native usage, cultural recognition, or why a proposed root would or would not be obvious.
+The inset labeled **Notes** is not filler. It should add something the root split does not communicate: familiar examples, register, sound symbolism, ordinary native usage, cultural recognition, or why one proposed root is more or less likely.
 
 Do not force a Notes paragraph when there is no meaningful additional observation. Improve the data model or omit weak content rather than padding the entry.
+
+### Source hierarchy
+
+Prefer:
+
+1. official games, Pokédexes, websites, publications, localizer statements, and creator interviews;
+2. official or archival Game Freak material;
+3. structured game data such as PokéAPI, checked against another reference where practical;
+4. reputable dictionaries, corpora, language institutions, scientific databases, biographies, and cultural reference works;
+5. specialist Pokémon references as research leads and secondary summaries;
+6. general fan discussion only as a lead requiring stronger verification.
+
+A dictionary establishes meaning and register; it does not by itself prove naming intent. A primary statement may confirm intent but still need a dictionary or cultural reference to explain what the component means to a reader.
 
 See [`RESEARCH_METHOD.md`](RESEARCH_METHOD.md).
 
@@ -247,15 +261,15 @@ For each batch:
 2. Verify official English, French, and Japanese names and romanization.
 3. Verify types and EV yields, remembering the current structured data is not FireRed-version-specific.
 4. Use specialist-origin summaries as research leads, not automatic proof.
-5. Search for primary or stronger secondary sources for creator statements, vocabulary, history, mythology, scientific names, sound symbolism, and cultural figures.
+5. Search for primary or stronger secondary sources for creator statements, vocabulary, history, mythology, science, sound symbolism, and cultural figures.
 6. Write each language root, meaning, Notes text, and confidence independently.
 7. Preserve competing readings locally where the evidence does not choose between them.
-8. Add visible source links. Include targeted dictionaries, institutions, biographies, corpora, botanical/zoological references, or creator interviews when they materially support a claim.
+8. Add visible source links with descriptive labels.
 9. Record `reviewedOn` using the actual review date.
-10. Add `research-batches/<range>-notes.md` documenting the important reliability decisions.
+10. Add `research-batches/<range>-notes.md` documenting important reliability decisions.
 11. Load the new batch file in `index.html` after the preceding batch and before `reference-data.js` and `app.js`.
 12. Run syntax and completeness checks.
-13. Update issue #5 and this handoff’s status block in the same PR.
+13. Update issue #5 and this handoff’s status in the same work cycle.
 
 Do not mark a range complete merely because polished text exists.
 
@@ -280,7 +294,7 @@ Each stage should contain only information that affects the player’s next deci
 
 Use one current location at a time. Keep explanations collapsed. Avoid throwing percentages into prose without a decision attached to them.
 
-Guide data must be FireRed / LeafGreen specific. Do **not** copy the main Names page’s current PokeAPI types or EV values into a historical guide without checking the game generation and version.
+Guide data must be FireRed / LeafGreen specific. Do **not** copy the Names page’s current PokeAPI types or EV values into a historical guide without checking the generation and version.
 
 Preserve task IDs whenever possible so saved progress does not break. If IDs or stage ordering must change, write an explicit local-storage migration.
 
@@ -301,9 +315,10 @@ Names-page order:
 1. `data.js`
 2. `generated-data.js`
 3. `associations.js` — legacy/fallback association text
-4. audited `verified-research*.js` files in numeric order
-5. `reference-data.js`
-6. `app.js`
+4. `verified-research.js`
+5. audited `verified-research-*.js` files in numeric order
+6. `reference-data.js`
+7. `app.js`
 
 Guide order:
 
@@ -311,14 +326,18 @@ Guide order:
 2. `generated-data.js`
 3. `reference-data.js`
 4. stage data files
-5. one-time localization preparation
-6. `guide-copy-overrides.js`
-7. `guide.js`
-8. `guide-touch.js`
+5. temporary observer guard
+6. one-time localization preparation
+7. restore native observer
+8. `guide-copy-overrides.js`
+9. `guide.js`
+10. `guide-touch.js`
 
 Do not hand-edit `generated-data.js` as research storage. Audited etymology belongs in `verified-research*.js`.
 
 The main structured data currently reflects **current canonical PokeAPI types and EV yields**, not necessarily the exact FireRed / LeafGreen state. The guide must use version-specific research.
+
+The base `verified-research.js` defines `sourceSet()`. `verified-research-037-045.js` defines `expandedSourceSet()`. Later batch files may rely on both and therefore must remain after them in load order.
 
 ---
 
@@ -373,7 +392,7 @@ For substantial work:
 9. Verify `main` contains the expected files.
 10. Verify Pages separately when possible.
 
-Direct edits to `main` are reserved for genuinely small emergency hotfixes, such as the render-loop regression. Normal workflow is branch → PR → merge.
+Direct edits to `main` are reserved for genuinely small emergency hotfixes. Normal workflow is branch → PR → merge.
 
 ---
 
@@ -397,22 +416,31 @@ Research batches must also verify:
 - language order is Japanese, French, English;
 - audited entries have `status`, `reviewedOn`, `x`, `c`, `a`, and `sources`;
 - source labels and URLs are meaningful;
-- the file is loaded in `index.html`;
+- the file is loaded in `index.html` in numeric order;
 - pending entries stay pending;
 - issue #5 and this handoff are updated.
 
-Guide changes must be tested at narrow mobile width for:
+Names-page smoke checks:
+
+- 151 visible Generation I records remain available;
+- search works across languages;
+- audited and pending states remain distinct;
+- entries expand in place;
+- languages expand independently;
+- direct hashes work;
+- no mobile text overlap;
+- sources remain collapsed.
+
+Guide changes must additionally test:
 
 - horizontal stage navigation;
-- text overlap;
-- ghost touch selection;
-- saved progress;
-- version variants;
+- text overlap and ghost touch selection;
+- saved progress and version variants;
 - Pokémon links and language preservation;
 - English/French/Japanese route display;
 - optional-task counting;
-- absence of persistent observers, timers, loops, repeated DOM mutation, or runaway CPU use;
-- a populated progress value rather than `0 / 0`;
+- absence of observers, timers, repeated DOM mutation, or runaway CPU use;
+- populated progress rather than `0 / 0`;
 - one copy of each task rather than repeated text.
 
 ---
@@ -449,7 +477,7 @@ README and methodology became stale as the audit and UI changed. Every substanti
 
 ### Deployment claims
 
-The connector may not expose push-triggered Pages runs. State exactly what was verified: branch, merge, workflow, or live page.
+The connector may not expose push-triggered Pages runs. State exactly what was verified: branch, PR, merge, workflow, or live page.
 
 ---
 
@@ -458,8 +486,8 @@ The connector may not expose push-triggered Pages runs. State exactly what was v
 Unless Nat requests another priority:
 
 1. Verify the Living Dex hotfix on the live site after Pages refreshes.
-2. Replace the disabled observer code with a clean one-pass localization module when doing so can be tested safely; then remove the temporary guard.
-3. Audit **#073–#081: Tentacruel through Magnemite**.
+2. Replace the disabled observer code with a clean one-pass localization module only when it can be tested safely; then remove the temporary guard.
+3. Audit **#082–#090: Magneton through Shellder**.
 4. Continue the FireRed / LeafGreen route beyond Route 5 when requested.
 5. Improve full guide-language coverage only with careful translation and review; do not bulk machine-translate it and call it finished.
 
