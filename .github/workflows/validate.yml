@@ -22,7 +22,13 @@ jobs:
       - name: Check JavaScript syntax
         run: |
           node --check app.js
+          node --check naming-credits.js
           node --check scripts/validate-language-tags.mjs
+          node --check scripts/validate-naming-credits.mjs
+          node --check verified-research-118-126.js
 
       - name: Validate language-analysis tags
         run: node scripts/validate-language-tags.mjs
+
+      - name: Validate naming credits
+        run: node scripts/validate-naming-credits.mjs
