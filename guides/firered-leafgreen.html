@@ -55,9 +55,17 @@
   <script src="guide-stages-opening.js?v=4"></script>
   <script src="guide-stages-moon.js?v=4"></script>
   <script src="guide-stages-cerulean.js?v=4"></script>
-  <script src="guide-i18n.js?v=1"></script>
+  <script>
+    window.__guideNativeMutationObserver=window.MutationObserver;
+    window.MutationObserver=class{observe(){} disconnect(){} takeRecords(){return[];}};
+  </script>
+  <script src="guide-i18n.js?v=2"></script>
+  <script>
+    window.MutationObserver=window.__guideNativeMutationObserver;
+    delete window.__guideNativeMutationObserver;
+  </script>
   <script src="guide-copy-overrides.js?v=1"></script>
-  <script src="guide.js?v=4"></script>
+  <script src="guide.js?v=5"></script>
   <script src="guide-touch.js?v=1"></script>
 </body>
 </html>
