@@ -16,8 +16,7 @@ The interface does not infer tags or naming authorship from prose.
 ## Current release
 
 - all 151 Generation I species in English, French, Japanese, and Japanese romanization;
-- audited comparative name research for #001–#144;
-- pending entries clearly separated from audited research;
+- complete audited comparative name research for #001–#151;
 - current structured types and EV yields for the Names index;
 - in-place Pokémon and per-language disclosures;
 - visible audit dates, confidence labels, native-language Notes, localization comparisons, collapsed sources, and entry-owned word-level language tags;
@@ -55,4 +54,4 @@ https://natanai.github.io/poke-etymology/
 
 ## Current next work
 
-See [`HANDOFF.md`](HANDOFF.md) and [issue #5](https://github.com/natanai/poke-etymology/issues/5). The final Generation I name batch is #145 Zapdos through #151 Mew.
+See [`HANDOFF.md`](HANDOFF.md) and the repository issues. The source-backed Generation I name audit is complete; the next major content priority is continuing the FireRed / LeafGreen living-dex route beyond Route 5 unless Nat selects another refinement.
