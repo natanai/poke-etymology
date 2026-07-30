@@ -6,9 +6,13 @@ const VERIFIED_RESEARCH_082_090={
       ["magnéton, an existing physics term for a unit or quantum of magnetic moment","A scientific magnetic-moment term used as a creature name.","strong"],
       ["magneton, an existing physics term; visibly magnet + the particle or unit ending -on","A scientific magnetic-moment term used as a creature name.","strong"]
     ],
+    tags:{japanese:[
+      {type:"loanword",text:"レア",sourceLanguage:"English"},
+      {type:"loanword",text:"コイル",sourceLanguage:"English"}
+    ]},
     c:"Japanese evolves Coil by marking the linked formation as rare or specialized. French and English instead use the existing scientific term magneton, giving the three-body evolution a distinctly technical name.",
     a:[
-      "コイル is ordinary technical vocabulary for a wound electrical coil and is also Magnemite’s Japanese name. レア is the familiar loanword rare; the more specific rare-earth-magnet reading fits the design but is less directly established.",
+      "コイル is English-derived technical vocabulary for a wound electrical coil and is also Magnemite’s Japanese name. レア is the familiar English loanword rare; the more specific rare-earth-magnet reading fits the design but is less directly established.",
       "magnéton is learned physics vocabulary, especially familiar in expressions such as magnéton de Bohr. The accented Pokémon name is identical to the French scientific term.",
       "magneton is a real physics term for a unit or quantum of magnetic moment. The ending -on also resembles particle names such as electron and proton rather than an ordinary creature-name suffix."
     ],
@@ -37,13 +41,14 @@ const VERIFIED_RESEARCH_082_090={
   84:{
     status:"audited",reviewedOn:"2026-07-30",
     x:[
-      ["ドードー (dōdō), the loanword dodo","Dodo.","strong"],
+      ["ドードー (dōdō), the English loanword dodo","Dodo.","strong"],
       ["dodo + duo; the international name is identical to English","Two-headed dodo.","strong"],
       ["dodo + duo","Two-headed dodo.","strong"]
     ],
+    tags:{japanese:[{type:"loanword",text:"ドードー",sourceLanguage:"English"}]},
     c:"Japanese uses the bird name alone. French and English add duo so the two-headed body becomes the defining joke, while retaining the dodo association.",
     a:[
-      "ドードー is the established Japanese loanword for the extinct dodo. The Pokémon’s body resembles a running bird more than a literal dodo, but the animal name remains transparent.",
+      "ドードー is the established Japanese borrowing of the English animal word dodo. The Pokémon’s body resembles a running bird more than a literal dodo, but the animal name remains transparent.",
       "dodo is the familiar extinct flightless bird and duo is a pair. Doduo is borrowed unchanged from English but its two components are also readily understandable in French.",
       "dodo and duo differ by only one sound, allowing the animal word to become a direct count of the Pokémon’s two heads."
     ],
@@ -58,9 +63,13 @@ const VERIFIED_RESEARCH_082_090={
       ["dodo + trio; the international name is identical to English","Three-headed dodo.","strong"],
       ["dodo + trio","Three-headed dodo.","strong"]
     ],
+    tags:{japanese:[
+      {type:"loanword",text:"ドードー",sourceLanguage:"English"},
+      {type:"loanword",text:"トリオ",sourceLanguage:"English"}
+    ]},
     c:"Every language advances the family from two to three heads. Japanese additionally lets 鳥, bird, overlap with the beginning of trio, while French and English use the transparent dodo-plus-trio blend.",
     a:[
-      "鳥 is the everyday word for bird and トリオ is the loanword trio. ドードリオ can therefore be heard as both dodo-bird and dodo-trio, neatly matching an evolution that adds a third head.",
+      "鳥 is the everyday word for bird. ドードー and トリオ are English loanwords for dodo and trio, so ドードリオ can be heard as both dodo-bird and dodo-trio, neatly matching an evolution that adds a third head.",
       "trio is common French vocabulary for a group of three, so the unchanged international name remains immediately legible as the three-headed evolution of Doduo.",
       "trio replaces duo with the ordinary word for a group of three. The family’s numerical progression is unusually explicit."
     ],
@@ -147,6 +156,10 @@ const VERIFIED_RESEARCH_082_090={
       ["coquillage, playfully and phonetically reshaped","Seashell or shellfish.","confirmed"],
       ["shell + shelter","A shell that provides shelter.","strong"]
     ],
+    tags:{japanese:[
+      {type:"loanword",text:"shell",sourceLanguage:"English"},
+      {type:"loanword",text:"shelter",sourceLanguage:"English"}
+    ]},
     c:"Japanese and English share the same shell-and-shelter construction. French replaces it with a playful reshaping of the ordinary word coquillage while retaining the protective-shell image.",
     a:[
       "シェル and シェルター are recognizable English-derived forms for shell and shelter. Their overlap makes the name sound foreign and mechanical while still conveying enclosure and protection.",
@@ -167,5 +180,5 @@ for(const [id,research] of Object.entries(VERIFIED_RESEARCH_082_090)){
   pokemon.x=research.x;
   pokemon.c=research.c;
   pokemon.reviewed=true;
-  pokemon.audit={status:research.status,reviewedOn:research.reviewedOn,associations:research.a,sources:research.sources};
+  pokemon.audit={status:research.status,reviewedOn:research.reviewedOn,associations:research.a,sources:research.sources,tags:research.tags};
 }
