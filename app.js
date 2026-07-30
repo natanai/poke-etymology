@@ -56,7 +56,7 @@ function renderDetails(pokemon){
       <h3>Names</h3>
       <div class="names">
         ${[["English",pokemon.e],["Français",pokemon.f],["日本語",pokemon.j],["Romanization",pokemon.r]]
-          .map(([label,value])=>`<div><strong>${label}</strong><span>${esc(value)}</span></div>`).join("")}
+          .map(([label,value])=>`<div style="grid-template-columns:minmax(0,1fr);gap:2px"><strong style="min-width:0;font-size:10px;text-transform:uppercase;color:var(--muted);overflow-wrap:anywhere">${label}</strong><span style="min-width:0;overflow-wrap:anywhere;word-break:break-word">${esc(value)}</span></div>`).join("")}
       </div>
     </section>
     ${etymology}
