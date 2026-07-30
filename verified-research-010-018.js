@@ -2,7 +2,7 @@ const VERIFIED_RESEARCH_010_018={
   10:{
     status:"audited",reviewedOn:"2026-07-29",
     x:[
-      ["キャタピラー (kyatapirā, caterpillar) shortened to キャタピー; the final -pī gives the clipped name a cute, mascot-like sound","A shortened, affectionate-sounding caterpillar name.","strong"],
+      ["キャタピラー (kyatapirā, caterpillar) shortened to キャタピー; the final -pī gives the clipped name a cute, mascot-like sound","A shortened, affectionate-sounding caterpillar name.","strong",{loanwords:["キャタピラー"]}],
       ["chenille + chenapan","A caterpillar that is also a little rascal.","strong"],
       ["caterpillar, shortened and respelled; the English name also closely preserves the Japanese form","A compact, cute-sounding caterpillar name.","strong"]
     ],
@@ -17,7 +17,7 @@ const VERIFIED_RESEARCH_010_018={
   11:{
     status:"audited",reviewedOn:"2026-07-29",
     x:[
-      ["transform + cell; possibly also a sound resemblance to ランドセル (randoseru, a school backpack)","A transforming cell or casing; the school-bag resemblance is a secondary possibility.","strong"],
+      ["transform + cell; possibly also a sound resemblance to ランドセル (randoseru, a school backpack)","A transforming cell or casing; the school-bag resemblance is a secondary possibility.","strong",{loanwords:["transform","cell"]}],
       ["chrysalide + acier","A steel-like chrysalis.","strong"],
       ["metamorphosis + pod","A protective pod undergoing metamorphosis.","strong"]
     ],
@@ -32,7 +32,7 @@ const VERIFIED_RESEARCH_010_018={
   12:{
     status:"audited",reviewedOn:"2026-07-29",
     x:[
-      ["butterfly + free; the name is built from familiar English loanword material in Japanese","A butterfly released into free flight after emerging from its casing.","strong"],
+      ["butterfly + free; the name is built from familiar English loanword material in Japanese","A butterfly released into free flight after emerging from its casing.","strong",{loanwords:["butterfly","free"]}],
       ["papillon + illusion","An illusory or magical butterfly.","strong"],
       ["butterfly + free","A butterfly now free to fly.","strong"]
     ],
@@ -47,7 +47,7 @@ const VERIFIED_RESEARCH_010_018={
   13:{
     status:"audited",reviewedOn:"2026-07-29",
     x:[
-      ["bee + needle","A bee-like larva armed with a needle point.","strong"],
+      ["bee + needle","A bee-like larva armed with a needle point.","strong",{loanwords:["bee","needle"]}],
       ["asticot + picot","A maggot or grub with a sharp little point.","strong"],
       ["probably worm + needle","A small worm-like larva with a needle or stinger.","plausible"]
     ],
@@ -62,7 +62,7 @@ const VERIFIED_RESEARCH_010_018={
   14:{
     status:"audited",reviewedOn:"2026-07-29",
     x:[
-      ["コクーン (kokūn), a direct transcription of English cocoon","Cocoon.","strong"],
+      ["コクーン (kokūn), a direct transcription of English cocoon","Cocoon.","strong",{loanwords:["コクーン"]}],
       ["cocon + confort + fort","A comfortable and strong cocoon.","strong"],
       ["a reshaping of cocoon; the prototype English name was Kokoon","Cocoon with a more name-like spelling.","strong"]
     ],
@@ -77,7 +77,7 @@ const VERIFIED_RESEARCH_010_018={
   15:{
     status:"audited",reviewedOn:"2026-07-29",
     x:[
-      ["スピアー (supiā), the English loanword spear; possibly also Apis, the bee genus, reversed","A spear-armed insect; the hidden bee-genus reversal is possible but secondary.","strong"],
+      ["スピアー (supiā), the English loanword spear; possibly also Apis, the bee genus, reversed","A spear-armed insect; the hidden bee-genus reversal is possible but secondary.","strong",{loanwords:["スピアー"]}],
       ["dard + d’Artagnan; possibly also dare-dare","A stinger recast as a fast, sword-wielding musketeer.","strong"],
       ["bee + drill","A bee whose limbs and stinger function like drills.","strong"]
     ],
@@ -93,7 +93,7 @@ const VERIFIED_RESEARCH_010_018={
     status:"audited",reviewedOn:"2026-07-29",
     x:[
       ["ぽっぽ (poppo), an onomatopoeic pigeon coo","A small bird named for its cooing sound.","strong"],
-      ["roucouler + cool","A cooing bird presented as cute or cool.","strong"],
+      ["roucouler + cool","A cooing bird presented as cute or cool.","strong",{loanwords:["cool"]}],
       ["primarily a playful reshaping of pigeon; possible echoes of budgie, chickadee, or pudgy are secondary","A small, round, pigeon-like bird name.","plausible"]
     ],
     c:"Japanese begins with sound symbolism, French combines the same cooing idea with personality, and English makes pigeon into a compact mascot-like name.",
@@ -107,7 +107,7 @@ const VERIFIED_RESEARCH_010_018={
   17:{
     status:"audited",reviewedOn:"2026-07-29",
     x:[
-      ["ピジョン (pijon), a direct transcription of English pigeon","Pigeon.","strong"],
+      ["ピジョン (pijon), a direct transcription of English pigeon","Pigeon.","strong",{loanwords:["ピジョン"]}],
       ["roucouler + coups","A cooing bird that now delivers blows.","strong"],
       ["pigeon + the Italian diminutive ending -otto; also very close to the Japanese final-form name ピジョット","A larger but still diminutively named pigeon-like bird.","plausible"]
     ],
