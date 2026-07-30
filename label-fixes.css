@@ -1,0 +1,18 @@
+.roots strong,
+.associations strong{
+  display:block;
+  width:max-content;
+  margin:0 0 5px;
+  color:var(--muted);
+  font-size:0;
+  font-weight:700;
+  letter-spacing:.08em;
+  line-height:1;
+  text-transform:uppercase;
+}
+.roots strong::after,
+.associations strong::after{
+  font-size:8px;
+}
+.roots strong::after{content:"Roots"}
+.associations strong::after{content:"Notes"}
