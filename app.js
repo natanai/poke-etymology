@@ -71,6 +71,24 @@ function rootsMarkup(rootText,tags=[]){
   return markup+esc(rootText.slice(cursor));
 }
 
+function namingCreditMarkup(pokemonId,languageKey){
+  const credit=typeof namingCreditFor==="function" ? namingCreditFor(pokemonId,languageKey) : null;
+  if(!credit) return "";
+  const creditedName=Array.isArray(credit.people) && credit.people.length
+    ? credit.people.join(" & ")
+    : credit.organization;
+  return `
+    <div class="naming-credit">
+      <span class="naming-credit-label">Name credit</span>
+      <div class="naming-credit-head">
+        <strong>${esc(creditedName)}</strong>
+        <span>${esc(credit.role)}</span>
+      </div>
+      <p>${esc(credit.detail)}</p>
+      <a href="${esc(credit.source.url)}" target="_blank" rel="noopener noreferrer">${esc(credit.source.label)}</a>
+    </div>`;
+}
+
 function findPokemon(id){
   return ALL_POKEMON.find(item=>item.d===Number(id));
 }
@@ -99,15 +117,18 @@ function renderDetails(pokemon){
           const item=pokemon.x?.[index];
           const analysis=languageAnalysis(item);
           const notes=associations?.[index] || "Association examples pending review.";
+          const credit=namingCreditMarkup(pokemon.d,language.key);
           const body=reviewed && item ? `
             <div class="language-body">
               <p class="roots"><strong>Roots:</strong><span class="roots-copy">${rootsMarkup(analysis.roots,rootTags[language.key])}</span></p>
               <p>${esc(analysis.meaning)}</p>
               <p class="associations"><strong>May evoke:</strong> ${esc(notes)}</p>
+              ${credit}
               <span class="confidence">${esc(analysis.confidence)}</span>
             </div>` : `
             <div class="language-body pending-language">
               <p>Roots, meaning, and native associations pending research.</p>
+              ${credit}
             </div>`;
           return `
             <details class="language-detail">
