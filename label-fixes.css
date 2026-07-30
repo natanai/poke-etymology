@@ -17,7 +17,7 @@
 .roots strong::after{content:"Roots"}
 .associations strong::after{content:"Notes"}
 .roots-copy{display:block}
-.loanword-term{
+.root-tagged-term{
   display:inline-grid;
   justify-items:center;
   align-items:end;
@@ -25,7 +25,7 @@
   vertical-align:bottom;
   white-space:nowrap;
 }
-.loanword-tag{
+.root-tag{
   display:block;
   margin:0 0 3px;
   padding:1px 4px;
@@ -39,7 +39,7 @@
   text-transform:lowercase;
   white-space:nowrap;
 }
-.loanword-token{
+.root-tag-token{
   display:block;
   line-height:inherit;
 }
