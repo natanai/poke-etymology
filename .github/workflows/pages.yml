@@ -29,6 +29,15 @@ jobs:
         with:
           node-version: 20
 
+      - name: Check JavaScript syntax
+        run: |
+          node --check app.js
+          node --check guides/guide.js
+          node --check guides/guide-i18n.js
+          node --check guides/guide-copy-overrides.js
+          node --check guides/guide-touch.js
+          node --check guides/index-i18n.js
+
       - name: Build Generation I data
         run: node scripts/build-data.mjs
 
