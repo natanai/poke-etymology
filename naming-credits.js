@@ -11,14 +11,14 @@ const NAMING_CREDIT_DEFAULTS=Object.freeze({
     })
   }),
   french:Object.freeze({
-    kind:"creator",
-    people:Object.freeze(["Julien Bardakoff"]),
-    organization:"Nintendo France",
-    role:"French name creator",
-    detail:"Bardakoff is credited with creating the French names of the first 251 Pokémon.",
+    kind:"team",
+    people:[],
+    organization:"Nintendo France localization team",
+    role:"French name adaptation",
+    detail:"Contemporary reporting credits Jean-Baptiste Fleury, Daniel Charbit, Nicolas Robert, Nicolas Gourio, and Pokémon specialist Julien Bardakoff. Later interviews often summarize Bardakoff as the creator of the first 251 French names; an exact coiner is not documented for most species.",
     source:Object.freeze({
-      label:"Julien Bardakoff interview on the first French Pokémon names",
-      url:"https://www.youtube.com/watch?v=_a65mmTtCis"
+      label:"Le Parisien: the Nintendo France Pokémon translation team",
+      url:"https://www.leparisien.fr/archives/ils-ont-invente-les-noms-des-pokemon-29-12-2000-2001854436.php"
     })
   }),
   english:Object.freeze({
