@@ -22,6 +22,73 @@
   box-shadow:3px 3px 0 var(--red);
 }
 .pending-chip{color:var(--muted)}
+
+.language-list{
+  border:2px solid var(--ink);
+  background:var(--screen-light);
+}
+.language-detail + .language-detail{
+  border-top:2px solid var(--ink);
+}
+.language-detail summary{
+  display:grid;
+  grid-template-columns:72px minmax(0,1fr) 26px;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+  padding:10px;
+  cursor:pointer;
+  list-style:none;
+}
+.language-detail summary::-webkit-details-marker{display:none}
+.language-detail summary:hover,
+.language-detail summary:focus-visible{
+  color:var(--screen-light);
+  background:var(--ink);
+  outline:3px solid var(--red);
+  outline-offset:-5px;
+}
+.language-detail summary strong{
+  min-width:0;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  font-size:15px;
+}
+.language-label{
+  color:var(--muted);
+  font-size:9px;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.language-detail summary:hover .language-label,
+.language-detail summary:focus-visible .language-label{
+  color:var(--screen-mid);
+}
+.language-mark{
+  display:grid;
+  width:24px;
+  height:24px;
+  place-items:center;
+  border:2px solid currentColor;
+}
+.language-mark::before{content:"+"}
+.language-detail[open] .language-mark::before{content:"−"}
+.language-detail[open] summary{
+  border-bottom:2px solid var(--ink);
+}
+.language-body{
+  padding:12px;
+  background:
+    repeating-linear-gradient(0deg,rgba(23,23,23,.025) 0 1px,transparent 1px 4px),
+    var(--screen);
+}
+.language-body > :first-child{margin-top:0}
+.language-body > :last-child{margin-bottom:0}
+.pending-language p{
+  margin:0;
+  color:var(--muted);
+}
+
 .source-list{
   display:grid;
   gap:8px;
@@ -45,4 +112,20 @@
   background:var(--ink);
   outline:2px solid var(--red);
   outline-offset:-5px;
+}
+
+@media (max-width:420px){
+  .language-detail summary{
+    grid-template-columns:minmax(0,1fr) 26px;
+  }
+  .language-label{
+    grid-column:1;
+  }
+  .language-detail summary strong{
+    grid-column:1;
+  }
+  .language-mark{
+    grid-column:2;
+    grid-row:1 / span 2;
+  }
 }
