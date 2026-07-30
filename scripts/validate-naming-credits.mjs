@@ -77,6 +77,13 @@ for(const pokemon of data.filter(item=>item.d>=1 && item.d<=151)){
 if(data.filter(item=>item.d>=1 && item.d<=151).length!==151){
   errors.push(`dataset: expected 151 Generation I entries`);
 }
+for(const unsupportedId of [0,152,196,NaN]){
+  for(const key of languageKeys){
+    if(resolve(unsupportedId,key)!==null){
+      errors.push(`scope: ${String(unsupportedId)}.${key} must not inherit Generation I defaults`);
+    }
+  }
+}
 
 if(errors.length){
   console.error(`Naming credit validation failed with ${errors.length} error${errors.length===1?"":"s"}:`);
