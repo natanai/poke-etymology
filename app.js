@@ -19,28 +19,61 @@ const esc=value=>String(value)
   .replaceAll('"',"&quot;")
   .replaceAll("'","&#039;");
 
-const LOANWORD_SOURCE_LANGUAGES=["English","French","Japanese","German","Latin","Greek","Italian","Spanish"];
+const LOANWORD_EVIDENCE=/\b(?:loanword|loanwords|direct transcription of|borrowed from|loanword material|loans compressed as)\b/i;
 
-function loanwordSources(rootText,notesText){
-  const text=`${rootText || ""} ${notesText || ""}`;
-  if(/\bnot (?:an? )?loanword\b/i.test(text)) return [];
+function loanwordTerms(item,notesText){
+  const rootText=item?.[0] || "";
+  const explicit=item?.[3]?.loanwords;
+  if(Array.isArray(explicit)){
+    return [...new Set(explicit.map(String).filter(term=>term && rootText.includes(term)))];
+  }
 
-  const sources=LOANWORD_SOURCE_LANGUAGES.filter(source=>{
-    const pattern=new RegExp(
-      `\\b(?:${source}\\s+(?:loanword|loanwords|loan|loans|borrowing|borrowings)|${source}-derived\\s+(?:word|words|form|forms|name|names)|borrowed from ${source})\\b`,
-      "i"
-    );
-    return pattern.test(text);
-  });
+  const combined=`${rootText} ${notesText || ""}`;
+  if(/\bnot (?:an? )?loanword\b/i.test(combined)) return [];
 
-  if(sources.length) return sources;
-  return /\b(?:loanword|loanwords|borrowed word|borrowed words|borrowing|borrowings)\b/i.test(text) ? [""] : [];
+  const terms=[];
+  const leading=rootText.match(/^([^\s,;+()]+)\s*\([^)]*\)/u);
+  if(leading && LOANWORD_EVIDENCE.test(combined)) terms.push(leading[1]);
+
+  const firstClause=rootText.split(/[;,]/,1)[0];
+  if(/\b(?:loanword material|loans compressed as|loanwords?)\b/i.test(rootText) && firstClause.includes(" + ")){
+    terms.push(...firstClause.split(/\s+\+\s+/).map(term=>term.trim()).filter(Boolean));
+  }
+
+  const subjectPattern=/(?:^|[.;]\s*)([^.;]+?)\s+(?:is|are)\s+(?:(?:the|a|an|familiar|common|recognizable|directly recognizable as)\s+)*(?:(?:English|French|Japanese|German|Latin|Greek|Italian|Spanish)(?:-derived)?\s+)?(?:loanword|loanwords|borrowed word|borrowed words)\b/gi;
+  for(const match of combined.matchAll(subjectPattern)){
+    const subjects=match[1].split(/\s+(?:and|or)\s+|,\s*/).map(term=>term.trim()).filter(Boolean);
+    subjects.forEach(term=>{
+      if(rootText.includes(term)) terms.push(term);
+    });
+  }
+
+  return [...new Set(terms)];
 }
 
-function loanwordMarkup(rootText,notesText){
-  const sources=loanwordSources(rootText,notesText);
-  if(!sources.length) return "";
-  return `<span class="loanword-labels">${sources.map(source=>`<span class="loanword-label">${source ? `Loanword · ${esc(source)}` : "Loanword"}</span>`).join("")}</span>`;
+function rootsMarkup(rootText,terms){
+  const matches=[];
+  const candidates=[...new Set((terms || []).map(String).filter(Boolean))].sort((a,b)=>b.length-a.length);
+
+  for(const term of candidates){
+    const start=rootText.indexOf(term);
+    if(start<0) continue;
+    const end=start+term.length;
+    if(matches.some(match=>start<match.end && end>match.start)) continue;
+    matches.push({start,end});
+  }
+
+  if(!matches.length) return esc(rootText);
+  matches.sort((a,b)=>a.start-b.start);
+
+  let cursor=0;
+  let markup="";
+  for(const match of matches){
+    markup+=esc(rootText.slice(cursor,match.start));
+    markup+=`<span class="loanword-term"><span class="loanword-tag">[loanword]</span><span class="loanword-token">${esc(rootText.slice(match.start,match.end))}</span></span>`;
+    cursor=match.end;
+  }
+  return markup+esc(rootText.slice(cursor));
 }
 
 function findPokemon(id){
@@ -71,7 +104,7 @@ function renderDetails(pokemon){
           const notes=associations?.[index] || "Association examples pending review.";
           const body=reviewed && item ? `
             <div class="language-body">
-              <p class="roots"><strong>Roots:</strong>${loanwordMarkup(item[0],notes)}<span class="roots-copy">${esc(item[0])}</span></p>
+              <p class="roots"><strong>Roots:</strong><span class="roots-copy">${rootsMarkup(item[0],loanwordTerms(item,notes))}</span></p>
               <p>${esc(item[1])}</p>
               <p class="associations"><strong>May evoke:</strong> ${esc(notes)}</p>
               <span class="confidence">${esc(item[2])}</span>
