@@ -1,0 +1,48 @@
+.entry-meta{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:9px 14px;
+  margin-top:12px;
+}
+.entry-meta .chips{margin-top:0}
+.review-chip{
+  display:inline-block;
+  padding:3px 7px;
+  border:2px solid var(--ink);
+  background:var(--screen-mid);
+  font-size:9px;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.review-chip.audited{
+  color:var(--screen-light);
+  background:var(--ink);
+  box-shadow:3px 3px 0 var(--red);
+}
+.pending-chip{color:var(--muted)}
+.source-list{
+  display:grid;
+  gap:8px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.source-list a{
+  display:block;
+  padding:8px 9px;
+  border:2px solid var(--ink);
+  color:var(--ink);
+  background:var(--screen-light);
+  overflow-wrap:anywhere;
+  text-decoration:none;
+}
+.source-list a::after{content:" ↗"}
+.source-list a:hover,
+.source-list a:focus-visible{
+  color:var(--screen-light);
+  background:var(--ink);
+  outline:2px solid var(--red);
+  outline-offset:-5px;
+}
