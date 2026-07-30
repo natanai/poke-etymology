@@ -1,0 +1,75 @@
+.pokemon-link{
+  color:inherit;
+  text-decoration:underline;
+  text-decoration-thickness:1px;
+  text-underline-offset:3px;
+}
+.pokemon-link:hover,
+.pokemon-link:focus-visible{
+  color:var(--screen-light);
+  background:var(--ink);
+  outline:2px solid var(--red);
+  outline-offset:1px;
+}
+.starter-picker{
+  border-bottom:3px solid var(--ink);
+  background:var(--screen-mid);
+}
+.starter-picker > h3{
+  display:inline-block;
+  margin:12px 12px 8px;
+  padding:5px 8px;
+  color:var(--screen-light);
+  background:var(--ink);
+  font-size:11px;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+}
+.starter-options{
+  border-top:2px solid var(--ink);
+  background:var(--screen-light);
+}
+.starter-option{
+  display:grid;
+  grid-template-columns:30px minmax(0,1fr) minmax(0,1fr);
+  align-items:center;
+  gap:8px;
+  min-height:46px;
+  padding:8px 10px;
+  border-bottom:2px solid var(--ink);
+}
+.starter-option:last-child{border-bottom:0}
+.starter-option.selected{
+  background:var(--ink);
+  color:var(--screen-light);
+  box-shadow:inset 6px 0 0 var(--red);
+}
+.starter-option input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+.starter-option > label{
+  display:grid;
+  width:26px;
+  height:26px;
+  margin:0;
+  place-items:center;
+  border:2px solid currentColor;
+  cursor:pointer;
+}
+.starter-option input:checked + label::before{content:"✓"}
+.starter-option:focus-within{outline:3px solid var(--red);outline-offset:-5px}
+.starter-name,
+.roamer-name{min-width:0;overflow-wrap:anywhere}
+.roamer-name{text-align:right;font-size:11px}
+.starter-note{
+  margin:0;
+  padding:10px 12px;
+  border-top:2px solid var(--ink);
+  font-size:10px;
+}
+@media (max-width:420px){
+  .starter-option{grid-template-columns:28px minmax(0,1fr);gap:7px}
+  .roamer-name{grid-column:2;text-align:left}
+}

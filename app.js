@@ -1,4 +1,14 @@
-let lang="e", filtered=DATA;
+const LANGUAGE_KEY="poke-etymology-language";
+const VALID_LANGUAGES=["e","f","j"];
+const queryLanguage=new URLSearchParams(location.search).get("lang");
+let lang=VALID_LANGUAGES.includes(queryLanguage)
+  ? queryLanguage
+  : (VALID_LANGUAGES.includes(localStorage.getItem(LANGUAGE_KEY)) ? localStorage.getItem(LANGUAGE_KEY) : "e");
+if(VALID_LANGUAGES.includes(queryLanguage)) localStorage.setItem(LANGUAGE_KEY,queryLanguage);
+
+const REFERENCE_DATA=typeof REFERENCE_POKEMON!=="undefined" ? REFERENCE_POKEMON : [];
+const ALL_POKEMON=[...DATA,...REFERENCE_DATA];
+let filtered=DATA;
 const $=selector=>document.querySelector(selector);
 const pad=value=>String(value).padStart(3,"0");
 const norm=value=>String(value).normalize("NFD").replace(/\p{Diacritic}/gu,"").toLowerCase();
@@ -8,6 +18,10 @@ const esc=value=>String(value)
   .replaceAll(">","&gt;")
   .replaceAll('"',"&quot;")
   .replaceAll("'","&#039;");
+
+function findPokemon(id){
+  return ALL_POKEMON.find(item=>item.d===Number(id));
+}
 
 function displayName(pokemon){
   return lang==="j" ? `${pokemon.j} (${pokemon.r})` : pokemon[lang];
@@ -97,18 +111,28 @@ function renderDetails(pokemon){
     </div>`;
 }
 
+function itemMarkup(pokemon){
+  return `<li class="pokemon-item${pokemon.d>151?" reference-item":""}">
+    <button type="button" class="entry-toggle" data-d="${pokemon.d}" aria-expanded="false" aria-controls="entry-${pad(pokemon.d)}">
+      <span class="dex-no">#${pad(pokemon.d)}</span>
+      <span class="entry-summary"><strong>${esc(displayName(pokemon))}</strong><small>${esc(pokemon.t.join(" / "))}</small></span>
+      <span class="expand-mark" aria-hidden="true">＋</span>
+    </button>
+    <div id="entry-${pad(pokemon.d)}" class="entry-panel" hidden></div>
+  </li>`;
+}
+
+function currentHashPokemon(){
+  return findPokemon(Number(location.hash.slice(1)));
+}
+
 function draw(){
-  $("#list").innerHTML=filtered.map(pokemon=>`
-    <li class="pokemon-item">
-      <button type="button" class="entry-toggle" data-d="${pokemon.d}" aria-expanded="false" aria-controls="entry-${pad(pokemon.d)}">
-        <span class="dex-no">#${pad(pokemon.d)}</span>
-        <span class="entry-summary"><strong>${esc(displayName(pokemon))}</strong><small>${esc(pokemon.t.join(" / "))}</small></span>
-        <span class="expand-mark" aria-hidden="true">＋</span>
-      </button>
-      <div id="entry-${pad(pokemon.d)}" class="entry-panel" hidden></div>
-    </li>`).join("");
+  const reference=currentHashPokemon();
+  const rows=[...filtered];
+  if(reference && reference.d>151 && !rows.some(item=>item.d===reference.d)) rows.unshift(reference);
+  $("#list").innerHTML=rows.map(itemMarkup).join("");
   $("#count").textContent=`${filtered.length} ${filtered.length===1?"entry":"entries"}`;
-  $("#none").hidden=filtered.length>0;
+  $("#none").hidden=filtered.length>0 || Boolean(reference);
 }
 
 function filter(){
@@ -118,7 +142,7 @@ function filter(){
 }
 
 function toggle(button,forceOpen){
-  const pokemon=DATA.find(item=>item.d===Number(button.dataset.d));
+  const pokemon=findPokemon(button.dataset.d);
   if(!pokemon) return;
   const panel=document.getElementById(button.getAttribute("aria-controls"));
   const open=forceOpen ?? button.getAttribute("aria-expanded")!=="true";
@@ -129,6 +153,14 @@ function toggle(button,forceOpen){
   button.setAttribute("aria-expanded",String(open));
   button.querySelector(".expand-mark").textContent=open?"−":"＋";
   panel.hidden=!open;
+}
+
+function syncLanguageButtons(){
+  document.querySelectorAll("[data-lang]").forEach(item=>{
+    const selected=item.dataset.lang===lang;
+    item.classList.toggle("on",selected);
+    item.setAttribute("aria-pressed",String(selected));
+  });
 }
 
 $("#q").addEventListener("input",filter);
@@ -149,17 +181,18 @@ $("#list").addEventListener("click",event=>{
 
 document.querySelectorAll("[data-lang]").forEach(button=>button.addEventListener("click",()=>{
   lang=button.dataset.lang;
-  document.querySelectorAll("[data-lang]").forEach(item=>{
-    const selected=item===button;
-    item.classList.toggle("on",selected);
-    item.setAttribute("aria-pressed",String(selected));
-  });
+  localStorage.setItem(LANGUAGE_KEY,lang);
+  syncLanguageButtons();
   draw();
 }));
 
+syncLanguageButtons();
 draw();
 const initial=Number(location.hash.slice(1));
 if(initial){
   const initialButton=document.querySelector(`[data-d="${initial}"]`);
-  if(initialButton) toggle(initialButton,true);
+  if(initialButton){
+    toggle(initialButton,true);
+    requestAnimationFrame(()=>initialButton.closest(".pokemon-item")?.scrollIntoView({block:"start"}));
+  }
 }
