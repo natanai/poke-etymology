@@ -6,6 +6,10 @@ const VERIFIED_RESEARCH_091_099={
       ["crustacé + abri","Sheltered crustacean-like creature.","strong"],
       ["cloister + oyster; clam may also contribute","An oyster-like creature secluded inside a closed shell.","strong"]
     ],
+    tags:{japanese:[
+      {type:"loanword",text:"pearl",sourceLanguage:"English"},
+      {type:"loanword",text:"shell",sourceLanguage:"English"}
+    ]},
     c:"All three names emphasize enclosure. Japanese places a pearl inside a shell, French combines an animal category with shelter, and English turns oyster into a pun on cloistering oneself away.",
     a:[
       "パール and シェル are recognizable English-derived words for pearl and shell. Their overlap is compressed enough that the name sounds like a foreign proper noun rather than an ordinary Japanese phrase.",
@@ -24,6 +28,7 @@ const VERIFIED_RESEARCH_091_099={
       ["fantôme + minus + the Latin-style ending -us","A tiny or lesser ghost with a mock-learned name.","strong"],
       ["gas + ghastly","A horrifying mass of gas.","strong"]
     ],
+    tags:{japanese:[{type:"loanword",text:"ゴースト",sourceLanguage:"English"}]},
     c:"Japanese clips the ordinary ghost loanword, French miniaturizes a phantom with a playful classical ending, and English combines the gaseous body with an adjective of horror.",
     a:[
       "ゴースト is the standard English-derived word ghost. Removing the final ト makes ゴース feel like a compact species name while keeping the supernatural association obvious.",
@@ -42,6 +47,7 @@ const VERIFIED_RESEARCH_091_099={
       ["spectre + the Latin-style ending -um","Specter with a mock-classical final-form sound.","strong"],
       ["haunt + the agentive ending -er","One that haunts.","strong"]
     ],
+    tags:{japanese:[{type:"loanword",text:"ゴースト",sourceLanguage:"English"}]},
     c:"Japanese becomes completely literal with ghost. French and English independently turn the middle stage into an active or embodied haunting presence through specter and haunter vocabulary.",
     a:[
       "ゴースト is the ordinary English loanword for a ghost and requires no hidden native Japanese split. It also visibly continues the shortened ゴース family name.",
@@ -95,6 +101,7 @@ const VERIFIED_RESEARCH_091_099={
       ["soporifique, phonetically respelled","Sleep-inducing creature.","strong"],
       ["drowsy + Z / zzz sleep symbolism","Sleepy, with written snoring sounds folded into the spelling.","strong"]
     ],
+    tags:{japanese:[{type:"loanword",text:"スリープ",sourceLanguage:"English"}]},
     c:"Japanese and French name the sleep-inducing effect directly, while English turns the ordinary adjective drowsy into a mascot spelling built around the conventional letter Z.",
     a:[
       "スリープ is a direct English-derived sleep word. It feels more like borrowed technical or game vocabulary than a native Japanese description such as 眠り.",
@@ -113,6 +120,7 @@ const VERIFIED_RESEARCH_091_099={
       ["hypnose + nomade","Wandering hypnotist or sleepwalker-like figure.","strong"],
       ["hypnosis / the combining form hypno-","Hypnotic creature.","strong"]
     ],
+    tags:{japanese:[{type:"loanword",text:"スリーパー",sourceLanguage:"English"}]},
     c:"Japanese evolves sleep into sleeper, French gives the hypnotist a wandering or sleepwalking quality, and English reduces hypnosis to a stark command-like name.",
     a:[
       "スリーパー is the ordinary English-derived form sleeper. Depending on context it can mean one who sleeps or something that causes sleep, both of which fit the species.",
@@ -131,6 +139,7 @@ const VERIFIED_RESEARCH_091_099={
       ["the international Krabby name retained; English crab + crabby","A grouchy crab name borrowed into French.","strong"],
       ["crab + crabby","Grouchy crab.","strong"]
     ],
+    tags:{japanese:[{type:"loanword",text:"クラブ",sourceLanguage:"English"}]},
     c:"Japanese is unusually literal, while English adds temperament through crabby. French retains that international joke, although its English adjective is less transparent than the recognizable French word crabe.",
     a:[
       "クラブ is the English animal word crab written in Japanese sounds, although カニ is the ordinary native word. It is also written like the loanword club, so the crab context supplies the intended reading.",
@@ -148,10 +157,17 @@ const VERIFIED_RESEARCH_091_099={
       ["crabe / Krabby + boss","Boss crab.","strong"],
       ["probably king crab + fiddler crab","A king crab whose enlarged claw recalls a fiddler crab.","plausible"]
     ],
+    tags:{
+      japanese:[
+        {type:"loanword",text:"king crab",sourceLanguage:"English"},
+        {type:"loanword",text:"fiddler crab",sourceLanguage:"English"}
+      ],
+      french:[{type:"loanword",text:"boss",sourceLanguage:"English"}]
+    },
     c:"Japanese and English share an uncertain but visually persuasive blend of two crab names. French instead evolves Krabby socially, promoting it from a grouchy crab to the boss.",
     a:[
       "キング and the final part of fiddler are foreign English material rather than ordinary Japanese animal vocabulary. The huge unequal claw strongly supports fiddler crab, but the exact clipping is not documented.",
-      "crabe is crab and boss is a widely recognizable English loan associated with the person in charge. Krabboss also preserves the spelling and sound of Krabby.",
+      "crabe is crab and boss is a widely recognizable English loanword associated with the person in charge. Krabboss also preserves the spelling and sound of Krabby.",
       "king crab supplies size and rank; male fiddler crabs are known for one greatly enlarged claw. Both fit the design, but Kingler compresses the boundary too heavily to call the blend certain."
     ],
     sources:expandedSourceSet(99,"Kingler_%28Pok%C3%A9mon%29",[
@@ -167,5 +183,5 @@ for(const [id,research] of Object.entries(VERIFIED_RESEARCH_091_099)){
   pokemon.x=research.x;
   pokemon.c=research.c;
   pokemon.reviewed=true;
-  pokemon.audit={status:research.status,reviewedOn:research.reviewedOn,associations:research.a,sources:research.sources};
+  pokemon.audit={status:research.status,reviewedOn:research.reviewedOn,associations:research.a,sources:research.sources,tags:research.tags};
 }
