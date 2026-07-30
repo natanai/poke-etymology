@@ -5,7 +5,7 @@
 **Snapshot:** 2026-07-30  
 **Repository:** `natanai/poke-etymology`  
 **Live site:** `https://natanai.github.io/poke-etymology/`  
-**Generation I name audit:** #001–#144 complete; final batch is #145 Zapdos through #151 Mew  
+**Generation I name audit:** #001 Bulbasaur through #151 Mew complete  
 **Naming credits:** all 453 Japanese/French/English Generation I language disclosures resolve documented attribution records  
 **FireRed / LeafGreen guide:** 14 stages from Pallet Town through Route 5
 
@@ -26,11 +26,10 @@ Before doing any work:
    - [`TECHNICAL_ARCHITECTURE.md`](TECHNICAL_ARCHITECTURE.md)
    - [`DECISION_LOG.md`](DECISION_LOG.md)
    - [`CONTRIBUTING.md`](CONTRIBUTING.md)
-3. Inspect current `main`; do not assume this snapshot is still current.
-4. Check issue #5 for the live Generation I audit checklist.
-5. Review the newest merged PRs and relevant open branches or PRs.
-6. Update this handoff when status, scope, architecture, research rules, tag schema, attribution, UX, or next work changes.
-7. Make the smallest coherent change that satisfies the request.
+3. Inspect current `main`; this snapshot may have been superseded.
+4. Review the newest merged PRs and relevant open issues/branches.
+5. Update this handoff whenever status, architecture, research rules, tag schema, attribution conclusions, UX behavior, or next work changes.
+6. Make the smallest coherent change that satisfies the request.
 
 A future conversation should be able to begin with:
 
@@ -38,16 +37,16 @@ A future conversation should be able to begin with:
 
 ---
 
-## 2. Owner intent and project identity
+## 2. Project identity and owner intent
 
-The project owner is **Nat**. The project began while Nat was playing the **French version of Pokémon FireRed** on Switch 2 and building a living dex.
+The project owner is **Nat**. Poké Etymology began while Nat was playing the **French version of Pokémon FireRed** on Switch 2 and building a living dex.
 
 The site has two linked purposes:
 
 1. explain why Pokémon names work across languages; and
 2. act as a clean route-by-route completion companion during a playthrough.
 
-Nat values linguistic nuance, useful familiar-word examples, uncertainty stated honestly, citations close to claims, historical provenance, restrained mobile UX, and documentation that lets future contributors continue safely.
+Nat values linguistic nuance, familiar-word examples, uncertainty stated honestly, citations close to claims, historical naming provenance, restrained mobile UX, and documentation that lets future contributors continue safely.
 
 Nat dislikes generic mission copy, explanatory clutter, fake controls, polished claims without support, false sole-author credit, and background processing for static text.
 
@@ -82,11 +81,16 @@ Acceptable JavaScript is small, deterministic, local, and event-driven.
 
 ### 4.1 Names and etymology index
 
-The Names page provides all 151 Generation I species with official English, French, Japanese, and romanized Japanese names; types and EV yields; in-place Pokémon and language disclosures; Roots, meaning/effect, Notes, confidence, entry-owned word tags, Name credit, localization comparison, audit date, and collapsed sources; pending-state copy; saved language preference; and direct hashes such as `/#25`.
+The Names page provides all 151 Generation I species with:
 
-**Audited:** #001 Bulbasaur through #144 Articuno.  
-**Final batch:** #145 Zapdos through #151 Mew.  
-**Tracker:** issue #5.
+- official English, French, Japanese, and romanized Japanese names;
+- current structured types and EV yields;
+- in-place Pokémon and language disclosures;
+- Roots, meaning/effect, Notes, confidence, entry-owned word tags, Name credit, localization comparison, audit date, and collapsed sources;
+- saved language preference;
+- direct hashes such as `/#25`.
+
+**Audit status:** all #001–#151 are reviewed. Issue #5 is the historical tracker and should be closed only after the final batch is merged and `main` verified.
 
 Research files:
 
@@ -106,22 +110,23 @@ Research files:
 - `verified-research-118-126.js`
 - `verified-research-127-135.js`
 - `verified-research-136-144.js`
+- `verified-research-145-151.js`
 
-Completed ranges have decision records in `research-batches/`.
+Every completed range has a decision record under `research-batches/`.
 
-Recent deliberately non-neat decisions:
+Recent deliberately non-neat conclusions:
 
-- Kabutops securely contains Kabuto, but `-ops`, *Triops*, and overlapping *tops* analyses remain unresolved.
-- Snorlax securely evokes snoring and relaxation, while historical recollections differ about the exact second component and creative path.
-- Kōji Nishino inspired Kabigon/Snorlax and was nicknamed Kirby internally, but this does not establish him as the Japanese name's coiner.
-- Learned scientific roots in Omanyte, Kabutops, and Aerodactyl are not automatically treated as ordinary loanwords.
-- Earlier unresolved cases remain documented in their batch notes, including Gengar, Iwark, Kingler, Nassy, Sawamular/Ebiwalar endings, Beroringa, English Rhydon, Japanese Monjara/Garura, Starmie's Japanese second element, Rougela's final element, Eleboo's ending, Boober, Kailios/Kentauros seams, Gyarados's deliberately non-lexical Japanese form, and Laplace's unexplained person reference.
+- Dragonair most clearly suggests `dragon + air`, but *debonair* and *lair* remain credible overlapping associations.
+- Dragonite may involve *knight*, `-ite`, or *draconite*; no source securely selects one exclusive ending.
+- Mew is reported from `ミュータント` (mutant), while the English cat cry *mew* was explicitly rejected as the intended source by the development-side explanation relayed to Julien Bardakoff.
+- Shigeki Morimoto designed and programmed Mew, but that does not establish that he personally coined the name.
+- Earlier unresolved cases remain documented in their batch notes, including Gengar, Iwark, Kingler, Nassy, Sawamular/Ebiwalar endings, Beroringa, English Rhydon, Japanese Monjara/Garura, Starmie's Japanese second element, Rougela's final element, Eleboo's ending, Boober, Kailios/Kentauros seams, Gyarados's deliberately non-lexical Japanese form, Laplace's unexplained person reference, Kabutops's ending, and Snorlax's second component.
 
 ### 4.2 Entry-owned language tags
 
 [`LANGUAGE_TAGS.md`](LANGUAGE_TAGS.md) is authoritative.
 
-The current supported type is `loanword`. Its visible treatment is a small white, black-bordered box containing plain lowercase `loanword`, centered directly above the exact tagged Roots token. It contains no brackets or donor language.
+The supported type is `loanword`. Its visible treatment is a small white, black-bordered box containing plain lowercase `loanword`, centered directly above the exact tagged Roots token. It contains no brackets or donor language.
 
 ```js
 tags: {
@@ -143,16 +148,14 @@ Non-negotiable rules:
 - defer uncertain lexical status, donor language, or token boundaries;
 - do not automatically tag proper names, international scientific terms, learned roots, historical cognates, letter-name wordplay, or native-language components.
 
-The #136–#144 batch adds six tags across six analyses:
+The final #145–#151 batch adds six tags across six analyses:
 
-- Booster `ブースター` — Japanese, from English;
-- Porygon `ポリゴン` — Japanese, from English;
-- Omstar `スター` — Japanese, from English;
-- Amonistar `star` — French, from English;
-- Freezer `フリーザー` — Japanese, from English;
-- Articuno `uno` — English, from Spanish.
-
-The Articuno tag demonstrates the rule correctly: English material is not tagged merely for appearing in English analysis, but a securely imported Spanish numeral is a genuine cross-language component.
+- Zapdos Japanese `サンダー` — English;
+- Zapdos English `dos` — Spanish;
+- Moltres Japanese `ファイヤー` — English;
+- Moltres English `tres` — Spanish;
+- Dratini Japanese `ミニ` — English;
+- Mewtwo Japanese `ツー` — English.
 
 ### 4.3 Naming credits and attribution
 
@@ -170,13 +173,13 @@ Documented exact overrides include:
 
 - Gail Tilden — English Poliwag, Poliwhirl, Poliwrath;
 - Nob Ogasawara — English recommendation to retain Gyarados after *Skulkraken* failed legal review;
-- Bill Giese — English Snorlax suggestion, recorded as a published attribution rather than direct testimony;
+- Bill Giese — English Snorlax suggestion, recorded as published attribution rather than direct testimony;
 - Bill Giese — English Articuno, Zapdos, Moltres naming pattern;
 - Julien Bardakoff — French Léviator;
 - Julien Bardakoff — French Évoli, Aquali, Voltali, Pyroli system;
-- Julien Bardakoff — French Artikodin and its Odin/*Saint Seiya* association.
+- Julien Bardakoff — French Artikodin, Électhor, Sulfura element-plus-deity pattern.
 
-Credits are provenance, separate from Roots confidence. Do not infer a namer from design credit, direction, general translation work, or later etymology commentary. When evidence is secondary rather than first-person, the displayed detail and source label must say so.
+Credits are provenance, separate from Roots confidence. Do not infer a namer from design credit, programming, direction, general translation work, or later etymology commentary. Mew is the explicit current example: Morimoto's creation role is documented, but no personal name-credit override is justified without direct naming evidence.
 
 `namingCreditFor()` is scoped to #001–#151. Later-generation reference entries return `null` rather than inheriting false Generation I defaults.
 
@@ -232,34 +235,11 @@ Prefer sources in this order:
 5. specialist Pokémon references as leads;
 6. general fan discussion only as a lead.
 
-A dictionary establishes meaning/register, not naming intent. A team lead establishes program responsibility, not necessarily exact personal coinage. Use `RESEARCH_METHOD.md`, `LANGUAGE_TAGS.md`, and `NAMING_CREDITS.md`.
+A dictionary establishes meaning/register, not naming intent. A team lead establishes program responsibility, not necessarily exact personal coinage.
 
 ---
 
-## 6. Name-audit workflow
-
-For each batch:
-
-1. Work in evolutionary families or another coherent group.
-2. Verify official names and romanization.
-3. Verify factual records while remembering current data is not FireRed-specific.
-4. Use specialist summaries as leads, not proof.
-5. Seek stronger sources for people, mythology, science, sound symbolism, borrowing, localization intent, and attribution.
-6. Write each language's Roots, meaning/effect, Notes, and confidence independently.
-7. Author supported borrowed-component tags inside the entry.
-8. Review exact naming-credit overrides without inventing them.
-9. Preserve competing readings where evidence does not choose.
-10. Add visible, descriptively labeled sources and the actual review date.
-11. Add `research-batches/<range>-notes.md`.
-12. Load files in numerical order.
-13. Run syntax, structure, tag, and naming-credit validation.
-14. Update issue #5 and this handoff in the same work cycle.
-
-Reliability matters more than reaching a round number.
-
----
-
-## 7. Technical architecture and load order
+## 6. Technical architecture and load order
 
 `generated-data.js` mutates the existing `DATA` array. `data.js` **must load first**.
 
@@ -282,7 +262,7 @@ Current PokeAPI types/EV yields are not guaranteed to match Generation III. The 
 
 ---
 
-## 8. UX rules
+## 7. UX rules
 
 Preserve in-place entry expansion and scroll position; independent language disclosures; one collapsed source drawer; structural Roots, Notes, and Name credit labels; small noninteractive word tags; safe mobile wrapping; shared `+` / `−` disclosure grammar; keyboard focus plus touch correction; and one deterministic render followed only by direct events.
 
@@ -290,7 +270,7 @@ Do not reintroduce Roots-wide banners, runtime tag inference, universal `Created
 
 ---
 
-## 9. Repository workflow and validation
+## 8. Repository workflow
 
 Normal workflow:
 
@@ -301,17 +281,15 @@ Normal workflow:
 5. validate;
 6. open a descriptive PR;
 7. merge only after GitHub reports it mergeable and required checks pass;
-8. update trackers and handoff;
+8. update trackers and this handoff;
 9. verify `main`;
 10. verify Pages separately when possible.
-
-Research batches must verify exact IDs, language order, required fields, targeted sources, explicit uncertainty, tag completeness, attribution scope, numerical script order, syntax, issue #5, and handoff status.
 
 Be precise about branch, PR, merge, workflow, Pages deployment, and live visual verification as separate facts.
 
 ---
 
-## 10. Known traps
+## 9. Known traps
 
 - `data.js` must load before `generated-data.js` or the guide can show `0 / 0`.
 - Do not repeat the historical failure where complete generated data existed only in a deployment artifact.
@@ -321,27 +299,34 @@ Be precise about branch, PR, merge, workflow, Pages deployment, and live visual 
 - Use touch-specific overrides without removing keyboard focus.
 - Never infer loanwords from prose or store positional fourth-array metadata.
 - Never collapse specific contributor, lead, team, and unknown into universal `Created by`.
-- Do not substitute a famous designer, director, or translator for a name coiner.
-- Reconcile later Bardakoff recollections with contemporary French team evidence.
-- Do not apply Generation I naming defaults to later reference entries.
-- Never equate merge with Pages deployment.
+- Do not infer naming authorship from Pokémon design or programming credit.
+- Do not apply Generation I naming defaults to later-generation reference entries.
+- Never equate a merge with a completed Pages deployment.
 
 ---
 
-## 11. Current next work
+## 10. Current next work
 
-Unless Nat requests another priority:
+Unless Nat chooses another priority:
 
-1. Audit the **final Generation I batch #145–#151: Zapdos through Mew**, including entry-owned tags and exact-credit review.
-2. After completing #151, perform a full Gen I consistency audit before declaring the project phase complete.
-3. Continue the FireRed / LeafGreen route beyond Route 5 when requested.
-4. Replace the disabled guide observer code only as one fully tested cleanup.
-5. Improve guide-language coverage only through controlled, reviewed translation.
+1. Continue the **FireRed / LeafGreen living-dex route beyond Route 5** using `LIVING_DEX_METHOD.md`.
+2. Close issue #5 after the final audit PR is merged and `main` is verified.
+3. Address issue #14 only as a fully tested one-pass guide cleanup; do not simply remove the observer guard.
+4. Improve full guide-language coverage only through controlled, reviewed translation.
+5. Revisit audited name entries only when stronger sources, corrections, or useful additional language features are identified.
 
-Long-term scope remains: excellent Generation I names; complete FireRed/LeafGreen living-dex route; Red/Blue/Yellow guides; additional languages for polished Kanto data; then later regions.
+Longer-term scope remains: complete FireRed/LeafGreen, add Red/Blue/Yellow guides, expand polished Kanto language coverage, then consider later regions.
 
 ---
 
-## 12. Definition of done
+## 11. Definition of done
 
-A PR is not handoff-safe until the change is merged or clearly left open; relevant tests pass; reliability, attribution, and performance decisions are documented; unresolved questions are explicit; issue trackers are updated; authoritative schemas remain current; this handoff is current; and a replacement contributor can determine what happened without reading the old chat.
+A change is not handoff-safe until:
+
+- it is merged or clearly left as an open PR;
+- relevant tests/workflows pass;
+- reliability, attribution, performance, and uncertainty decisions are documented;
+- relevant trackers are updated;
+- authoritative schemas and standards remain current;
+- this handoff reflects the resulting state;
+- a replacement contributor can determine what happened without reading the old chat.
