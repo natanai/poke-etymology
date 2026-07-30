@@ -10,8 +10,9 @@ Before changing anything, read:
 2. [`PROJECT_GOALS.md`](PROJECT_GOALS.md)
 3. the method document relevant to the task
 4. [`LANGUAGE_TAGS.md`](LANGUAGE_TAGS.md) for any name-analysis contribution
-5. [`TECHNICAL_ARCHITECTURE.md`](TECHNICAL_ARCHITECTURE.md)
-6. [`UX_CONTENT_STANDARDS.md`](UX_CONTENT_STANDARDS.md)
+5. [`NAMING_CREDITS.md`](NAMING_CREDITS.md) for any naming-history or language-entry contribution
+6. [`TECHNICAL_ARCHITECTURE.md`](TECHNICAL_ARCHITECTURE.md)
+7. [`UX_CONTENT_STANDARDS.md`](UX_CONTENT_STANDARDS.md)
 
 ## Branch workflow
 
@@ -44,7 +45,8 @@ Each audited entry requires:
 - localization comparison;
 - review date;
 - visible source list;
-- entry-owned language tags wherever the audited analysis establishes a supported tagged feature.
+- entry-owned language tags wherever the audited analysis establishes a supported tagged feature;
+- a valid naming-credit record resolved for every language disclosure.
 
 Use [`RESEARCH_METHOD.md`](RESEARCH_METHOD.md).
 
@@ -74,6 +76,29 @@ Requirements:
 - consult [`LANGUAGE_TAGS.md`](LANGUAGE_TAGS.md) for the complete schema and definition.
 
 When adding another language in the future, add its explicit language key to the schema, renderer, validator, and documentation rather than reusing a positional index.
+
+### Naming credits require scope-accurate attribution
+
+The **Name credit** line is historical provenance, separate from etymology.
+
+Do not put a famous person’s name on an entry merely because they:
+
+- designed the Pokémon;
+- directed the game;
+- translated surrounding text;
+- led a localization department;
+- later explained the name;
+- are commonly described by secondary media as “the creator” without species-level evidence.
+
+Use the narrowest supported credit:
+
+- `specific` for a documented exact name or family contribution;
+- `creator` for a person securely credited with the language set;
+- `lead` for responsibility over a naming program without exact coinage;
+- `team` when the record identifies a group but not one coiner;
+- `unknown` when even the responsible team cannot be supported.
+
+Every record needs a source and an explicit detail sentence explaining its scope. Conflicting sources belong in that detail and in the relevant batch notes. Read [`NAMING_CREDITS.md`](NAMING_CREDITS.md) before changing defaults or overrides.
 
 ## Living Dex contributions
 
@@ -122,9 +147,11 @@ Before changing data or script order:
 
 - read [`TECHNICAL_ARCHITECTURE.md`](TECHNICAL_ARCHITECTURE.md);
 - preserve `data.js` before `generated-data.js`;
+- load `naming-credits.js` before `app.js`;
 - keep audited research out of generated output;
 - preserve `sourceSet()` / `expandedSourceSet()` load order;
 - keep language tags inside their audited entry;
+- keep naming-credit defaults and exact overrides in `naming-credits.js` rather than research prose;
 - preserve guide task IDs;
 - write local-storage migrations for schema or stage-order changes;
 - distinguish current PokeAPI data from Generation III game data.
@@ -135,8 +162,10 @@ Run relevant syntax checks:
 
 ```bash
 node --check app.js
+node --check naming-credits.js
 node --check scripts/build-data.mjs
 node --check scripts/validate-language-tags.mjs
+node --check scripts/validate-naming-credits.mjs
 node --check guides/guide.js
 node --check guides/guide-i18n.js
 node --check guides/guide-copy-overrides.js
@@ -144,13 +173,14 @@ node --check guides/guide-touch.js
 node --check guides/index-i18n.js
 ```
 
-For every name-research or tag change, also run:
+For every name-research, tag, or attribution change, also run:
 
 ```bash
 node scripts/validate-language-tags.mjs
+node scripts/validate-naming-credits.mjs
 ```
 
-Pull requests run the same language-tag validation. Pages deployment runs it again before publishing.
+Pull requests run both validators. Pages deployment runs them again before publishing.
 
 Also perform task-specific structural checks.
 
@@ -168,7 +198,11 @@ Also perform task-specific structural checks.
 - every tag sits over the exact intended Roots token;
 - the visible box contains `loanword`, without literal brackets or donor-language text;
 - no untagged explicit borrowing claim is introduced;
-- no tag is inferred from prose during rendering.
+- no tag is inferred from prose during rendering;
+- all 453 Generation I language disclosures resolve a complete naming-credit record;
+- credit wording distinguishes exact contributor, creator, lead, team, and unknown states;
+- pending entries still show their naming credit;
+- each credit exposes its source without creating a second large source drawer.
 
 ### Living Dex
 
@@ -194,11 +228,12 @@ Update `HANDOFF.md` whenever a PR changes:
 - script order;
 - research method;
 - language-tag schema;
+- naming-credit schema or historical conclusions;
 - UX rules;
 - known limitations;
 - a significant failure or lesson.
 
-Update the relevant authoritative standard—not just the handoff—when its details change. Language-tag changes require review of `LANGUAGE_TAGS.md`, `RESEARCH_METHOD.md`, `TECHNICAL_ARCHITECTURE.md`, `UX_CONTENT_STANDARDS.md`, `DECISION_LOG.md`, and this file.
+Update the relevant authoritative standard—not just the handoff—when its details change. Language-tag changes require review of `LANGUAGE_TAGS.md`; attribution changes require review of `NAMING_CREDITS.md`. Both may also require `RESEARCH_METHOD.md`, `TECHNICAL_ARCHITECTURE.md`, `UX_CONTENT_STANDARDS.md`, `DECISION_LOG.md`, and this file.
 
 The work is not complete if a future contributor would need the old chat to understand it.
 
@@ -210,6 +245,7 @@ Explain:
 - why it changed;
 - what was deliberately not changed;
 - research or source decisions;
+- attribution scope and conflicts where relevant;
 - performance impact;
 - data/storage impact;
 - validation performed;

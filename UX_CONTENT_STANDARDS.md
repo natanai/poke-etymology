@@ -21,17 +21,7 @@ Use:
 - subtle scanline or printed-paper texture;
 - compact uppercase structural labels.
 
-Avoid:
-
-- gradients used as decoration;
-- rounded app-card aesthetics;
-- excessive color coding;
-- a full green LCD palette;
-- fake plastic-console controls;
-- cartoon sprites or artwork as default decoration;
-- dense dashboards;
-- generic modern SaaS styling;
-- restaurant-signage-like red/white branding.
+Avoid gradients used as decoration, rounded app-card aesthetics, excessive color coding, a full green LCD palette, fake plastic-console controls, default decorative artwork, dense dashboards, generic SaaS styling, and restaurant-signage-like red/white branding.
 
 ## Functional honesty
 
@@ -39,13 +29,13 @@ Every visible control must work.
 
 Do not display fake A/B buttons, fake D-pads, POWER lights, decorative status labels, nonfunctional tabs, explanatory buttons, or icons without a clear action or accessible label.
 
-Word tags are labels, not controls. They should not use hover, pressed, focus, or button styling.
+Word tags and naming-credit records are information, not controls. They should not use pressed or button styling. Their source links remain ordinary links.
 
 ## Homepage and navigation
 
 Keep the header and navigation short. Current top navigation concepts are Names, Living Dex, and Data.
 
-Do not add long introductory prose, mission statements, project history, or feature explanations to the live homepage. Documentation belongs in the repository, not in the user’s way.
+Do not add long introductory prose, mission statements, project history, or feature explanations to the live homepage. Documentation belongs in the repository, not in the user's way.
 
 ## Pokémon list behavior
 
@@ -56,9 +46,9 @@ A Pokémon row should:
 - show type summary;
 - show `+` when closed and `−` when open;
 - expand directly below itself;
-- remain in the user’s current scroll position.
+- preserve scroll position.
 
-Do not replace the list with a separate detail page or scroll to the top on ordinary entry opening. Direct links may scroll because that is the explicit navigation goal.
+Do not replace the list with a separate detail page or scroll to the top on ordinary entry opening. Direct links may scroll because that is their explicit goal.
 
 ## Entry structure
 
@@ -76,25 +66,23 @@ Do not automatically open all languages.
 
 ## Language rows
 
-Each row shows:
-
-- language label;
-- localized name;
-- Japanese romanization when relevant;
-- `+` or `−` control.
+Each row shows language label, localized name, Japanese romanization when relevant, and `+` / `−` control.
 
 On narrow screens, language and name may stack. Never force a fixed label column that causes overlap. Long Japanese and romanized names must wrap safely.
 
-## Roots, tags, and Notes
+## Expanded language analysis
 
 Within an expanded language analysis:
 
-- **Roots** identifies the proposed name components;
+- **Roots** identifies proposed components;
 - the following ordinary paragraph explains the approximate result or name effect;
-- **Notes** provides native-language context, familiar examples, sound symbolism, register, or cultural recognition;
-- the confidence chip follows.
+- **Notes** provides native-language context, examples, sound symbolism, register, or cultural recognition;
+- **Name credit** documents the supported historical attribution and its scope;
+- the confidence chip follows audited etymology content.
 
-Roots and Notes are small structural labels, not sentence-leading text. Do not use visible wording such as “May evoke:” when it makes the following text read awkwardly. Do not make Notes mandatory filler.
+Roots, Notes, and Name credit are compact structural labels, not sentence-leading prose. Do not make Notes mandatory filler.
+
+Pending etymology rows still show Name credit because attribution is independently researched. The credit must not make pending Roots appear audited.
 
 ### Word-level language tags
 
@@ -102,54 +90,59 @@ Word tags annotate an exact component inside Roots. Their data is authored in th
 
 Current `loanword` behavior:
 
-- display a small white box with a black one-pixel border;
-- display the plain lowercase word `loanword`;
-- do **not** include literal brackets inside the box;
-- do **not** place the donor language inside the box;
-- center the box directly above the exact tagged Roots token;
-- keep the box and token together when the line wraps;
-- allow multiple independently tagged components in one Roots line;
-- leave the rest of the Roots sentence as ordinary inline text.
+- small white box with a black one-pixel border;
+- plain lowercase `loanword`;
+- no literal brackets;
+- no donor language inside the box;
+- centered directly above the exact tagged token;
+- box and token kept together when wrapping;
+- multiple independently tagged components allowed;
+- the rest of Roots remains ordinary inline text.
 
-The donor language and fuller explanation remain in Roots or Notes, where they can be read naturally and evaluated as research.
+The donor language and explanation remain in Roots or Notes.
+
+Do not label the entire Roots panel, infer a tag because a word looks foreign, tag uncertain boundaries, add a post-render annotation pass, make the tag look clickable, or repeat the donor language in the box.
+
+### Naming-credit record
+
+[`NAMING_CREDITS.md`](NAMING_CREDITS.md) controls attribution content.
+
+The live record should show:
+
+- small uppercase `Name credit` label;
+- one primary person or organization line;
+- a short role label;
+- one concise detail sentence explaining whether the credit is exact, program-level, team-level, or unresolved;
+- one restrained source link.
+
+The record should remain visually subordinate to Roots and Notes. It is a compact inset, not a fourth major section and not another disclosure.
 
 Do not:
 
-- label the entire Roots panel;
-- put a banner above all Roots text;
-- color a whole word or panel as the only indication;
-- infer a tag because a word looks foreign;
-- tag uncertain boundaries;
-- add a post-render annotation pass;
-- make the tag look clickable;
-- repeat the donor language in the tiny tag.
+- put attribution in the closed language-row summary;
+- show a long list of team members as a large heading;
+- imply that a lead coined every exact word;
+- hide team credit behind one better-known person;
+- infer a creator from Pokémon design credit;
+- label unknown attribution as a failure or warning;
+- repeat the same source in the main entry source drawer solely because the credit already links it;
+- show Generation I defaults on later-generation reference entries.
 
-If the annotation makes a mobile line unreadable, revise the Roots wording or exact target rather than detaching the tag from the word it describes.
+When the historical record conflicts, the visible detail should say so briefly and link to the strongest representative source. Fuller reconciliation belongs in repository documentation and batch notes.
 
 ## Sources
 
 Sources should remain available but visually quiet.
 
-Use one collapsed row with Sources label, count, and `+` / `−` indicator. Do not show four or more full-width source buttons by default. Source links may expand into a simple list.
+Use one collapsed row with Sources label, count, and `+` / `−` indicator. Do not show a wall of full-width source buttons by default. Attribution has one inline source link because it must remain traceable within the language row.
 
 ## Collapse controls
 
-The bottom entry collapse control should communicate through the same `+` / `−` grammar used elsewhere.
-
-It should span the width, use a centered icon, include an invisible accessibility label, and avoid visible English text such as “Collapse entry.”
+The bottom entry collapse control should use the same `+` / `−` grammar, span the width, use a centered icon, include an accessibility label, and avoid visible English text such as “Collapse entry.”
 
 ## Living Dex layout
 
-The guide should show:
-
-- compact version switch;
-- progress;
-- horizontally scrollable stage tabs;
-- one active stage;
-- grouped checklist rows;
-- per-row detail controls;
-- previous/next navigation;
-- one collapsed source drawer.
+The guide should show compact version switch, progress, horizontally scrollable stage tabs, one active stage, grouped checklist rows, per-row detail controls, previous/next navigation, and one collapsed source drawer.
 
 Do not show multiple stage bodies at once.
 
@@ -172,23 +165,17 @@ Do not remove all focus styling globally.
 
 Every icon-only button needs an `aria-label`.
 
-Use semantic elements:
-
-- `<button>` for actions;
-- `<a>` for navigation;
-- `<details>/<summary>` for simple disclosure;
-- native checkboxes or radios when practical;
-- headings in a logical hierarchy.
+Use semantic elements: `<button>` for actions, `<a>` for navigation, `<details>/<summary>` for disclosure, native form controls when practical, and logical heading hierarchy.
 
 Keep visible text scalable and wrap-safe. Do not hide essential information exclusively in color.
 
-Word tags are supplemental visible text, not interactive elements. The underlying Roots prose must still communicate the borrowing if styles fail or the annotation is not shown.
+Word tags are supplemental visible text; Roots must still communicate the borrowing if styling fails. Naming credit must remain understandable as plain text and its source link must have descriptive text.
 
 ## Language behavior
 
-The Names page’s selected language is the shared primary language.
+The Names page's selected language is the shared primary language.
 
-The Living Dex should use it for Pokémon names, route and city names, character names, important items and moves, headings, navigation, group labels, and accessibility labels.
+The Living Dex should use it for Pokémon names, route/city names, character names, important items and moves, headings, navigation, group labels, and accessibility labels.
 
 Language switching should not introduce an additional guide-only selector unless Nat requests one.
 
@@ -196,21 +183,22 @@ Language switching should not introduce an additional guide-only selector unless
 
 User-facing copy should be short, concrete, neutral, useful at the moment it appears, honest about uncertainty, and free of corporate or promotional tone.
 
-Prefer:
+For tags, use the controlled label from the tag definition. Do not improvise `borrowed`, `foreign`, `anglicism`, or `loan` inside the box.
 
-> 5% · Lv. 3 or 5 · +2 Speed EV
+For attribution roles, prefer precise phrases such as:
 
-and a collapsed explanation over a long paragraph containing the same facts.
+- `Specific English family-name contribution`
+- `English naming lead`
+- `French name adaptation`
+- `Original naming staff`
 
-Avoid “Welcome to…,” “Our mission…,” “This prototype demonstrates…,” “Explore our comprehensive…,” and unnecessary instructions such as “Click the plus button to expand.” The interface should make that obvious.
-
-For tags, use the controlled label from the tag definition. Do not improvise synonyms such as `borrowed`, `foreign`, `anglicism`, or `loan` in the box unless a new formally defined tag type is approved.
+Avoid a universal `Created by` label because it falsely collapses different evidence levels.
 
 ## Performance as UX
 
 Loading speed is part of the design. The page should not wait for API calls, font loading, images, framework startup, hydration, DOM observation, or delayed animation.
 
-Content and tags should appear as soon as local static scripts parse. A feature that causes visible delay, repeated layout, runaway CPU use, or a loading state for static text is a failed UX feature.
+Content, tags, and naming credits should appear during the same deterministic local render. A feature that causes visible delay, repeated layout, runaway CPU use, or a loading state for static text is a failed UX feature.
 
 ## Rejected patterns and why
 
@@ -220,60 +208,57 @@ Rejected because the green dominated readability and made the tool feel like a d
 
 ### Fake controls
 
-Rejected because they suggested interaction and took space without helping the user.
-
-### Generic red/white redesign
-
-Rejected because it lost the project’s restrained retro reference quality and resembled unrelated restaurant branding.
+Rejected because they suggested interaction and consumed space without helping the user.
 
 ### Separate detail page
 
-Rejected because the user had to lose their position and scroll repeatedly.
+Rejected because the user lost their position and had to scroll repeatedly.
 
 ### All languages open together
 
-Rejected because entries become long and scale poorly as languages are added.
+Rejected because entries become long and scale poorly.
 
-### Visible source list
+### Visible source wall
 
 Rejected because citations occupied too much mobile space.
 
-### Text-only collapse button
-
-Rejected because it looked like an ignorable generic button and depended on English copy.
-
 ### Fixed two-column name table
 
-Rejected because narrow screens caused romanization and long names to overlap.
-
-### Inline “Roots:” / “May evoke:”
-
-Rejected because the labels read as prose and “May evoke” produced stilted sentences.
+Rejected because romanization and long names overlapped on narrow screens.
 
 ### Roots-wide loanword banner
 
-Rejected because it described a whole panel when only one component was borrowed and visually separated the claim from the word it described.
+Rejected because it described a whole panel when only one component was borrowed.
 
 ### Literal `[loanword]` inside a bordered box
 
-Rejected because the border already provides the bracket-like enclosure. Literal brackets add redundant visual punctuation.
+Rejected because the border already provides bracket-like enclosure.
 
-### Runtime loanword inference
+### Runtime linguistic inference
 
-Rejected because prose can mention multiple languages, alternatives, examples, and negations. The entry’s researcher—not a regular expression in the renderer—owns the decision about which exact token receives a tag.
+Rejected because prose can mention alternatives, examples, languages, and negation. The entry's researcher owns exact tags.
+
+### Universal `Created by` attribution
+
+Rejected because available evidence may establish an exact contributor, a program lead, a team, or only an unknown state. One label would convert all of those into false sole authorship.
+
+### Generation-wide person copied into later generations
+
+Rejected because naming and localization teams change. Attribution defaults are explicitly generation-scoped.
 
 ### Broad MutationObserver localization
 
-Rejected because it created a feedback loop, repeated text, prevented normal rendering, and violated the static-first performance requirement.
+Rejected because it created a feedback loop and violated static-first performance.
 
 ## Decision rule
 
 When considering two designs, choose the one that:
 
 1. shows less by default;
-2. preserves the user’s place;
+2. preserves the user's place;
 3. uses an existing visual grammar;
 4. adds fewer controls;
 5. performs less runtime work;
-6. remains understandable without explanatory prose;
-7. keeps linguistic meaning in audited data rather than presentation heuristics.
+6. remains understandable without explanatory copy;
+7. keeps linguistic meaning in audited data;
+8. states attribution scope instead of implying certainty.

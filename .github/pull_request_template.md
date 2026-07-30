@@ -8,7 +8,7 @@
 
 ## Reliability / research decisions
 
-<!-- List important sources, confidence choices, unresolved alternatives, borrowing decisions, or state “not applicable.” -->
+<!-- List important sources, confidence choices, unresolved alternatives, borrowing decisions, attribution scope/conflicts, or state “not applicable.” -->
 
 ## Performance impact
 
@@ -23,7 +23,9 @@ Explain any unchecked item:
 ## Data and saved-state safety
 
 - [ ] `data.js` still loads before `generated-data.js`
+- [ ] `naming-credits.js` loads before `app.js`
 - [ ] Audited research and language tags are not stored in generated output
+- [ ] Naming credits remain generation-scoped and do not leak onto reference entries
 - [ ] Existing guide task IDs and saved progress are preserved, or a migration is included
 - [ ] Current PokeAPI data is not mistaken for FireRed / LeafGreen-specific data
 - [ ] Not applicable
@@ -43,6 +45,15 @@ For word-tag changes, confirm:
 - [ ] The visible box says plain `loanword`, with no literal brackets or donor language
 - [ ] Tags remain noninteractive and wrap safely with their token
 - [ ] No Roots-wide banner or runtime prose inference was introduced
+
+For naming-credit changes, confirm:
+
+- [ ] Every Generation I language disclosure resolves a complete record
+- [ ] Exact contributor, creator, lead, team, and unknown states are not collapsed into one claim
+- [ ] Every record includes a scope explanation and source
+- [ ] Pending entries still show credit without appearing etymologically audited
+- [ ] Later-generation reference entries do not inherit Generation I defaults
+- [ ] No designer, translator, or team lead is presented as exact coiner without evidence
 
 ## Technical validation
 
@@ -67,13 +78,16 @@ For research work, confirm:
 - [ ] Weak theories remain omitted or explicitly uncertain
 - [ ] Supported word tags are authored inside the same audited entry under named language keys
 - [ ] Loanword tags use exact Roots text and record a donor language explained in Roots or Notes
+- [ ] Exact naming-credit overrides were added only where species-level evidence exists
 - [ ] `node scripts/validate-language-tags.mjs` passes
+- [ ] `node scripts/validate-naming-credits.mjs` passes
 
 ## Documentation
 
 - [ ] `HANDOFF.md` updated when status, architecture, scope, next work, schema, or known issues changed
 - [ ] Relevant method/standard document updated
 - [ ] `LANGUAGE_TAGS.md` updated when a language key, tag type, field, validator rule, or visible tag behavior changed
+- [ ] `NAMING_CREDITS.md` updated when an attribution default, override rule, evidence conclusion, validator rule, or display behavior changed
 - [ ] Issue #5 or other tracker updated when applicable
 - [ ] `research-batches/` decision notes added for a completed name batch
 

@@ -43,3 +43,37 @@
   display:block;
   line-height:inherit;
 }
+.naming-credit{
+  margin:13px 0 0;
+  padding:9px 10px;
+  border-left:4px solid var(--red);
+  background:var(--screen-mid);
+  font-size:10px;
+  line-height:1.45;
+}
+.naming-credit-label{
+  display:block;
+  margin:0 0 5px;
+  color:var(--muted);
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.08em;
+  line-height:1;
+  text-transform:uppercase;
+}
+.naming-credit-head{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:baseline;
+  gap:3px 8px;
+}
+.naming-credit-head strong{font-size:11px}
+.naming-credit-head span{color:var(--muted);font-size:9px}
+.naming-credit p{margin:5px 0}
+.naming-credit a{
+  color:var(--ink);
+  font-size:8px;
+  text-decoration:underline;
+  text-underline-offset:2px;
+}
+.naming-credit a::after{content:" ↗"}

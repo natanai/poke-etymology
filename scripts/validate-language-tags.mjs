@@ -8,7 +8,7 @@ const root=path.resolve(here,"..");
 const languageKeys=["japanese","french","english"];
 const languageIndex={japanese:0,french:1,english:2};
 const supportedTypes=new Set(["loanword"]);
-const donorNames="English|French|Japanese|German|Latin|Greek|Italian|Spanish|Portuguese";
+const donorNames="English|French|Japanese|German|Latin|Greek|Italian|Spanish|Portuguese|Occitan";
 const explicitBorrowingPattern=new RegExp(
   `\\b(?:${donorNames})(?:\\s+(?:loanword|loanwords|loan|loans|borrowing|borrowings|loanword material)|-derived\\s+(?:word|words|form|forms|name|names|vocabulary))\\b`,
   "i"
