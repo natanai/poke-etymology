@@ -6,6 +6,7 @@ const VERIFIED_RESEARCH_028_036={
       ["sable + blaireau","Sand badger.","strong"],
       ["sand + slash","A desert creature defined by slashing claws.","strong"]
     ],
+    tags:{japanese:[{type:"loanword",text:"sand",sourceLanguage:"English"}]},
     c:"All three keep the desert setting while choosing a different defining image: pangolin in Japanese, badger in French, and slashing claws in English.",
     a:[
       "サンド is the English loanword sand. パン most plausibly points toward pangolin, but the shortened form is not fully transparent without explanation.",
@@ -21,6 +22,7 @@ const VERIFIED_RESEARCH_028_036={
       ["The Japanese name retained unchanged; ♀ marks female gender","A borrowed family name with an explicit female symbol.","strong"],
       ["The Japanese name retained unchanged; ♀ marks female gender","A borrowed family name with an explicit female symbol.","strong"]
     ],
+    tags:{japanese:[{type:"loanword",text:"ニードル",sourceLanguage:"English"}]},
     c:"Nidoran♀ is shared across all three languages. The gender symbol is universally functional, while the proposed needle and nido wordplay belongs to the Japanese naming context and remains uncertain.",
     a:[
       "ニードル is the familiar English loanword needle. 二度 is the ordinary expression for twice, but whether that was intended is uncertain.",
@@ -51,6 +53,10 @@ const VERIFIED_RESEARCH_028_036={
       ["The shared Nido family stem + English queen","A queen-form evolution whose royal title is borrowed unchanged.","strong"],
       ["The shared Nido family stem + queen","Queen of the Nido family.","strong"]
     ],
+    tags:{
+      japanese:[{type:"loanword",text:"クイン",sourceLanguage:"English"}],
+      french:[{type:"loanword",text:"queen",sourceLanguage:"English"}]
+    },
     c:"Nidoqueen is shared internationally. Queen is transparent in English and recognizable as an English loan in Japanese and French; the deeper origin of Nido remains uncertain.",
     a:[
       "クイン is a familiar rendering of English queen in names and titles. The Nido stem may evoke ニードル, but that relationship is not officially settled.",
@@ -66,6 +72,7 @@ const VERIFIED_RESEARCH_028_036={
       ["The Japanese name retained unchanged; ♂ marks male gender","A borrowed family name with an explicit male symbol.","strong"],
       ["The Japanese name retained unchanged; ♂ marks male gender","A borrowed family name with an explicit male symbol.","strong"]
     ],
+    tags:{japanese:[{type:"loanword",text:"ニードル",sourceLanguage:"English"}]},
     c:"Nidoran♂ mirrors Nidoran♀ exactly: the shared invented name remains unchanged, while the gender symbol carries the unambiguous distinction.",
     a:[
       "ニードル is the English loanword needle, while 二度 means twice; both are proposed contributors rather than confirmed roots.",
@@ -96,6 +103,10 @@ const VERIFIED_RESEARCH_028_036={
       ["The shared Nido family stem + English king","A king-form evolution whose royal title is borrowed unchanged.","strong"],
       ["The shared Nido family stem + king","King of the Nido family.","strong"]
     ],
+    tags:{
+      japanese:[{type:"loanword",text:"キング",sourceLanguage:"English"}],
+      french:[{type:"loanword",text:"king",sourceLanguage:"English"}]
+    },
     c:"Like Nidoqueen, Nidoking is shared internationally. King is transparent in English and familiar as a loan in Japanese and French, while the Nido stem remains an unresolved family construction.",
     a:[
       "キング is the extremely familiar English loanword king, common in titles, brands, games, and entertainment.",
@@ -126,6 +137,7 @@ const VERIFIED_RESEARCH_028_036={
       ["mélodie + elfe","Melody elf.","strong"],
       ["clef + fable","A musical-clef creature from a fable.","strong"]
     ],
+    tags:{japanese:[{type:"loanword",text:"ピクシー",sourceLanguage:"English"}]},
     c:"Japanese directly borrows pixie. French preserves the musical family pattern but changes fairy to elf, while English keeps clef and replaces fairy with fable.",
     a:[
       "ピクシー is readily recognizable as the English loanword pixie, though the creature name feels like a proper name rather than ordinary Japanese vocabulary.",
@@ -142,5 +154,5 @@ for(const [id,research] of Object.entries(VERIFIED_RESEARCH_028_036)){
   pokemon.x=research.x;
   pokemon.c=research.c;
   pokemon.reviewed=true;
-  pokemon.audit={status:research.status,reviewedOn:research.reviewedOn,associations:research.a,sources:research.sources};
+  pokemon.audit={status:research.status,reviewedOn:research.reviewedOn,associations:research.a,sources:research.sources,tags:research.tags};
 }
