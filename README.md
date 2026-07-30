@@ -11,7 +11,7 @@ When adding or revising language research, also read [`LANGUAGE_TAGS.md`](LANGUA
 ## Current release
 
 - all 151 Generation I species in English, French, Japanese, and Japanese romanization;
-- audited comparative name research for #001–#108;
+- audited comparative name research for #001–#117;
 - pending entries clearly separated from audited research;
 - current structured types and EV yields for the Names index;
 - in-place Pokémon and per-language disclosures;
@@ -47,4 +47,4 @@ https://natanai.github.io/poke-etymology/
 
 ## Current next work
 
-See [`HANDOFF.md`](HANDOFF.md) and [issue #5](https://github.com/natanai/poke-etymology/issues/5). After the #091–#108 audit, the next normal name batch begins at #109 Koffing.
+See [`HANDOFF.md`](HANDOFF.md) and [issue #5](https://github.com/natanai/poke-etymology/issues/5). After the #109–#117 audit, the next normal name batch begins at #118 Goldeen.
