@@ -118,17 +118,20 @@ Completed ranges have decision records in `research-batches/`.
 
 Important #091–#108 decisions remain documented in `research-batches/091-108-notes.md`, including unresolved readings for Gengar, Iwark, Kingler, Nassy, Sawamular, Ebiwalar, and Beroringa.
 
-### 4.2 Roots loanword labels
+### 4.2 Word-level loanword annotations
 
-The Roots inset can display a small sublabel such as **LOANWORD · ENGLISH** above the root text.
+The Roots inset may place a small white, black-bordered **[loanword]** tag centered directly above the specific borrowed token.
 
 Rules:
 
-- show the label only when the audited Roots or Notes text explicitly identifies a loanword, borrowing, source-language loan, or source-language-derived form;
-- use the source language when the research names it;
-- show the generic **LOANWORD** label when borrowing is explicit but the source language is not stated;
-- do not infer borrowing merely because a spelling looks foreign;
-- do not add labels by observing or mutating the DOM after render; generate them during the ordinary deterministic render.
+- the annotation belongs to an exact displayed root term, never to the Roots box as a whole;
+- keep the source language and fuller borrowing explanation in Roots or Notes prose rather than inside the tag;
+- audited entries should use the optional fourth language-row value `{loanwords:["exact displayed token"]}` when the borrowed term is known;
+- every configured token must occur exactly in that language row’s Roots string;
+- multiple borrowed components may each receive their own tag;
+- the renderer may use only narrow fallbacks for an unmistakable leading direct transcription or similarly explicit wording;
+- if the exact term boundary is uncertain, show no tag rather than guessing;
+- generate annotations during the ordinary deterministic render; do not observe or mutate the DOM afterward.
 
 ### 4.3 Living Dex guide
 
@@ -184,13 +187,14 @@ For each batch:
 4. Use specialist summaries as leads, not proof.
 5. Seek stronger sources for people, mythology, science, sound symbolism, and localization intent.
 6. Write each language’s Roots, meaning/effect, Notes, and confidence independently.
-7. Preserve competing readings where evidence does not choose.
-8. Add visible, descriptively labeled sources.
-9. Record the actual review date.
-10. Add `research-batches/<range>-notes.md`.
-11. Load new files in numerical order before `reference-data.js` and `app.js`.
-12. Run syntax and completeness checks.
-13. Update issue #5 and this handoff in the same work cycle.
+7. When borrowing is established and the exact displayed token is clear, add `{loanwords:[...]}` to that language row.
+8. Preserve competing readings where evidence does not choose.
+9. Add visible, descriptively labeled sources.
+10. Record the actual review date.
+11. Add `research-batches/<range>-notes.md`.
+12. Load new files in numerical order before `reference-data.js` and `app.js`.
+13. Run syntax and completeness checks.
+14. Update issue #5 and this handoff in the same work cycle.
 
 Reliability matters more than reaching a round number.
 
@@ -224,7 +228,7 @@ Preserve:
 - independent language disclosures;
 - one collapsed source drawer;
 - structural Roots and Notes labels;
-- compact loanword sublabels only when explicit research supports them;
+- compact boxed **[loanword]** annotations centered over exact borrowed root terms only;
 - shared `+` / `−` disclosure grammar;
 - safe mobile wrapping;
 - touch-specific ghost-hover correction while retaining keyboard focus;
@@ -251,14 +255,16 @@ Normal workflow:
 
 Research batches must verify exact intended IDs, language order, required fields, targeted sources, explicit uncertainty, numerical script order, syntax, issue #5, and handoff status.
 
-For loanword-label changes, additionally verify:
+For loanword-annotation changes, additionally verify:
 
-- explicit source-language phrases generate the expected label;
-- generic loanword language generates the generic label;
-- negated wording such as “not a loanword” generates no label;
+- each configured token occurs in its Roots string and only that token receives the tag;
+- multiple configured loanwords each receive one tag;
+- source-language information remains available in Roots or Notes prose;
+- incidental mentions of “loanwords” do not create annotations;
+- negated wording such as “not a loanword” creates no annotation;
 - root and Notes text remain escaped;
-- labels are absent when borrowing is not explicitly supported;
-- no observer, timer, storage key, or repeated render work is introduced.
+- uncertain term boundaries remain unmarked;
+- no observer, timer, storage key, extra render pass, or repeated background work is introduced.
 
 Be precise about branch, PR, merge, workflow, and live deployment as separate facts.
 

@@ -17,17 +17,29 @@
 .roots strong::after{content:"Roots"}
 .associations strong::after{content:"Notes"}
 .roots-copy{display:block}
-.loanword-labels{
-  display:flex;
-  flex-wrap:wrap;
-  gap:4px 8px;
-  margin:0 0 5px;
+.loanword-term{
+  display:inline-grid;
+  justify-items:center;
+  align-items:end;
+  margin:0 .04em;
+  vertical-align:bottom;
+  white-space:nowrap;
 }
-.loanword-label{
-  color:var(--red-dark);
-  font-size:7px;
+.loanword-tag{
+  display:block;
+  margin:0 0 3px;
+  padding:1px 4px;
+  border:1px solid var(--ink);
+  color:var(--ink);
+  background:#fff;
+  font-size:6px;
   font-weight:700;
-  letter-spacing:.09em;
-  line-height:1.2;
-  text-transform:uppercase;
+  letter-spacing:.02em;
+  line-height:1.15;
+  text-transform:lowercase;
+  white-space:nowrap;
+}
+.loanword-token{
+  display:block;
+  line-height:inherit;
 }
