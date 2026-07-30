@@ -15,7 +15,8 @@ function displayName(pokemon){
 
 function renderDetails(pokemon){
   const reviewed=Boolean(pokemon.reviewed || pokemon.x?.length);
-  const associations=typeof ASSOCIATIONS!=="undefined" ? ASSOCIATIONS[pokemon.d] : null;
+  const audit=pokemon.audit || null;
+  const associations=audit?.associations || (typeof ASSOCIATIONS!=="undefined" ? ASSOCIATIONS[pokemon.d] : null);
   const languages=["日本語 — Japanese","Français — French","English"];
   const labels=["HP / PV","Attack / Attaque","Defense / Défense","Sp. Atk / Atq. Spé.","Sp. Def / Déf. Spé.","Speed / Vitesse"];
 
@@ -29,7 +30,7 @@ function renderDetails(pokemon){
             <p class="roots"><strong>Roots:</strong> ${esc(item[0])}</p>
             <p>${esc(item[1])}</p>
             <p class="associations"><strong>May evoke:</strong> ${esc(associations?.[index] || "Association examples pending review.")}</p>
-            <span class="confidence">${esc(item[2])} confidence</span>
+            <span class="confidence">${esc(item[2])}</span>
           </article>`).join("")}
       </div>
     </section>` : `
@@ -44,12 +45,24 @@ function renderDetails(pokemon){
       <p>${esc(pokemon.c)}</p>
     </section>` : "";
 
+  const sources=audit?.sources?.length ? `
+    <section class="entry-section sources-section">
+      <h3>Sources</h3>
+      <ul class="source-list">
+        ${audit.sources.map(source=>`<li><a href="${esc(source.url)}" target="_blank" rel="noopener noreferrer">${esc(source.label)}</a></li>`).join("")}
+      </ul>
+    </section>` : "";
+
+  const status=audit
+    ? `<span class="review-chip audited">Audited ${esc(audit.reviewedOn)}</span>`
+    : `<span class="review-chip pending-chip">Research pending</span>`;
+
   return `
     <div class="inline-entry-head">
       <p class="eyebrow">National Pokédex #${pad(pokemon.d)}</p>
       <h3>${esc(pokemon.e)}</h3>
       <p>${esc(pokemon.f)} · ${esc(pokemon.j)} — ${esc(pokemon.r)}</p>
-      <div class="chips">${pokemon.t.map(type=>`<span class="chip">${esc(type)}</span>`).join("")}</div>
+      <div class="entry-meta"><div class="chips">${pokemon.t.map(type=>`<span class="chip">${esc(type)}</span>`).join("")}</div>${status}</div>
     </div>
     ${comparison}
     <section class="entry-section">
@@ -64,6 +77,7 @@ function renderDetails(pokemon){
       <h3>EV yield</h3>
       <div class="ev">${pokemon.v.map((value,index)=>`<div><small>${labels[index]}</small><strong>${value}</strong></div>`).join("")}</div>
     </section>
+    ${sources}
     <div class="collapse-row"><button type="button" class="btn collapse-entry" data-collapse="${pokemon.d}">Collapse entry</button></div>`;
 }
 
