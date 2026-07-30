@@ -3,6 +3,11 @@ const LEGACY_STORAGE_KEY="poke-etymology-frlg-guide-v1";
 const LANGUAGE_KEY="poke-etymology-language";
 const VALID_LANGUAGES=["e","f","j"];
 const PRIMARY_LANGUAGE=VALID_LANGUAGES.includes(localStorage.getItem(LANGUAGE_KEY)) ? localStorage.getItem(LANGUAGE_KEY) : "e";
+const GUIDE_UI={
+  e:{groups:{Catch:"Catch",Story:"Story",Items:"Items"},optional:"optional",markComplete:"Mark task complete",showDetails:"Show details",hideDetails:"Hide details",starterTitle:"First partner → postgame roamer",starterNote:"The beast begins roaming after the postgame Network Machine quest. Your choice cannot be changed in this save.",select:"Select"},
+  f:{groups:{Catch:"Captures",Story:"Parcours",Items:"Objets"},optional:"facultatif",markComplete:"Marquer comme terminé",showDetails:"Afficher les détails",hideDetails:"Masquer les détails",starterTitle:"Premier partenaire → Pokémon errant d’après-jeu",starterNote:"Le Pokémon légendaire commence à errer après la quête d’après-jeu de la Machine réseau. Ce choix ne peut pas être modifié dans cette sauvegarde.",select:"Choisir"},
+  j:{groups:{Catch:"捕獲",Story:"進行",Items:"道具"},optional:"任意",markComplete:"完了にする",showDetails:"詳細を表示",hideDetails:"詳細を隠す",starterTitle:"最初のパートナー → クリア後の徘徊ポケモン",starterNote:"クリア後のネットワークマシンのイベントを終えると徘徊を始めます。このセーブデータでは選び直せません。",select:"選ぶ"}
+}[PRIMARY_LANGUAGE];
 const ALL_POKEMON=[...DATA,...(typeof REFERENCE_POKEMON!=="undefined" ? REFERENCE_POKEMON : [])];
 const GROUP_ORDER=["Catch","Story","Items"];
 
@@ -107,19 +112,19 @@ function renderStageNav(){
 
 function starterMarkup(){
   return `<section class="starter-picker" aria-labelledby="starter-title">
-    <h3 id="starter-title">First partner → postgame roamer</h3>
+    <h3 id="starter-title">${esc(GUIDE_UI.starterTitle)}</h3>
     <div class="starter-options">
       ${STARTER_CHOICES.map(choice=>{
         const selected=state.starter===choice.starter;
         return `<div class="starter-option${selected?" selected":""}">
           <input id="starter-${choice.starter}" type="radio" name="starter" value="${choice.starter}" ${selected?"checked":""}>
-          <label for="starter-${choice.starter}" aria-label="Select ${esc(pokemonName(choice.starter))}"></label>
+          <label for="starter-${choice.starter}" aria-label="${esc(`${GUIDE_UI.select} ${pokemonName(choice.starter)}`)}"></label>
           <span class="starter-name">${pokemonLink(choice.starter)}</span>
           <span class="roamer-name">→ ${pokemonLink(choice.roamer)}</span>
         </div>`;
       }).join("")}
     </div>
-    <p class="starter-note">The beast begins roaming after the postgame Network Machine quest. Your choice cannot be changed in this save.</p>
+    <p class="starter-note">${esc(GUIDE_UI.starterNote)}</p>
   </section>`;
 }
 
@@ -130,14 +135,14 @@ function taskMarkup(rawTask){
   const checkId=`check-${task.id}`;
   return `<div class="guide-task${checked?" done":""}" data-task-row="${esc(task.id)}">
     <div class="task-check">
-      <input id="${checkId}" type="checkbox" data-task="${esc(task.id)}" aria-label="Mark task complete" ${checked?"checked":""}>
+      <input id="${checkId}" type="checkbox" data-task="${esc(task.id)}" aria-label="${esc(GUIDE_UI.markComplete)}" ${checked?"checked":""}>
       <label class="task-box" for="${checkId}" aria-hidden="true"></label>
       <span class="task-copy">
-        <strong>${richText(task.title)}${task.optional?'<span class="optional-tag">optional</span>':""}</strong>
+        <strong>${richText(task.title)}${task.optional?`<span class="optional-tag">${esc(GUIDE_UI.optional)}</span>`:""}</strong>
         <small>${richText(task.meta || "")}</small>
       </span>
     </div>
-    ${task.detail?`<button type="button" class="task-more" aria-expanded="false" aria-controls="${detailId}" aria-label="Show details">+</button>`:""}
+    ${task.detail?`<button type="button" class="task-more" aria-expanded="false" aria-controls="${detailId}" aria-label="${esc(GUIDE_UI.showDetails)}">+</button>`:""}
     ${task.detail?`<div id="${detailId}" class="task-detail" hidden><p>${richText(task.detail)}</p></div>`:""}
   </div>`;
 }
@@ -152,7 +157,7 @@ function renderStage(){
     </header>
     ${stage.warning?`<p class="stage-warning">${esc(stage.warning)}</p>`:""}
     ${stage.starterPicker?starterMarkup():""}
-    ${groups.map(({group,tasks})=>`<section class="task-group"><h3>${esc(group)}</h3>${tasks.map(taskMarkup).join("")}</section>`).join("")}
+    ${groups.map(({group,tasks})=>`<section class="task-group"><h3>${esc(GUIDE_UI.groups[group] || group)}</h3>${tasks.map(taskMarkup).join("")}</section>`).join("")}
     ${stage.drawer?`<details class="stage-drawer"><summary><span>${esc(stage.drawer.title)}</span><span class="drawer-mark" aria-hidden="true"></span></summary><p>${richText(stage.drawer.text)}</p></details>`:""}`;
   $("#previous-stage").disabled=state.stage===0;
   $("#next-stage").disabled=state.stage===STAGES.length-1;
@@ -207,7 +212,7 @@ $("#stage-panel").addEventListener("click",event=>{
   const detail=document.getElementById(button.getAttribute("aria-controls"));
   const open=button.getAttribute("aria-expanded")!=="true";
   button.setAttribute("aria-expanded",String(open));
-  button.setAttribute("aria-label",open?"Hide details":"Show details");
+  button.setAttribute("aria-label",open?GUIDE_UI.hideDetails:GUIDE_UI.showDetails);
   button.textContent=open?"−":"+";
   detail.hidden=!open;
 });
