@@ -1,0 +1,30 @@
+name: Validate Living Dex guide
+
+on:
+  pull_request:
+    paths:
+      - "guides/**"
+      - ".github/workflows/validate-guide.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-guide:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check guide JavaScript syntax
+        run: |
+          for file in guides/*.js guides/*.mjs; do node --check "$file"; done
+
+      - name: Validate guide structure
+        run: node guides/validate-guide.mjs
