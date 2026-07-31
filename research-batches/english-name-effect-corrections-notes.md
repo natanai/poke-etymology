@@ -1,32 +1,86 @@
-# Name-effect corrections
+# Full multilingual name-effect scope audit
 
-**Reviewed:** 2026-07-31
+**Reviewed:** 2026-07-31  
+**Scope:** all 151 Generation I Pokémon × Japanese, French, and English = **453 language analyses**
 
-## Problem identified
+## Why this audit was necessary
 
-A meaning/effect line should explain what that language's name construction itself communicates: its literal image, ordinary-word meaning, joke, tone, cultural association, or morphological effect.
+The project had correctly researched many Roots but sometimes allowed the following meaning/effect line to become a miniature description of the Pokémon. This silently changed a linguistic claim into a design, anatomy, evolution, mechanics, or lore claim.
 
-Some audited entries instead imported facts from the Pokémon's body, evolutionary status, lore, or apparent appearance. Those facts may explain why a name was selected, but they are not necessarily conveyed by the name's words or roots.
+The original diagnostic example was English Farfetch'd:
 
-This was clearest in English Farfetch'd: *far-fetched* means implausible or difficult to believe; it does not literally mean a duck carrying a vegetable.
+- Roots: *far-fetched*, altered with an apostrophe
+- invalid gloss: “An implausible or unbelievable duck-and-vegetable creature.”
+- valid gloss: “Something implausible or difficult to believe.”
 
-Dragonair exposed the same problem in Japanese. 白竜 directly means “white dragon.” Japanese dictionaries also record a traditional mythic sense in which a white dragon is regarded as a messenger of the heavenly emperor, so a sacred association is not wholly invented. However, the previous gloss “a sacred-looking white dragon” changed that cultural association into a visual judgment. The corrected gloss therefore states only what the displayed roots transparently convey: “A white dragon.”
+Duck-and-vegetable context explains why the expression fits the character and belongs in Notes or localization comparison. It is not the lexical meaning of *far-fetched*.
 
-Dictionary reference: https://kotobank.jp/word/%E7%99%BD%E7%AB%9C-600566
+Japanese Dragonair showed that the error was not limited to English:
 
-## Corrected entries
+- Roots: 白竜 (*hakuryū*, white dragon)
+- invalid gloss: “A sacred-looking white dragon.”
+- valid gloss: “A white dragon.”
 
-- #078 Rapidash, English — removed the horse identity from the gloss; retained rapid + dash and the possible ash echo.
-- #083 Farfetch'd, English — replaced the duck-and-vegetable description with the ordinary meaning of *far-fetched*.
-- #109 Koffing, English — removed the gas-creature premise; retained coughing and cough-sound spelling.
-- #110 Weezing, English — removed the gas-creature premise; retained the meaning of *wheezing*.
-- #114 Tangela, English — removed vines from the gloss; retained *tangle* and the name-like ending.
-- #138 Omanyte, English — removed fossil revival lore; retained the reshaped *ammonite* effect.
-- #140 Kabuto, English — removed fossil-creature framing; retained the borrowed Japanese helmet and horseshoe-crab associations.
-- #141 Kabutops, English — removed evolved-fossil framing; retained Kabuto and the unresolved prehistoric-sounding ending.
-- #148 Dragonair, Japanese — replaced “a sacred-looking white dragon” with the direct lexical meaning “a white dragon.”
-- #150 Mewtwo, English — removed genetic-engineering lore; retained the direct Mew + two construction.
+A traditional sacred association may be useful Notes material, but “looking” converts it into an unsupported visual judgment.
 
-## Boundary used for the audit
+## Audit method
 
-Creature-oriented wording is not removed merely because a gloss applies a root to the Pokémon. A line is changed when added design, story, or appearance information materially exceeds what the name construction communicates. Roots, confidence labels, Notes, comparisons, sources, and naming credits remain unchanged unless the correction itself requires otherwise.
+1. The final runtime data was assembled after `data.js`, generated data, all numbered verified-research overlays, and the correction overlay.
+2. `scripts/report-name-effects.mjs` printed every final `(ID, language, Roots, meaning/effect, confidence)` row in four bounded CI partitions: #001–#040, #041–#080, #081–#120, and #121–#151.
+3. Every one of the 453 Roots→meaning/effect pairs was manually reviewed using the blind-name test in `NAME_EFFECT_STANDARD.md`.
+4. A gloss was changed when a substantive word depended on seeing or knowing the Pokémon rather than on the displayed Roots, an ordinary definition of the whole name, or explicitly stated wordplay.
+5. The first automated enforcement run then caught two residual leaks—Golduck Japanese referenced body color, and Pinsir English described its crushing anatomy—which were also corrected before the baseline was sealed.
+
+## Result
+
+**132 of 453 meaning/effect lines were corrected.** The remaining 321 were retained after individual review.
+
+The corrections cover all three languages and include these recurring categories:
+
+- **appearance or anatomy:** prominent tails, oversized claws, heads, shells, limbs, body shape, visual judgments;
+- **behavior or powers:** firing, digging, controlling weather, swallowing, protecting, or other actions absent from Roots;
+- **evolutionary framing:** first/middle/final stage, larger evolution, developed form, second sphere;
+- **mechanics:** evolution stones and other game processes;
+- **story or Pokédex lore:** cloning, genetic engineering, artificial creation, fossil revival, discovery;
+- **unsupported evaluative language:** elegant, heroic, sacred, powerful, gentle, intelligent, fierce, and similar adjectives not supplied by the name;
+- **species/design labels absent from Roots:** horse, bird, duck, fossil, gas creature, plant creature, and similar additions.
+
+Representative corrections include:
+
+- Doduo: “Two-headed dodo” → “A duo of dodos.”
+- Dodrio: “Three-headed dodo” → “A trio of dodos.”
+- Omastar: “The star-shaped evolution of Omanyte” → “A star ammonite.”
+- Snorlax: “A relaxed, constantly snoring creature” → “A relaxed or lax snorer.”
+- Mewtwo: genetic-engineering summaries → “The second Mew.”
+- Articuno, Zapdos, and Moltres: removed legendary-bird descriptions not encoded by the elemental and numeral constructions.
+
+The complete correction overlay is `verified-research-name-effect-fixes.js`.
+
+## Deliberately preserved boundaries
+
+This audit did **not** alter:
+
+- Roots or their confidence labels;
+- Notes and their native-language/contextual discussion;
+- localization comparisons;
+- source lists;
+- language tags;
+- naming-credit records;
+- Pokémon factual data.
+
+A gloss was not shortened merely for being creature-oriented. Applying a root naturally remains valid—for example, “a wrathful tadpole” follows from *polliwog + wrath*. A line was changed only when it asserted something not entailed by the linguistic construction.
+
+## Permanent prevention added
+
+The audit produced a repository-wide invariant rather than another one-time cleanup:
+
+- `NAME_EFFECT_STANDARD.md` is the authoritative semantic rule and contains formal entailment, the blind-name test, forbidden categories, canonical failures, and scaling requirements.
+- `AGENTS.md`, `CONTRIBUTING.md`, `RESEARCH_METHOD.md`, the README, the PR template, and `HANDOFF.md` all point to the same rule.
+- `scripts/validate-name-effects.mjs` assembles final runtime data, checks recurrent leakage patterns, and verifies a SHA-256 digest over every audited `(ID, language, Roots, meaning/effect)` row.
+- `name-effect-scope-baseline.json` records the reviewed dataset. Every new audited entry or changed Roots/gloss pair changes the digest and fails CI until manually reviewed.
+- Name-analysis pull requests must contain the exact checked attestation: “I manually compared every changed meaning/effect line against its displayed Roots and moved design/lore context to Notes.”
+- The validator refuses baseline renewal without the same exact environment attestation and warns contributors not to copy a digest from CI.
+
+## Scaling rule
+
+The audit and validator are generation-independent. As the project expands beyond 1,000 Pokémon, every new audited language row must enter the assembled snapshot and baseline. No generation, language, bulk import, GPT, or contributor receives a weaker standard for speed.
