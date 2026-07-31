@@ -41,7 +41,7 @@ Examples:
 - a stone evolution may require delaying evolution until the stone is available;
 - a trade evolution requires an explicit trade plan;
 - a baby form may require postgame breeding rather than an early catch;
-- a later-generation evolution may belong in `reference-data.js` and should be acknowledged without entering the visible 151 index;
+- a later-generation evolution may belong in `reference-data.js` and should be acknowledged without entering the visible Generation I index;
 - fossils and mutually exclusive gifts require a one-save limitation warning and a second-game/trade plan.
 
 Do not tell the player to catch extra copies without explaining the family plan.
@@ -296,6 +296,11 @@ Before merging guide changes, test a narrow phone viewport:
 
 ## Current route boundary
 
-At the 2026-07-30 snapshot, the guide ends after Cerulean Gym and the transition to Route 5.
+At the 2026-07-31 snapshot, the guide contains 26 stages from Pallet Town through the northern Route 16 detour after first arriving in Celadon City.
 
-The next extension should continue from Route 5 toward Vermilion City, but only when Nat requests it or the current priority shifts back to guide work.
+Completed guide research records:
+
+- `guides/research-vermilion.md` — Routes 5–6 through Vermilion Gym;
+- `guides/research-rock-tunnel-celadon.md` — Route 9 through Route 16 North.
+
+The next coherent extension should cover the Celadon Game Corner prize plan, Rocket Hideout and Silph Scope, Celadon Gym, and the return to Pokémon Tower. Keep those objectives in a separate reviewable chunk rather than mixing them into the Route 9–16 travel leg.
