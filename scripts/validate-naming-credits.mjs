@@ -10,14 +10,22 @@ const supportedKinds=new Set(["specific","creator","lead","team","unknown"]);
 const errors=[];
 
 const context=vm.createContext({console});
-for(const file of ["data.js","generated-data.js","naming-credits.js"]){
+for(const file of [
+  "data.js",
+  "generated-data.js",
+  "generation-ii-data.js",
+  "naming-credits.js",
+  "naming-credits-generation-ii.js"
+]){
   const source=fs.readFileSync(path.join(root,file),"utf8");
   vm.runInContext(source,context,{filename:file});
 }
 
 const data=vm.runInContext("DATA",context);
-const defaults=vm.runInContext("NAMING_CREDIT_DEFAULTS",context);
-const overrides=vm.runInContext("NAMING_CREDIT_OVERRIDES",context);
+const generationIDefaults=vm.runInContext("NAMING_CREDIT_DEFAULTS",context);
+const generationIOverrides=vm.runInContext("NAMING_CREDIT_OVERRIDES",context);
+const generationIIDefaults=vm.runInContext("NAMING_CREDIT_GENERATION_II_DEFAULTS",context);
+const generationIIOverrides=vm.runInContext("NAMING_CREDIT_GENERATION_II_OVERRIDES",context);
 const resolve=vm.runInContext("namingCreditFor",context);
 
 function validateRecord(record,prefix){
@@ -44,29 +52,41 @@ function validateRecord(record,prefix){
   }
 }
 
-for(const key of languageKeys){
-  if(!(key in defaults)) errors.push(`defaults: missing ${key}`);
-  else validateRecord(defaults[key],`defaults.${key}`);
-}
-for(const key of Object.keys(defaults)){
-  if(!languageKeys.includes(key)) errors.push(`defaults: unsupported language key ${JSON.stringify(key)}`);
-}
-
-for(const [idText,byLanguage] of Object.entries(overrides)){
-  const id=Number(idText);
-  if(!Number.isInteger(id) || id<1 || id>151) errors.push(`override ${JSON.stringify(idText)}: ID must be 1–151`);
-  if(!byLanguage || typeof byLanguage!=="object" || Array.isArray(byLanguage)){
-    errors.push(`#${idText}: override must be an object keyed by language`);
-    continue;
+function validateDefaults(defaults,prefix){
+  for(const key of languageKeys){
+    if(!(key in defaults)) errors.push(`${prefix}: missing ${key}`);
+    else validateRecord(defaults[key],`${prefix}.${key}`);
   }
-  for(const [key,record] of Object.entries(byLanguage)){
-    if(!languageKeys.includes(key)) errors.push(`#${idText}: unsupported language key ${JSON.stringify(key)}`);
-    else validateRecord(record,`#${idText}.${key}`);
+  for(const key of Object.keys(defaults)){
+    if(!languageKeys.includes(key)) errors.push(`${prefix}: unsupported language key ${JSON.stringify(key)}`);
   }
 }
 
+function validateOverrides(overrides,prefix,minId,maxId){
+  for(const [idText,byLanguage] of Object.entries(overrides)){
+    const id=Number(idText);
+    if(!Number.isInteger(id) || id<minId || id>maxId){
+      errors.push(`${prefix} ${JSON.stringify(idText)}: ID must be ${minId}–${maxId}`);
+    }
+    if(!byLanguage || typeof byLanguage!=="object" || Array.isArray(byLanguage)){
+      errors.push(`${prefix} #${idText}: override must be an object keyed by language`);
+      continue;
+    }
+    for(const [key,record] of Object.entries(byLanguage)){
+      if(!languageKeys.includes(key)) errors.push(`${prefix} #${idText}: unsupported language key ${JSON.stringify(key)}`);
+      else validateRecord(record,`${prefix} #${idText}.${key}`);
+    }
+  }
+}
+
+validateDefaults(generationIDefaults,"generationI.defaults");
+validateDefaults(generationIIDefaults,"generationII.defaults");
+validateOverrides(generationIOverrides,"generationI.override",1,151);
+validateOverrides(generationIIOverrides,"generationII.override",152,251);
+
+const current=data.filter(item=>item.d>=1 && item.d<=251).sort((a,b)=>a.d-b.d);
 let resolvedCount=0;
-for(const pokemon of data.filter(item=>item.d>=1 && item.d<=151)){
+for(const pokemon of current){
   for(const key of languageKeys){
     const record=resolve(pokemon.d,key);
     validateRecord(record,`#${pokemon.d}.${key} resolved`);
@@ -74,14 +94,24 @@ for(const pokemon of data.filter(item=>item.d>=1 && item.d<=151)){
   }
 }
 
-if(data.filter(item=>item.d>=1 && item.d<=151).length!==151){
-  errors.push(`dataset: expected 151 Generation I entries`);
+const maximumId=current.reduce((maximum,item)=>Math.max(maximum,item.d),0);
+for(let id=1;id<=maximumId;id+=1){
+  if(!current.some(item=>item.d===id)) errors.push(`dataset: missing Pokémon #${id} before current maximum #${maximumId}`);
 }
-for(const unsupportedId of [0,152,196,NaN]){
+if(maximumId!==160){
+  errors.push(`dataset: expected current audited expansion through #160, found #${maximumId}`);
+}
+
+for(const unsupportedId of [0,252,10000,NaN]){
   for(const key of languageKeys){
     if(resolve(unsupportedId,key)!==null){
-      errors.push(`scope: ${String(unsupportedId)}.${key} must not inherit Generation I defaults`);
+      errors.push(`scope: ${String(unsupportedId)}.${key} must not inherit Generation I or II defaults`);
     }
+  }
+}
+for(const supportedId of [152,196,251]){
+  for(const key of languageKeys){
+    validateRecord(resolve(supportedId,key),`scope: ${supportedId}.${key} Generation II default`);
   }
 }
 
@@ -91,4 +121,4 @@ if(errors.length){
   process.exit(1);
 }
 
-console.log(`Naming credit validation passed: ${resolvedCount} language disclosures covered across 151 Pokémon.`);
+console.log(`Naming credit validation passed: ${resolvedCount} language disclosures covered across ${current.length} published Pokémon; Generation II defaults extend through #251.`);
