@@ -1,86 +1,104 @@
 # Technical architecture
 
-This is a deliberately small static site. The architecture should remain understandable by opening the repository and reading plain HTML, CSS, JavaScript, and local data files.
+Poké Etymology is a deliberately small static site. Its architecture must remain understandable by reading plain HTML, CSS, JavaScript, and local data files.
 
 ## Performance model
 
-The desired experience is effectively **instant raw text**:
+The intended experience is effectively **instant raw text**:
 
 - no framework or dependency bundle;
 - no runtime fetch for normal page content;
 - no hydration;
-- no persistent observer;
-- no polling or interval;
+- no persistent observer, polling, or interval;
 - no animation library;
 - no image or webfont payload required for core use;
-- no repeated computation after the initial render unless the user acts.
+- no repeated computation after initial render unless the user acts.
 
-A small number of static scripts is acceptable. They parse local data, render deterministically, and respond to direct events.
+Static scripts may assemble local records, render deterministically, and respond to direct events.
 
 ## Top-level pages
 
 ### `/index.html`
 
-The Generation I Names and etymology index.
+The Names and etymology index currently publishes #001–#160: complete Generation I plus the first Generation II starter-family batch.
 
 Responsibilities:
 
-- load the 151-record species dataset;
+- load generation-scoped factual records;
 - overlay audited research files;
 - load generation-scoped naming attribution;
-- search supported name fields;
+- search all supported name fields;
 - save the selected primary language;
 - expand Pokémon entries and languages in place;
 - display Roots, meaning/effect, Notes, entry-owned word tags, naming credit, confidence, comparison, audit metadata, EV yield, and collapsed sources;
-- open direct hashes such as `#25`.
+- open direct hashes such as `#156`.
 
 ### `/guides/index.html`
 
-The compact static Living Dex guide selector.
+The compact Living Dex guide selector.
 
 ### `/guides/firered-leafgreen.html`
 
-The FireRed / LeafGreen play companion. It loads local stage data, performs one-time localization preparation, renders one stage at a time, saves state, and responds only to direct user events.
+The FireRed / LeafGreen play companion. Guide development proceeds independently from name-research batches. Name batches should avoid `guides/` unless a cross-feature change is genuinely required.
 
 ## Names-page data flow
 
 ### `data.js`
 
-The historical seed array named `DATA`. It must exist before `generated-data.js` runs and is not the authoritative place for continuing audited batches.
+The historical seed array named `DATA`. It must exist before any generated or appended data script runs.
 
 ### `generated-data.js`
 
-A committed generated snapshot of all 151 Generation I records. It mutates the existing `DATA` array:
+A committed generated snapshot of all 151 Generation I records. It replaces the historical seed contents:
 
 ```js
 DATA.splice(0, DATA.length, ...records);
 ```
 
-Loading it before `data.js` causes `DATA is not defined`.
+It contains official names, romanization, current PokeAPI types and EV yields, and legacy seed fields. Do not manually store audited etymology, language tags, or naming credits here.
 
-It contains official names, romanization, current PokeAPI types and EV yield, and legacy seed fields. Do not manually store audited etymology, language tags, or naming credits here.
+### `generation-ii-data.js`
+
+The append-only static Generation II factual layer. It currently contains #152–#160 and runs after `generated-data.js`:
+
+```js
+for (const record of GENERATION_II_DATA) {
+  if (!DATA.some(item => item.d === record.d)) DATA.push(record);
+}
+DATA.sort((a, b) => a.d - b.d);
+```
+
+This pilot architecture deliberately avoids widening the Generation I network-backed build script. Future Johto batches extend this file with researched factual records. Do not add unreviewed etymology to it.
 
 ### `scripts/build-data.mjs`
 
-Builds `generated-data.js` from committed PokeAPI CSV sources. These are current canonical values and are not guaranteed to match Generation III.
+Builds only the Generation I snapshot in `generated-data.js` from PokeAPI CSV data. These current canonical values are not guaranteed to match Generation III.
+
+A future unified builder may replace the split, but only through a documented migration that cannot overwrite audited Generation II work.
 
 ### `associations.js`
 
 Legacy/fallback native-association text. Audited batch `a` arrays take priority.
 
+## Naming credits
+
 ### `naming-credits.js`
 
-Generation-scoped historical attribution registry.
+Generation I attribution defaults and exact overrides. Its resolver owns #001–#151.
 
-It defines:
+### `naming-credits-generation-ii.js`
 
-- `NAMING_CREDIT_DEFAULTS` for Japanese, French, and English Generation I naming workflows;
-- `NAMING_CREDIT_OVERRIDES` for exact species or family contributions supported by stronger evidence;
-- `namingCreditFor(id, languageKey)` to resolve a disclosure record.
+Generation II attribution defaults and exact overrides. It wraps the Generation I resolver and owns #152–#251.
 
-The resolver returns `null` outside National Pokédex #001–#151. Later-generation reference entries must not inherit Generation I defaults.
+Current Generation II defaults are separately researched for:
 
-Credit records contain:
+- Japanese Game Freak naming staff;
+- the Nintendo France first-251 localization context;
+- the credited Pokémon Gold and Silver US localization coordinators.
+
+English Quilava has a specific Jeff Kalles override. Later generations must receive their own bounded registry rather than widening an earlier default.
+
+Every resolved record contains:
 
 ```js
 {
@@ -93,11 +111,13 @@ Credit records contain:
 }
 ```
 
-[`NAMING_CREDITS.md`](NAMING_CREDITS.md) is authoritative. Attribution is separate from etymology confidence and from the entry-owned language-tag system.
+[`NAMING_CREDITS.md`](NAMING_CREDITS.md) is authoritative.
+
+## Audited research overlays
 
 ### `verified-research*.js`
 
-Audited research overlays. Each entry generally contains:
+Each audited entry generally contains:
 
 ```js
 {
@@ -119,97 +139,82 @@ Audited research overlays. Each entry generally contains:
 }
 ```
 
-Language order in `x` and `a` is always Japanese, French, English. `tags` uses named keys instead of positional indexes.
+Language order in `x` and `a` is Japanese, French, English. Tags use named language keys.
 
-The base `verified-research.js` defines `sourceSet()`. `verified-research-037-045.js` defines `expandedSourceSet()`. Later files may rely on both.
+- `verified-research.js` defines `sourceSet()`.
+- `verified-research-037-045.js` defines `expandedSourceSet()`.
+- numbered files load in Pokédex order.
+- `verified-research-name-effect-fixes.js` remains the final Generation I semantic-correction overlay.
 
-Each batch mutates the matching `DATA` object and copies tags:
+Every research overlay mutates the matching `DATA` object and copies tags into `pokemon.audit`.
 
-```js
-pokemon.audit = {
-  status: research.status,
-  reviewedOn: research.reviewedOn,
-  associations: research.a,
-  sources: research.sources,
-  tags: research.tags
-};
-```
+### Meaning/effect invariant
 
-Naming credits are not duplicated into every audit entry. They resolve from `naming-credits.js` at render time.
+[`NAME_EFFECT_STANDARD.md`](NAME_EFFECT_STANDARD.md) is authoritative.
 
-### Language-tag architecture
+Meaning/effect explains what the name says or does linguistically. Notes explain why it fits the Pokémon. `scripts/validate-name-effects.mjs` assembles all published generations, checks recurrent leakage patterns, and verifies a SHA-256 baseline over every audited `(ID, language, Roots, meaning/effect)` row.
+
+The current baseline covers 160 Pokémon and 480 language rows.
+
+### Language tags
 
 [`LANGUAGE_TAGS.md`](LANGUAGE_TAGS.md) is authoritative.
 
-Core contract:
-
-- tags are authored and reviewed inside the same audited entry as the linguistic claim;
-- the renderer never scans Roots or Notes to infer tags;
-- `type` selects a renderer definition from `ROOT_TAG_DEFINITIONS`;
+- tags are authored inside the audited entry;
+- the renderer never infers them from prose;
 - `text` is an exact Roots substring;
 - `sourceLanguage` is required for `loanword`;
-- optional `occurrence` selects a repeated exact substring;
-- language keys currently are `japanese`, `french`, and `english`;
-- unsupported types and keys fail validation.
+- optional `occurrence` selects repeated text;
+- supported keys are `japanese`, `french`, and `english`.
 
-The first type is:
-
-```js
-loanword: {label: "loanword"}
-```
-
-The visible donor language stays in Roots or Notes rather than the tiny annotation.
+## Validators
 
 ### `scripts/validate-language-tags.mjs`
 
-Loads the committed dataset and every audited research overlay in a Node VM. It rejects positional metadata, malformed containers, unsupported keys/types, missing exact targets, invalid occurrences, overlaps, missing donor languages, donor-language prose mismatches, and standardized explicit borrowing claims without authored tags.
+Loads Generation I, Generation II, and every research overlay in a Node VM. It rejects malformed containers, unsupported keys/types, missing targets, overlaps, donor-language mismatches, and standardized borrowing claims without authored tags.
+
+### `scripts/validate-name-effects.mjs`
+
+Loads the final assembled runtime research and enforces:
+
+- three complete language rows for every audited entry;
+- the Roots-only semantic rule;
+- recurrent leakage-pattern checks;
+- the reviewed row count and maximum ID;
+- the SHA-256 baseline;
+- the exact pull-request attestation when research data changes.
 
 ### `scripts/validate-naming-credits.mjs`
 
-Loads the dataset and naming registry in a Node VM. It validates:
+Loads both generation registries and validates:
 
-- all three Generation I defaults;
-- supported languages and `kind` values;
+- defaults and overrides for each generation;
+- supported languages and credit kinds;
 - required people, organization, role, detail, and HTTPS source fields;
-- override IDs and language keys;
-- all 453 Japanese/French/English disclosures across 151 Pokémon;
-- the rule that IDs outside Generation I resolve to `null`.
+- every published disclosure through #160;
+- Generation II default coverage through #251;
+- null resolution outside supported generations.
 
-The validator checks data integrity. It does not decide historical truth; source review remains a research responsibility.
+### `scripts/report-name-effects.mjs`
 
-### `reference-data.js`
+Prints stable tab-separated final Roots and meaning/effect rows across the assembled dataset. It is a review aid, not a substitute for semantic review.
 
-Contains later-generation reference Pokémon required by the guide. They are not included in the visible 151 list unless a direct guide link opens one. Their dropdowns do not show Generation I naming credits.
+## Reference data
 
-### `app.js`
+`reference-data.js` contains later-generation Pokémon needed by guide links before they are published in the main Names dataset. `ALL_POKEMON` searches `DATA` first, so a newly published record supersedes its earlier reference-only copy automatically.
 
-Names-page interaction code.
+## Names renderer
+
+`app.js` performs one deterministic render and direct-event updates.
 
 Relevant functions:
 
-- `languageAnalysis()` normalizes historical three-item arrays and possible future named objects;
-- `rootsMarkup()` renders authored tags over exact Roots substrings;
-- `occurrenceIndex()` locates a requested repeated target;
-- `namingCreditMarkup()` renders the resolved static attribution record;
-- `renderDetails()` combines audited analysis, tags, and credit within each language disclosure.
+- `languageAnalysis()` normalizes research rows;
+- `rootsMarkup()` renders authored tags;
+- `namingCreditMarkup()` renders the generation-scoped attribution;
+- `renderDetails()` combines research, Notes, tags, credits, facts, and sources.
 
-Performance expectations:
-
-- one list render at startup;
-- rerender only for search, language selection, and direct state changes;
-- no background observer, timer, fetch, or post-render annotation/attribution pass;
-- delegated click handling where practical.
-
-### CSS
-
-- `styles.css` — shared site and Names-page base
-- `research.css` — audited entry and language/source drawer behavior
-- `label-fixes.css` — Roots/Notes labels, root tags, and compact naming-credit presentation
-- `guides/guide.css` — Living Dex layout
-- `guides/guide-links.css` — Pokémon links and starter picker
-- `guides/guide-ux-fixes.css` — mobile/touch corrections
-
-The loanword box displays plain `loanword`, without literal brackets, on white with a black border. Naming credit uses a small static inset and one source link; it is not another disclosure or source wall.
+No background observer, timer, fetch, semantic inference, tag inference, or attribution inference belongs in the renderer.
 
 ## Names-page script order
 
@@ -217,47 +222,25 @@ The order in `index.html` is an architectural contract:
 
 1. `data.js`
 2. `generated-data.js`
-3. `associations.js`
-4. `naming-credits.js`
-5. `verified-research.js`
-6. remaining `verified-research-*.js` files in numerical order
-7. `reference-data.js`
-8. `app.js`
+3. `generation-ii-data.js`
+4. `associations.js`
+5. `naming-credits.js`
+6. `naming-credits-generation-ii.js`
+7. `verified-research.js`
+8. numbered `verified-research-*.js` files in numerical order
+9. `verified-research-name-effect-fixes.js`
+10. `reference-data.js`
+11. `app.js`
 
-`naming-credits.js` must load before `app.js`. Research helper functions must load before batches that call them. Do not reorder these casually.
+Do not reorder these casually. Research helpers must load before dependent batches, factual records before overlays, and attribution registries before rendering.
 
-## Living Dex data flow
+## Living Dex architecture
 
-### Stage data
+The guide uses local stage files, one-time localization preparation, deterministic rendering, persistent local progress, and direct events.
 
-- `guides/guide-stages-opening.js`
-- `guides/guide-stages-moon.js`
-- `guides/guide-stages-cerulean.js`
+The historical self-triggering `MutationObserver` is still disabled by a temporary guard. Remove the dead observer and guard together only after full language testing; removing the guard alone reintroduces the render loop.
 
-Stage objects contain stable IDs, labels, headings, optional warnings/pickers, tasks, and optional drawers. Pokémon references inside text use `[[number]]`; `guide.js` turns them into localized Names-page links.
-
-### `guides/guide-i18n.js`
-
-Performs one-time static localization. It still contains dead broken broad-observer code, but the HTML temporarily replaces `window.MutationObserver` with a no-op only while the file executes, then restores the native constructor. The observer therefore never attaches.
-
-Future cleanup must remove the dead observer block and guard together after testing all languages. Removing only the guard would reintroduce the infinite render loop.
-
-### `guides/guide.js`
-
-The deterministic renderer and event handler. It loads/migrates state, renders version/stage/task/progress UI, localizes dynamic labels directly, creates Pokémon links, updates storage after user action, and handles navigation/disclosures. It must not install observers, timers, or polling loops.
-
-### Guide script order
-
-1. `../data.js`
-2. `../generated-data.js`
-3. `../reference-data.js`
-4. stage data files
-5. temporary observer guard
-6. `guide-i18n.js`
-7. restore native observer
-8. `guide-copy-overrides.js`
-9. `guide.js`
-10. `guide-touch.js`
+Guide changes should preserve stable task IDs and migrate saved state when schema or ordering changes.
 
 ## Local storage
 
@@ -267,61 +250,55 @@ Names language key:
 poke-etymology-language
 ```
 
-Values: `e`, `f`, `j`.
-
-FireRed / LeafGreen current guide key:
+FireRed / LeafGreen guide key:
 
 ```text
 poke-etymology-frlg-guide-v2
 ```
 
-Legacy key: `poke-etymology-frlg-guide-v1`.
-
-Saved fields include version, stage, starter, and per-version checks. Preserve task IDs and stage meaning; increment the storage version and write a migration when schema or ordering changes.
-
-Language tags and naming credits are static data and create no local-storage state.
+Language tags, meaning-effect baselines, and naming credits are static repository data and create no browser storage.
 
 ## Workflows and deployment
 
 ### `.github/workflows/validate.yml`
 
-Runs on pull requests and manual dispatch. It checks the relevant JavaScript files and executes both data validators.
+Pull-request validation checks syntax for generation-specific data and attribution files, then runs language-tag, name-effect, and naming-credit validation.
 
 ### `.github/workflows/pages.yml`
 
-On `main`, it checks syntax, validates language tags and naming credits, builds Generation I data, uploads the static artifact, and deploys Pages. Validation occurs before publishing.
+Before publishing from `main`, Pages repeats the same validation, rebuilds the Generation I factual snapshot, and uploads the complete static repository—including the separate Generation II layer.
 
 ### `.github/workflows/refresh-data.yml`
 
-Refreshes the committed generated snapshot. The historical 25-entry failure occurred because a complete generated file existed only in a temporary deployment artifact.
+Refreshes the committed Generation I generated snapshot. It must not overwrite `generation-ii-data.js`.
 
-## Validation
-
-Before a Names or research PR:
+## Validation commands
 
 ```bash
 node --check app.js
+node --check generation-ii-data.js
 node --check naming-credits.js
-node --check scripts/build-data.mjs
+node --check naming-credits-generation-ii.js
+for file in verified-research*.js; do node --check "$file"; done
 node --check scripts/validate-language-tags.mjs
+node --check scripts/validate-name-effects.mjs
 node --check scripts/validate-naming-credits.mjs
 node scripts/validate-language-tags.mjs
+node scripts/validate-name-effects.mjs
 node scripts/validate-naming-credits.mjs
 ```
 
-Smoke testing must also confirm:
+Smoke testing must confirm:
 
-- the list and guide populate;
+- all published records populate and search across languages;
 - entries and language rows expand correctly;
-- authored tags sit over the exact token on narrow screens;
-- the tag box contains no brackets and does not show donor-language text;
-- each Generation I dropdown shows a scope-accurate Name credit;
-- pending entries show credit without pretending their etymology is audited;
-- later-generation reference entries do not inherit Generation I credit;
+- direct hashes work for Generation I, published Generation II, and reference-only guide links;
+- authored tags sit over the exact intended tokens;
+- every published disclosure shows a scope-accurate Name credit;
+- the semantic baseline covers every audited row;
 - CPU use settles after rendering;
-- no observer, timer, runtime fetch, or repeated mutation loop is active;
-- state and links still work.
+- guide state and links still work.
 
 ## Architectural decision rule
 
-Prefer the simplest change that can be explained in a few sentences and inspected in plain source. Keep linguistic semantics in audited entry data and historical attribution in its documented static registry, not in renderer heuristics. Do not introduce a build framework to solve a problem that static data and deterministic rendering already handle.
+Prefer the smallest static change that can be inspected in plain source. Keep linguistic semantics in audited entry data, factual generations in bounded local layers, and historical attribution in generation-scoped registries. Do not introduce renderer heuristics or a build framework to solve a problem that static data and deterministic validation already handle.
