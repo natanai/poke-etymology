@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="research.css">
   <link rel="stylesheet" href="label-fixes.css?v=2">
+  <link rel="stylesheet" href="region-filter.css">
 </head>
 <body>
   <header class="site-header"><div class="header-inner"><h1>Poké Etymology</h1></div></header>
@@ -25,7 +26,13 @@
       <div class="section-heading"><h2 id="explore-title">Generations I–II</h2><span id="count">160 entries</span></div>
       <div class="explorer-controls">
         <label for="q">Search</label>
-        <div class="search-wrap"><input id="q" type="search" placeholder="Name or #001" autocomplete="off"></div>
+        <div class="search-wrap">
+          <input id="q" type="search" placeholder="Name, #001, region, or type" autocomplete="off">
+          <label class="visually-hidden" for="region">Region</label>
+          <select id="region" aria-label="Filter by region">
+            <option value="">All regions</option>
+          </select>
+        </div>
         <fieldset class="language-picker">
           <legend>Index language</legend>
           <div class="tabs">
