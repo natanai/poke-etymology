@@ -6,7 +6,7 @@ import {fileURLToPath} from "node:url";
 const here=path.dirname(fileURLToPath(import.meta.url));
 const root=path.resolve(here,"..");
 const start=Number(process.argv[2] ?? 1);
-const end=Number(process.argv[3] ?? 151);
+const end=Number(process.argv[3] ?? Number.POSITIVE_INFINITY);
 const languages=["Japanese","French","English"];
 
 function loadScript(context,file){
@@ -21,6 +21,7 @@ function clean(value){
 const context=vm.createContext({console});
 loadScript(context,"data.js");
 loadScript(context,"generated-data.js");
+loadScript(context,"generation-ii-data.js");
 loadScript(context,"associations.js");
 
 const researchFiles=[

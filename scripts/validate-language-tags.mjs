@@ -55,6 +55,7 @@ for(const file of researchFiles){
 const context=vm.createContext({console});
 loadScript(context,"data.js");
 loadScript(context,"generated-data.js");
+loadScript(context,"generation-ii-data.js");
 loadScript(context,"associations.js");
 for(const file of researchFiles) loadScript(context,file);
 

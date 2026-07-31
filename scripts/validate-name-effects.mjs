@@ -33,6 +33,7 @@ function assembledData(){
   const context=vm.createContext({console});
   loadScript(context,"data.js");
   loadScript(context,"generated-data.js");
+  loadScript(context,"generation-ii-data.js");
   loadScript(context,"associations.js");
   const researchFiles=[
     "verified-research.js",
@@ -94,7 +95,7 @@ function requirePullRequestAttestation(){
     return;
   }
   const scopeSensitive=changedFiles.some(file=>
-    /^(?:data\.js|generated-data\.js|verified-research(?:-.*)?\.js|name-effect-scope-baseline\.json)$/.test(file)
+    /^(?:data\.js|generated-data\.js|generation-ii-data\.js|verified-research(?:-.*)?\.js|name-effect-scope-baseline\.json)$/.test(file)
   );
   if(!scopeSensitive) return;
   const requiredLine=`- [x] ${exactAttestation}`;
