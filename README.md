@@ -18,13 +18,13 @@ The interface does not infer tags, semantic scope, or naming authorship from pro
 
 ## Current release
 
-- all 151 Generation I species in English, French, Japanese, and Japanese romanization;
-- complete audited comparative name research for #001–#151;
+- all 151 Generation I species plus the nine Generation II starter-family species #152–#160 in English, French, Japanese, and Japanese romanization;
+- complete audited comparative name research for #001–#160;
 - current structured types and EV yields for the Names index;
 - in-place Pokémon and per-language disclosures;
 - visible audit dates, confidence labels, native-language Notes, localization comparisons, collapsed sources, and entry-owned word-level language tags;
-- a documented **Name credit** record inside every Japanese, French, and English disclosure, including honest team/lead/unknown states;
-- a FireRed / LeafGreen living-dex guide covering Pallet Town through Route 5;
+- documented generation-scoped **Name credit** records inside every Japanese, French, and English disclosure, including honest team/lead/unknown states and a specific English Quilava credit;
+- a FireRed / LeafGreen living-dex guide maintained in parallel with the name-research batches;
 - shared primary-language behavior and direct Pokémon links between the guide and Names index;
 - static, framework-free, near-zero-overhead delivery.
 
@@ -59,4 +59,4 @@ https://natanai.github.io/poke-etymology/
 
 ## Current next work
 
-See [`HANDOFF.md`](HANDOFF.md) and the repository issues. The source-backed Generation I name audit is complete; the next major content priority is continuing the FireRed / LeafGreen living-dex route beyond Route 5 unless Nat selects another refinement.
+See [`HANDOFF.md`](HANDOFF.md) and the repository issues. Continue Generation II etymology in coherent reviewed batches while the FireRed / LeafGreen Living Dex guide advances independently. Before merging either stream, compare it with the latest `main` and review concurrent changes.
