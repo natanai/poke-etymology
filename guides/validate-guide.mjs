@@ -19,6 +19,7 @@ const opening=await run("guides/guide-stages-opening.js","OPENING_STAGES","OPENI
 const moon=await run("guides/guide-stages-moon.js","MOON_STAGES","MOON_EXPORT");
 const cerulean=await run("guides/guide-stages-cerulean.js","CERULEAN_STAGES","CERULEAN_EXPORT");
 const vermilion=await run("guides/guide-stages-vermilion.js","VERMILION_STAGES","VERMILION_EXPORT");
+await run("guides/guide-stages-rock-tunnel-celadon.js","ROCK_TUNNEL_CELADON_STAGES","ROCK_TUNNEL_CELADON_EXPORT");
 
 const stages=[...opening,...moon,...cerulean,...vermilion];
 const allowedGroups=new Set(["Catch","Story","Items"]);
@@ -27,7 +28,7 @@ const taskIds=new Set();
 const pokemonIds=new Set([...data,...references].map(item=>Number(item.d)));
 const errors=[];
 
-if(stages.length!==20) errors.push(`Expected 20 stages, found ${stages.length}.`);
+if(stages.length!==26) errors.push(`Expected 26 stages, found ${stages.length}.`);
 
 for(const stage of stages){
   if(!stage.id || !stage.tab || !stage.title || !stage.subtitle || !Array.isArray(stage.tasks)){
@@ -52,6 +53,12 @@ for(const stage of stages){
       }
     }
   }
+  if(stage.drawer?.text){
+    for(const match of String(stage.drawer.text).matchAll(/\[\[(\d+)\]\]/g)){
+      const id=Number(match[1]);
+      if(!pokemonIds.has(id)) errors.push(`Unknown Pokémon token [[${id}]] in ${stage.id} drawer.`);
+    }
+  }
 }
 
 const html=await readFile(new URL("firered-leafgreen.html",guideRoot),"utf8");
@@ -63,8 +70,10 @@ const orderedScripts=[
   "guide-stages-moon.js",
   "guide-stages-cerulean.js",
   "guide-stages-vermilion.js",
+  "guide-stages-rock-tunnel-celadon.js",
   "guide-i18n.js",
   "guide-i18n-vermilion.js",
+  "guide-i18n-rock-tunnel-celadon.js",
   "guide-copy-overrides.js",
   "guide.js",
   "guide-touch.js"
