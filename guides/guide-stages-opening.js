@@ -42,7 +42,7 @@ const OPENING_STAGES=[
     subtitle:"Optional westward detour",
     tasks:[
       {id:"route22-mankey",group:"Catch",title:"[[56]] ×2",meta:"45% · Lv. 2–5 · +1 Attack EV",detail:"Reserve one [[56]] and evolve the second into [[57]] at level 28."},
-      {id:"route22-spearow",group:"Catch",title:"[[21]] ×2",meta:"10% · Lv. 3 or 5 · +1 Speed EV",detail:"Reserve one [[21]] and evolve the other into [[22]] at level 20. Route 3 offers a much higher 35% rate if you prefer to wait."},
+      {id:"route22-spearow",group:"Catch",title:"[[21]] ×3",meta:"10% · Lv. 3 or 5 · +1 Speed EV",detail:"Reserve one [[21]], evolve one into [[22]] at level 20, and trade the third for [[83]] in Vermilion City. Route 3 offers a much higher 35% rate if you prefer to wait."},
       {id:"route22-rival",group:"Story",title:"Optional rival battle",meta:"[[16]] Lv. 9 + rival’s first partner Lv. 9",detail:"This battle is not required. [[16]] can be dangerous to a player using [[1]] because it already knows Gust.",optional:true}
     ]
   },
