@@ -6,12 +6,15 @@ A mobile-first Pokémon language and completion companion.
 
 Any new GPT, coding agent, or contributor must begin with [`HANDOFF.md`](HANDOFF.md). It records the current state, next work, architecture, research standards, UX decisions, known failures, and required workflow.
 
+> **Before adding or revising any Pokémon name analysis, read [`NAME_EFFECT_STANDARD.md`](NAME_EFFECT_STANDARD.md).** Meaning/effect lines are Roots-only linguistic claims. Appearance, anatomy, behavior, evolution, mechanics, and lore belong in Notes or comparison unless the displayed Roots literally encode them.
+
 When adding or revising language research, also read:
 
+- [`NAME_EFFECT_STANDARD.md`](NAME_EFFECT_STANDARD.md) for the mandatory Roots→meaning/effect entailment rule and audit baseline;
 - [`LANGUAGE_TAGS.md`](LANGUAGE_TAGS.md) for entry-owned word annotations such as **loanword**;
 - [`NAMING_CREDITS.md`](NAMING_CREDITS.md) for historical attribution inside every language disclosure.
 
-The interface does not infer tags or naming authorship from prose.
+The interface does not infer tags, semantic scope, or naming authorship from prose.
 
 ## Current release
 
@@ -28,6 +31,7 @@ The interface does not infer tags or naming authorship from prose.
 ## Project standards
 
 - [`PROJECT_GOALS.md`](PROJECT_GOALS.md)
+- [`NAME_EFFECT_STANDARD.md`](NAME_EFFECT_STANDARD.md)
 - [`RESEARCH_METHOD.md`](RESEARCH_METHOD.md)
 - [`LANGUAGE_TAGS.md`](LANGUAGE_TAGS.md)
 - [`NAMING_CREDITS.md`](NAMING_CREDITS.md)
@@ -43,10 +47,11 @@ Before opening a research pull request, run:
 
 ```bash
 node scripts/validate-language-tags.mjs
+node scripts/validate-name-effects.mjs
 node scripts/validate-naming-credits.mjs
 ```
 
-The same validation runs on pull requests and before GitHub Pages deployment.
+The name-effect validator assembles the rendered research data, rejects recurrent design/lore leakage, and verifies a SHA-256 baseline covering every audited Roots→meaning/effect pair. The same validation runs on pull requests and before publication where configured.
 
 ## Live site
 
