@@ -8,7 +8,7 @@ const VERMILION_STAGES=[
       {id:"route56-meowth",group:"Catch",title:"[[52]] ×2",meta:"35% · Lv. 10, 12, 14, or 16 · +1 Speed EV",detail:"Catch on either Route 5 or Route 6. Keep one [[52]] and evolve the other into [[53]] at level 28."},
       {id:"route56-underground",group:"Story",title:"Use the Underground Path",meta:"Saffron City gates are still blocked",detail:"Enter south of Route 5 and follow the tunnel to Route 6."},
       {id:"route6-hidden",group:"Items",title:"Hidden Rare Candy and Sitrus Berry",meta:"Route 6 hills",detail:"The Rare Candy is hidden on the northeast hill; the Sitrus Berry is hidden on the northwest hill.",optional:true},
-      {id:"route6-vermilion",group:"Story",title:"Reach Vermilion City",meta:"Heal before exploring the port",detail:"The city contains two unique living-dex acquisitions and the ticketed entrance to the S.S. Anne."}
+      {id:"route6-vermilion",group:"Story",title:"Reach Vermilion City",meta:"Heal before exploring the port",detail:"The city contains the unique [[83]] trade, the Old Rod, and the ticketed entrance to the S.S. Anne."}
     ]
   },
   {
@@ -72,7 +72,7 @@ const VERMILION_STAGES=[
     subtitle:"Lt. Surge and the third badge",
     tasks:[
       {id:"surge-puzzle",group:"Story",title:"Cut the entrance tree and open both switches",meta:"The second switch is adjacent to the first",detail:"Checking an incorrect trash can after finding the first switch resets the puzzle."},
-      {id:"surge-win",group:"Story",title:"Defeat Lt. Surge",meta:"[[100]] Lv. 21 · [[25]] Lv. 18 · [[26]] Lv. 24",detail:"Ground-type moves ignore Electric attacks. A [[50]] or [[51]] from the cave can simplify the battle considerably."},
+      {id:"surge-win",group:"Story",title:"Defeat Lt. Surge",meta:"[[100]] Lv. 21 · [[25]] Lv. 18 · [[26]] Lv. 24",detail:"Ground-type Pokémon are immune to Electric-type attacks. A [[50]] or [[51]] from the cave can simplify the battle considerably."},
       {id:"surge-badge",group:"Items",title:"Thunder Badge",meta:"Gym reward",detail:"The badge enables Fly outside battle once HM02 is obtained."},
       {id:"surge-shock-wave",group:"Items",title:"TM34 Shock Wave",meta:"Gym reward · single use",detail:"Shock Wave never misses under ordinary accuracy checks. Save the single-use TM for a deliberate recipient."},
       {id:"surge-next",group:"Story",title:"Return toward Cerulean City",meta:"Next route: Route 9",detail:"Use the Underground Path northward, then Cut the tree east of Cerulean City to continue toward Rock Tunnel."}
