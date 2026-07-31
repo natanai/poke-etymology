@@ -37,14 +37,14 @@ for(const stage of stages){
   if(stageIds.has(stage.id)) errors.push(`Duplicate stage id: ${stage.id}.`);
   stageIds.add(stage.id);
   for(const task of stage.tasks){
-    if(!task.id || !task.group || !task.title) errors.push(`Malformed task in ${stage.id}.`);
+    const variants=task.variants ? Object.values(task.variants) : [];
+    const hasTitle=Boolean(task.title) || (variants.length>0 && variants.every(variant=>Boolean(variant.title)));
+    if(!task.id || !task.group || !hasTitle) errors.push(`Malformed task in ${stage.id}.`);
     if(taskIds.has(task.id)) errors.push(`Duplicate task id: ${task.id}.`);
     taskIds.add(task.id);
     if(!allowedGroups.has(task.group)) errors.push(`Unsupported task group ${task.group} in ${task.id}.`);
     const values=[task.title,task.meta,task.detail];
-    if(task.variants){
-      for(const variant of Object.values(task.variants)) values.push(variant.title,variant.meta,variant.detail);
-    }
+    for(const variant of variants) values.push(variant.title,variant.meta,variant.detail);
     for(const value of values.filter(Boolean)){
       for(const match of String(value).matchAll(/\[\[(\d+)\]\]/g)){
         const id=Number(match[1]);
