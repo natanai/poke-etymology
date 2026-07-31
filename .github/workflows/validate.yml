@@ -23,6 +23,7 @@ jobs:
         run: |
           node --check app.js
           node --check naming-credits.js
+          node --check scripts/report-name-effects.mjs
           node --check scripts/validate-language-tags.mjs
           node --check scripts/validate-naming-credits.mjs
           for file in verified-research*.js; do node --check "$file"; done
@@ -32,3 +33,25 @@ jobs:
 
       - name: Validate naming credits
         run: node scripts/validate-naming-credits.mjs
+
+  name-effect-audit-report:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        range:
+          - {start: 1, end: 40}
+          - {start: 41, end: 80}
+          - {start: 81, end: 120}
+          - {start: 121, end: 151}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Print assembled name-effect rows
+        run: node scripts/report-name-effects.mjs ${{ matrix.range.start }} ${{ matrix.range.end }}
