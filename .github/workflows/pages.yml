@@ -32,7 +32,9 @@ jobs:
       - name: Check JavaScript syntax
         run: |
           node --check app.js
+          node --check generation-ii-data.js
           node --check naming-credits.js
+          node --check naming-credits-generation-ii.js
           node --check scripts/report-name-effects.mjs
           node --check scripts/validate-language-tags.mjs
           node --check scripts/validate-name-effects.mjs
