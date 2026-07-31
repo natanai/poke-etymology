@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -23,12 +25,17 @@ jobs:
         run: |
           node --check app.js
           node --check naming-credits.js
+          node --check scripts/report-name-effects.mjs
           node --check scripts/validate-language-tags.mjs
+          node --check scripts/validate-name-effects.mjs
           node --check scripts/validate-naming-credits.mjs
           for file in verified-research*.js; do node --check "$file"; done
 
       - name: Validate language-analysis tags
         run: node scripts/validate-language-tags.mjs
+
+      - name: Validate name-effect scope
+        run: node scripts/validate-name-effects.mjs
 
       - name: Validate naming credits
         run: node scripts/validate-naming-credits.mjs

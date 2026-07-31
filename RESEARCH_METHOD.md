@@ -1,5 +1,7 @@
 # Research and verification method
 
+> **Before writing or changing any meaning/effect line, read [`NAME_EFFECT_STANDARD.md`](NAME_EFFECT_STANDARD.md).** It is the controlling semantic standard for every language and generation. A meaning/effect line states what the name says linguistically; Notes state why the name fits the Pokémon.
+
 Each Pokémon entry is reviewed as a set of separate claims rather than receiving one blanket “verified” label.
 
 The goal is not to produce the most elaborate possible etymology. The goal is to publish the most useful account that the evidence can support.
@@ -11,11 +13,12 @@ The goal is not to produce the most elaborate possible etymology. The goal is to
 3. Types and EV yield, with generation/version limitations identified
 4. Proposed roots and wordplay in each language
 5. Literal or approximate meaning
-6. Familiar words, phrases, sounds, registers, or cultural references a native speaker may notice
-7. Borrowed lexical components and any entry-owned language tags they require
-8. Historical naming attribution at the narrowest supportable scope
-9. The relationship between the three localizations
-10. Sources and date of review
+6. **Whether every substantive word of meaning/effect is entailed by the displayed Roots rather than imported from design, lore, anatomy, evolution, or mechanics**
+7. Familiar words, phrases, sounds, registers, or cultural references a native speaker may notice
+8. Borrowed lexical components and any entry-owned language tags they require
+9. Historical naming attribution at the narrowest supportable scope
+10. The relationship between the three localizations
+11. Sources and date of review
 
 ## Evidence labels
 
@@ -142,19 +145,58 @@ Do not infer a namer from design credit, game direction, general translation cre
 
 When evidence conflicts, preserve the conflict in the attribution detail and batch notes. For Generation I French, for example, contemporary reporting credits a five-person Nintendo France team while later interviews often summarize Julien Bardakoff as the creator of the first 251 names. The default credit therefore remains team-level unless an exact species contribution is documented.
 
-## Meaning / name effect
+## Meaning / name effect — mandatory Roots-only scope
 
-The second line should communicate what the construction does as a name, not merely repeat the Roots field.
+Read [`NAME_EFFECT_STANDARD.md`](NAME_EFFECT_STANDARD.md). Its requirements are non-negotiable.
+
+The second line should communicate what the construction does as a name without merely repeating Roots. **Every substantive claim must still be derivable from Roots, an ordinary whole-word definition, or explicitly stated linguistic wordplay.**
 
 It may describe:
 
-- the literal image;
-- the joke;
-- the personality effect;
-- the progression within an evolutionary family;
-- how a clipped or borrowed form sounds.
+- the literal image encoded by the components;
+- the ordinary meaning of an existing whole word;
+- the joke, homophone, reversal, clipping, or grammatical effect;
+- register, name-like morphology, or sound symbolism already identified in Roots;
+- a documented proper-name, scientific, mythological, or cultural referent;
+- cautious competing associations already stated in Roots.
 
-Keep it concise.
+It may not add information merely because that information is true of the Pokémon.
+
+Forbidden unless the Roots literally encode it:
+
+- appearance or visual judgment;
+- anatomy, carried objects, body shape, or prominent features;
+- behavior, powers, type, moves, or abilities;
+- first/middle/final evolutionary-stage framing;
+- stone evolution or other mechanics;
+- cloning, genetic engineering, fossil revival, discovery, or Pokédex story;
+- adjectives such as powerful, elegant, sacred, intelligent, heroic, gentle, or fierce when no listed root supplies them.
+
+Use the blind-name test: hide the sprite, Pokédex, evolution family, mechanics, and story. If any word in the gloss can no longer be justified, move it to Notes.
+
+Canonical examples:
+
+- *far-fetched* → “Something implausible or difficult to believe,” not a duck-and-vegetable description;
+- 白竜 → “A white dragon,” not “a sacred-looking white dragon”;
+- Mew + two → “The second Mew,” not a genetic-engineering summary;
+- dodo + duo → “A duo of dodos,” not “two-headed dodo.”
+
+Keep the line concise. Vividness is never a reason to exceed the Roots.
+
+## Name-effect audit baseline
+
+`node scripts/validate-name-effects.mjs` assembles the final rendered research data after every overlay, scans for recurrent leakage language, and verifies a SHA-256 digest of every audited `(ID, language, Roots, meaning/effect)` row.
+
+Any changed Roots or meaning/effect pair—or any newly audited Pokémon—changes the digest and fails validation.
+
+After manually reviewing every changed pair, renew the baseline only with:
+
+```bash
+NAME_EFFECT_SCOPE_ATTESTATION='I manually compared every changed meaning/effect line against its displayed Roots and moved design/lore context to Notes.' \
+node scripts/validate-name-effects.mjs --write-baseline
+```
+
+The command is a semantic attestation. Never copy the digest from CI, hand-edit it, weaken the validator, or exclude a new file or generation from coverage.
 
 ## Notes
 
@@ -170,7 +212,8 @@ Notes are for meaningful native-language context that the root split alone does 
 - a well-known cultural figure or object;
 - why two similar-looking words are not equally likely;
 - how a loanword sounds in the receiving language;
-- the donor language or adaptation route that supports a tag.
+- the donor language or adaptation route that supports a tag;
+- **why the linguistic name fits the Pokémon's appearance, anatomy, behavior, evolution, mechanics, or story.**
 
 Notes are not claims that every speaker has the same reaction. Use cautious phrasing when native-speaker review is still needed. Do not force a Notes paragraph merely to fill space.
 
@@ -194,7 +237,7 @@ Do not rank localizations as “better” without a specific analytical reason.
 
 - **pending** — factual record exists, but etymology has not been researched
 - **draft** — initial research entered; sources or language notes remain incomplete
-- **audited** — names, factual data, roots, Notes, tags where applicable, comparison, and sources have been checked
+- **audited** — names, factual data, roots, meaning/effect scope, Notes, tags where applicable, comparison, and sources have been checked
 - **native review requested** — structurally audited, but fluent/native review is still desired for nuance
 
 The live UI currently distinguishes audited from pending. Naming credits display for both states because attribution is stored separately from the etymology overlay.
@@ -210,24 +253,28 @@ Every batch should:
 3. compare existing text against sources;
 4. correct overconfident or incomplete claims;
 5. write separate analysis for Japanese, French, and English;
-6. add meaningful Notes;
-7. identify supported borrowed components and author their entry-owned tags;
-8. review whether any exact naming-credit override is supported;
-9. attach base and targeted sources;
-10. record the actual review date;
-11. preserve unresolved alternatives explicitly;
-12. write a concise `research-batches/<range>-notes.md` decision record;
-13. run syntax, language-tag, and naming-credit validation;
-14. load the file in numerical order;
-15. update issue #5 and `HANDOFF.md`.
+6. write Roots before meaning/effect;
+7. run the blind-name test on every Roots→meaning/effect pair;
+8. move design, lore, anatomy, evolution, and mechanics to Notes or comparison;
+9. add meaningful Notes;
+10. identify supported borrowed components and author their entry-owned tags;
+11. review whether any exact naming-credit override is supported;
+12. attach base and targeted sources;
+13. record the actual review date;
+14. preserve unresolved alternatives explicitly;
+15. write a concise `research-batches/<range>-notes.md` decision record;
+16. renew the name-effect baseline with the exact attestation when Roots or meaning/effect changed;
+17. run syntax, name-effect, language-tag, and naming-credit validation;
+18. load the file in numerical order;
+19. update trackers and `HANDOFF.md`.
 
 ## Batch size
 
 Choose the largest batch that can be researched without lowering quality.
 
-A larger batch is acceptable when families share source material, roots are transparent, claims can be checked independently, targeted sources are available, tag decisions remain manageable, and naming attribution does not require unsupported species-level guesses.
+A larger batch is acceptable when families share source material, roots are transparent, claims can be checked independently, targeted sources are available, tag decisions remain manageable, naming attribution does not require unsupported species-level guesses, and every Roots→meaning/effect pair still receives individual semantic review.
 
-Stop earlier when many names depend on obscure wordplay, source quality becomes thin, alternatives cannot be evaluated carefully, Notes become generic, or tags/credits would require guessing.
+Stop earlier when many names depend on obscure wordplay, source quality becomes thin, alternatives cannot be evaluated carefully, Notes become generic, tags/credits would require guessing, or the blind-name test would be rushed.
 
 Reliability matters more than reaching a round number.
 
@@ -278,7 +325,10 @@ Before marking a batch complete, verify:
 - every intended ID appears exactly once;
 - no unintended ID is overwritten;
 - all three names and romanization match official records;
-- each language has Roots, name effect, confidence, and meaningful Notes where appropriate;
+- each language has Roots, meaning/effect, confidence, and meaningful Notes where appropriate;
+- every meaning/effect proposition is entailed by Roots under `NAME_EFFECT_STANDARD.md`;
+- design, lore, anatomy, behavior, evolution, and mechanics are confined to Notes or comparison unless literally encoded;
+- the name-effect digest baseline includes every audited language row and has been renewed through the exact manual attestation;
 - every supported word-level tag is authored inside the same entry;
 - every tag targets an exact Roots substring under the correct language key;
 - every loanword tag records a donor language explained in Roots or Notes;
@@ -287,11 +337,11 @@ Before marking a batch complete, verify:
 - comparison text, review date, and relevant sources are present;
 - weak theories are omitted or labeled plausible;
 - the new script is loaded in `index.html`;
-- all 453 Generation I language disclosures resolve a valid naming-credit record;
+- all audited language disclosures resolve a valid naming-credit record;
 - later-generation reference entries do not inherit Generation I credit defaults;
 - `node --check` passes;
-- both validators pass;
-- issue #5 and handoff status are updated.
+- all three name validators pass;
+- trackers and handoff status are updated.
 
 ## Native-speaker review
 
@@ -299,4 +349,4 @@ The project can make careful language claims using dictionaries, corpora, and sp
 
 When nuance is uncertain, say so, avoid universal claims, record the item in batch notes, use cautious phrasing, defer tags or individual credits when boundaries are insecure, and do not hide uncertainty behind polished prose.
 
-This process exists to prevent a large amount of convincing but unreliable AI-generated etymology or false creative attribution from entering the site.
+This process exists to prevent a large amount of convincing but unreliable AI-generated etymology, false semantic glosses, or false creative attribution from entering the site.
