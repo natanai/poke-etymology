@@ -33,7 +33,7 @@ const CERULEAN_STAGES=[
     subtitle:"Nugget Bridge and the cape",
     tasks:[
       {id:"route24-exclusive",group:"Catch",variants:{fr:{title:"[[43]] ×4",meta:"25% · Lv. 12–14 · +1 Sp. Atk EV",detail:"Reserve [[43]], [[44]], [[45]], and [[182]]. The final branch needs a Sun Stone much later."},lg:{title:"[[69]] ×3",meta:"25% · Lv. 12–14 · +1 Attack EV",detail:"Reserve [[69]], [[70]], and [[71]]."}}},
-      {id:"route24-abra",group:"Catch",title:"[[63]] ×3",meta:"15% · Lv. 8–13 · +1 Sp. Atk EV",detail:"Reserve [[63]], [[64]], and [[65]]. Throw a ball immediately: wild [[63]] normally uses Téléport (Teleport) on its first turn. [[65]] requires trading [[64]]."},
+      {id:"route24-abra",group:"Catch",title:"[[63]] ×4",meta:"15% · Lv. 8–13 · +1 Sp. Atk EV",detail:"Reserve [[63]], [[64]], and [[65]], then trade the fourth for [[122]] on Route 2. Throw a ball immediately: wild [[63]] normally uses Téléport (Teleport) on its first turn. [[65]] requires trading [[64]]."},
       {id:"route24-bridge",group:"Story",title:"Clear Nugget Bridge",meta:"Five trainers + Team Rocket",detail:"The sixth battle is the Team Rocket recruiter at the north end of the bridge."},
       {id:"route24-nugget",group:"Items",title:"Pépite (Nugget)",meta:"Bridge reward",detail:"The recruiter gives it before revealing Team Rocket. It can be sold for money."},
       {id:"route24-attract",group:"Items",title:"CT45 Attraction (TM45 Attract)",meta:"Northwest plateau",detail:"Collect it near the grassy area north of Nugget Bridge."},
