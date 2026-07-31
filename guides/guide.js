@@ -17,7 +17,7 @@ const STARTER_CHOICES=[
   {starter:7,roamer:243}
 ];
 
-const STAGES=[...OPENING_STAGES,...MOON_STAGES,...CERULEAN_STAGES];
+const STAGES=[...OPENING_STAGES,...MOON_STAGES,...CERULEAN_STAGES,...VERMILION_STAGES];
 
 function loadState(){
   try{
