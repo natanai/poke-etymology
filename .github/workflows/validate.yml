@@ -30,6 +30,7 @@ jobs:
       - name: Check JavaScript syntax
         run: |
           node --check app.js
+          node --check region-filter.js
           node --check generation-ii-data.js
           node --check naming-credits.js
           node --check naming-credits-generation-ii.js
@@ -37,7 +38,11 @@ jobs:
           node --check scripts/validate-language-tags.mjs
           node --check scripts/validate-name-effects.mjs
           node --check scripts/validate-naming-credits.mjs
+          node --check scripts/validate-region-filter.mjs
           for file in verified-research*.js; do node --check "$file"; done
+
+      - name: Validate region search and selector
+        run: node scripts/validate-region-filter.mjs
 
       - name: Validate language-analysis tags
         run: node scripts/validate-language-tags.mjs
