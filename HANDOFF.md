@@ -8,7 +8,7 @@
 **Published Names data:** #001–#160  
 **Audited etymology:** Generation I #001–#151 plus Generation II starter families #152–#160  
 **Name-effect baseline:** 160 Pokémon × 3 languages = 480 reviewed rows  
-**FireRed / LeafGreen guide on the branch base:** 14 stages through Route 5; concurrent guide work may advance this independently
+**FireRed / LeafGreen guide:** 26 stages from Pallet Town through the northern Route 16 detour after reaching Celadon City
 
 ---
 
@@ -30,7 +30,7 @@ Before doing any work:
    - [`CONTRIBUTING.md`](CONTRIBUTING.md)
    - [`AGENTS.md`](AGENTS.md) when operating as an AI agent.
 3. Inspect current `main`, newest merged PRs, open PRs, and relevant branches.
-4. Do not assume this handoff's guide status is current when another contributor is actively extending FireRed.
+4. Treat current `main` as the authority whenever this snapshot and the repository disagree.
 5. Make the smallest coherent change that satisfies the request.
 6. Update authoritative standards and this handoff when status, architecture, validation, schema, attribution, or next work changes.
 
@@ -142,6 +142,8 @@ Do not hand-edit `generated-data.js` as research storage. Do not widen `scripts/
 
 Future Generation II batches extend `generation-ii-data.js` and add a numbered research overlay. They must enter every validator and the semantic baseline immediately.
 
+`reference-data.js` contains guide-linked later-generation species that should be directly linkable without entering the visible Generation I index. It currently includes Crobat, Cleffa, Igglybuff, Bellossom, Espeon, Umbreon, Steelix, Raikou, Entei, and Suicune. Do not treat these compact records as audited name entries.
+
 ---
 
 ## 6. Language tags
@@ -197,7 +199,16 @@ node scripts/validate-name-effects.mjs
 node scripts/validate-naming-credits.mjs
 ```
 
-Pull requests and Pages run all three validators. Pages repeats validation before rebuilding Generation I data and publishing the complete static repository.
+Run before every Living Dex PR:
+
+```bash
+for file in guides/*.js guides/*.mjs; do node --check "$file"; done
+node guides/validate-guide.mjs
+```
+
+The guide validator currently expects 26 stages and checks unique stage/task IDs, supported task groups, Pokémon tokens in tasks and drawers, required scripts, and script order.
+
+Pull requests and Pages run the appropriate validators. Pages repeats name validation before rebuilding Generation I data and publishing the complete static repository.
 
 ---
 
@@ -205,23 +216,34 @@ Pull requests and Pages run all three validators. Pages repeats validation befor
 
 Name research and FireRed guide work may proceed in parallel, but they share `main`.
 
-For every name batch:
+For every branch:
 
 1. branch from current `main`;
-2. avoid `guides/` unless required;
+2. keep unrelated subsystems isolated whenever possible;
 3. keep the PR draft while research and validation are incomplete;
 4. immediately before ready/merge, inspect all open PRs and compare the branch against current `main`;
-5. if guide work merged, incorporate it and rerun every validator;
+5. incorporate relevant merged work and rerun every affected validator;
 6. inspect overlapping documentation changes rather than choosing one version blindly;
 7. merge only when GitHub reports the PR mergeable and checks pass.
 
-At this snapshot, branch `agent/extend-frlg-vermilion` has appeared as concurrent guide work, though no guide PR was open when this handoff was written. Recheck rather than relying on that status.
+Guide extensions should generally remain under `guides/`, plus tightly necessary reference records and authoritative documentation. Name batches should avoid `guides/` unless a shared architecture change is genuinely required.
 
 ---
 
 ## 10. Living Dex guide
 
-On the base used for the first Johto batch, the FireRed / LeafGreen guide contains 14 stages through Route 5. Another contributor is extending the guide independently, so current `main` is the authority.
+The FireRed / LeafGreen guide contains 26 stages from Pallet Town through the northern Route 16 detour after first reaching Celadon City.
+
+Current guide progression:
+
+- Pallet Town through Route 5;
+- Routes 5–6, Vermilion City, S.S. Anne, Route 11, Diglett’s Cave / Route 2, and Lt. Surge;
+- Route 9, Route 10 North, Rock Tunnel, Lavender / Route 8, Celadon setup, and Route 16 North.
+
+Research records:
+
+- `guides/research-vermilion.md`;
+- `guides/research-rock-tunnel-celadon.md`.
 
 Preserve:
 
@@ -233,7 +255,9 @@ Preserve:
 - compact disclosures and source drawer;
 - one deterministic render and direct events.
 
-A historical self-triggering `MutationObserver` remains disabled by a temporary guard. Remove the dead observer and guard together only after full language testing.
+Later-generation family planning may use compact records in `reference-data.js`, but those species must not appear in the visible Generation I index merely because the guide links them.
+
+A historical self-triggering `MutationObserver` remains disabled by a temporary guard. Remove the dead observer and guard together only after full English, French, and Japanese testing. Do not replace it with another observer, timer, polling loop, or background mutation pass.
 
 ---
 
@@ -259,33 +283,15 @@ Do not reintroduce fake controls, source-button walls, universal `Created by`, i
 
 Continue Generation II in coherent evolutionary or linguistic groups. A sensible next batch begins with #161 Sentret and proceeds only as far as source quality and review depth allow.
 
-Each batch must:
-
-- add factual records only for the included species;
-- research Japanese, French, and English separately;
-- use targeted sources where base links are insufficient;
-- add entry-owned tags;
-- review generation-specific naming attribution and exact overrides;
-- apply the blind-name test to every gloss;
-- update the 480-row baseline to include the new rows;
-- add a batch decision record;
-- avoid guide files and recheck concurrent work before merge.
-
-Reliability matters more than a round batch size.
-
 ---
 
-## 13. Definition of done
+## 13. Next Living Dex chunk
 
-A change is not handoff-safe until:
+The next coherent guide extension should cover:
 
-- it is merged or clearly left as an open draft PR;
-- relevant workflows pass;
-- every changed Roots→meaning/effect pair has manual semantic review;
-- the exact PR attestation is checked;
-- the baseline matches all assembled audited rows;
-- language tags and naming credits validate;
-- architecture, attribution, uncertainty, and sources are documented;
-- concurrent guide/name changes have been compared against current `main`;
-- authoritative standards and this handoff reflect the resulting state;
-- a replacement contributor can continue without the old chat.
+1. the Celadon Game Corner prize plan and version-specific coin costs;
+2. Rocket Hideout and the Silph Scope;
+3. Celadon Gym and its completion-relevant rewards;
+4. the return to Pokémon Tower for the Ghost families and Poké Flute.
+
+Keep this as a separate, reviewable chunk. It should explicitly resolve prize-Pokémon quantities, whether buying coins is practical, any one-save or finite constraints, the earliest clean Gastly-family plan, and how the Poké Flute changes the next Snorlax / Cycling Road route choice.
