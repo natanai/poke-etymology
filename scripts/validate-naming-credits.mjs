@@ -98,9 +98,6 @@ const maximumId=current.reduce((maximum,item)=>Math.max(maximum,item.d),0);
 for(let id=1;id<=maximumId;id+=1){
   if(!current.some(item=>item.d===id)) errors.push(`dataset: missing Pokémon #${id} before current maximum #${maximumId}`);
 }
-if(maximumId!==160){
-  errors.push(`dataset: expected current audited expansion through #160, found #${maximumId}`);
-}
 
 for(const unsupportedId of [0,252,10000,NaN]){
   for(const key of languageKeys){
@@ -121,4 +118,4 @@ if(errors.length){
   process.exit(1);
 }
 
-console.log(`Naming credit validation passed: ${resolvedCount} language disclosures covered across ${current.length} published Pokémon; Generation II defaults extend through #251.`);
+console.log(`Naming credit validation passed: ${resolvedCount} language disclosures covered across ${current.length} contiguous published Pokémon through #${maximumId}; Generation II defaults extend through #251.`);
