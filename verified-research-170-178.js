@@ -186,10 +186,7 @@ const VERIFIED_RESEARCH_170_178={
       ["xat, described by coiner Jeff Kalles as a carved Indigenous American pole; possibly also Natu","A name derived from xat, with a possible Natu echo.","confirmed"]
     ],
     tags:{
-      japanese:[
-        {type:"loanword",text:"native",sourceLanguage:"English"},
-        {type:"loanword",text:"indio",sourceLanguage:"Spanish"}
-      ],
+      japanese:[{type:"loanword",text:"native",sourceLanguage:"English"}],
       french:[{type:"loanword",text:"Xatu",sourceLanguage:"English"}]
     },
     c:"Japanese extends Naty with an uncertain international-language ending. English has an unusually well-documented coiner explanation from Jeff Kalles, and French retains that English name unchanged.",
