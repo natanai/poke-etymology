@@ -1,5 +1,4 @@
 const REFERENCE_POKEMON=[
-  {d:169,e:"Crobat",f:"Nostenfer",j:"クロバット",r:"Kurobatto",t:["Poison","Flying"],v:[0,0,0,0,0,3]},
   {d:173,e:"Cleffa",f:"Mélo",j:"ピィ",r:"Pī",t:["Normal"],v:[0,0,0,0,1,0]},
   {d:174,e:"Igglybuff",f:"Toudoudou",j:"ププリン",r:"Pupurin",t:["Normal"],v:[1,0,0,0,0,0]},
   {d:182,e:"Bellossom",f:"Joliflor",j:"キレイハナ",r:"Kireihana",t:["Grass"],v:[0,0,0,0,3,0]},

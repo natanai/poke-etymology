@@ -18,12 +18,13 @@ The interface does not infer tags, semantic scope, or naming authorship from pro
 
 ## Current release
 
-- all 151 Generation I species plus the nine Generation II starter-family species #152–#160 in English, French, Japanese, and Japanese romanization;
-- complete audited comparative name research for #001–#160;
+- all 151 Generation I species plus the first 18 Generation II species, #152–#169, in English, French, Japanese, and Japanese romanization;
+- complete audited comparative name research for #001–#169;
 - current structured types and EV yields for the Names index;
 - in-place Pokémon and per-language disclosures;
 - visible audit dates, confidence labels, native-language Notes, localization comparisons, collapsed sources, and entry-owned word-level language tags;
 - documented generation-scoped **Name credit** records inside every Japanese, French, and English disclosure, including honest team/lead/unknown states and a specific English Quilava credit;
+- a Kanto/Johto region selector plus searchable region and generation terms;
 - a FireRed / LeafGreen living-dex guide maintained in parallel with the name-research batches;
 - shared primary-language behavior and direct Pokémon links between the guide and Names index;
 - static, framework-free, near-zero-overhead delivery.
@@ -46,6 +47,7 @@ The interface does not infer tags, semantic scope, or naming authorship from pro
 Before opening a research pull request, run:
 
 ```bash
+node scripts/validate-region-filter.mjs
 node scripts/validate-language-tags.mjs
 node scripts/validate-name-effects.mjs
 node scripts/validate-naming-credits.mjs
@@ -59,4 +61,4 @@ https://natanai.github.io/poke-etymology/
 
 ## Current next work
 
-See [`HANDOFF.md`](HANDOFF.md) and the repository issues. Continue Generation II etymology in coherent reviewed batches while the FireRed / LeafGreen Living Dex guide advances independently. Before merging either stream, compare it with the latest `main` and review concurrent changes.
+See [`HANDOFF.md`](HANDOFF.md) and issue #31. Continue Generation II etymology from #170 in coherent reviewed batches while the FireRed / LeafGreen Living Dex guide advances independently. Before merging either stream, compare it with the latest `main` and review concurrent changes.

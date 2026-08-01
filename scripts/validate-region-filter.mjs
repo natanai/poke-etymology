@@ -80,11 +80,17 @@ function filteredIds(query,region=""){
   `,context);
 }
 
+const publishedJohtoIds=vm.runInContext(
+  `DATA.filter(pokemon=>pokemon.d>=152 && pokemon.d<=251).map(pokemon=>pokemon.d)`,
+  context
+);
+
 expectEqual(filteredIds("kanto").length,151,"Kanto text search count");
-expectEqual(filteredIds("johto"),[152,153,154,155,156,157,158,159,160],"Johto text search results");
-expectEqual(filteredIds("johto water"),[158,159,160],"combined region and type search");
-expectEqual(filteredIds("","johto"),[152,153,154,155,156,157,158,159,160],"Johto selector results");
+expectEqual(filteredIds("johto"),publishedJohtoIds,"Johto text search results");
+expectEqual(filteredIds("","johto"),publishedJohtoIds,"Johto selector results");
+expectEqual(filteredIds("johto water"),[158,159,160],"combined region and Water-type search");
 expectEqual(filteredIds("generation ii grass"),[152,153,154],"generation alias search");
+expectEqual(filteredIds("johto bug"),[165,166,167,168],"new Johto Bug-type search");
 expectEqual(filteredIds("johto","kanto"),[],"selector and conflicting query");
 
 if(errors.length){
@@ -93,4 +99,4 @@ if(errors.length){
   process.exit(1);
 }
 
-console.log("Region-filter validation passed: Kanto and Johto selector/search behavior is consistent.");
+console.log(`Region-filter validation passed: Kanto and ${publishedJohtoIds.length} published Johto entries are searchable.`);

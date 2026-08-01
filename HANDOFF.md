@@ -5,9 +5,9 @@
 **Snapshot:** 2026-07-31  
 **Repository:** `natanai/poke-etymology`  
 **Live site:** `https://natanai.github.io/poke-etymology/`  
-**Published Names data:** #001–#160  
-**Audited etymology:** Generation I #001–#151 plus Generation II starter families #152–#160  
-**Name-effect baseline:** 160 Pokémon × 3 languages = 480 reviewed rows  
+**Published Names data:** #001–#169  
+**Audited etymology:** Generation I #001–#151 plus Generation II #152–#169  
+**Name-effect baseline:** 169 Pokémon × 3 languages = 507 reviewed rows  
 **FireRed / LeafGreen guide:** 26 stages from Pallet Town through the northern Route 16 detour after reaching Celadon City
 
 ---
@@ -79,9 +79,9 @@ Canonical failures include:
 
 Current baseline:
 
-- 160 audited Pokémon;
-- 480 language rows;
-- audited through #160;
+- 169 audited Pokémon;
+- 507 language rows;
+- audited through #169;
 - reviewed on 2026-07-31.
 
 The exact attestation is:
@@ -100,15 +100,15 @@ All #001–#151 have complete Japanese, French, and English analysis, Notes, con
 
 A complete 453-row semantic audit corrected 132 earlier glosses. Its record remains in `research-batches/english-name-effect-corrections-notes.md`; the historical filename now covers all three languages.
 
-### Generation II pilot
+### Generation II batch #152–#160
 
-The first Johto batch is #152–#160:
+The Johto starter-family batch contains:
 
 - Chikorita, Bayleef, Meganium;
 - Cyndaquil, Quilava, Typhlosion;
 - Totodile, Croconaw, Feraligatr.
 
-All 27 language analyses were written under the Roots-only standard and passed language-tag and semantic-pattern validation. The decision record is [`research-batches/152-160-notes.md`](research-batches/152-160-notes.md).
+All 27 language analyses were written under the Roots-only standard. The decision record is [`research-batches/152-160-notes.md`](research-batches/152-160-notes.md).
 
 Important unresolved boundaries remain local and explicit:
 
@@ -116,33 +116,57 @@ Important unresolved boundaries remain local and explicit:
 - Typhlosion's possible secondary Typhon echo;
 - Ordile's opening `ō`, which may evoke king, emperor, or large.
 
-Do not flatten these into one certain reading.
+### Generation II batch #161–#169
+
+The second Johto batch contains:
+
+- Sentret and Furret;
+- Hoothoot and Noctowl;
+- Ledyba and Ledian;
+- Spinarak and Ariados;
+- Crobat.
+
+All 27 language analyses were individually reviewed, including uncertainty-heavy names. The decision record is [`research-batches/161-169-notes.md`](research-batches/161-169-notes.md).
+
+Do not flatten these unresolved cases:
+
+- Otachi's tail / standing / weasel overlap;
+- Fouinar's possible *renard* versus *fouiner* ending;
+- Rediba/Ledyba's *ladybug* versus *ladybird* clipping and probable *red* component;
+- Redian/Ledian's possible *alien* or *guardian* ending;
+- Ariados's Ariadne, arachnid, Japanese *odosu*, and Spanish *dos* possibilities;
+- Crobat's *cross + bat*, *acrobat*, and Japanese *kuro* overlap.
+
+The uncertainty is part of the audited result, not unfinished prose to be made neater later.
 
 ---
 
 ## 5. Generation-scoped data architecture
 
-The Names page currently publishes #001–#160.
+The Names page currently publishes #001–#169.
 
 Load order:
 
 1. `data.js`
 2. `generated-data.js` — generated Generation I #001–#151
-3. `generation-ii-data.js` — append-only factual Generation II layer, currently #152–#160
+3. `generation-ii-data.js` — append-only factual Generation II layer, currently #152–#169
 4. `associations.js`
 5. `naming-credits.js` — Generation I attribution
 6. `naming-credits-generation-ii.js` — Generation II attribution
 7. `verified-research.js`
-8. numbered `verified-research-*.js` files in Pokédex order
+8. numbered `verified-research-*.js` files in Pokédex order, currently through `verified-research-161-169.js`
 9. `verified-research-name-effect-fixes.js`
 10. `reference-data.js`
 11. `app.js`
+12. `region-filter.js`
 
 Do not hand-edit `generated-data.js` as research storage. Do not widen `scripts/build-data.mjs` in a way that can overwrite Johto work without a documented migration.
 
 Future Generation II batches extend `generation-ii-data.js` and add a numbered research overlay. They must enter every validator and the semantic baseline immediately.
 
-`reference-data.js` contains guide-linked later-generation species that should be directly linkable without entering the visible Generation I index. It currently includes Crobat, Cleffa, Igglybuff, Bellossom, Espeon, Umbreon, Steelix, Raikou, Entei, and Suicune. Do not treat these compact records as audited name entries.
+`reference-data.js` contains guide-linked later-generation species that should be directly linkable before entering the published Names list. Crobat was removed when #169 became a published audited record. The compact reference layer currently includes Cleffa, Igglybuff, Bellossom, Espeon, Umbreon, Steelix, Raikou, Entei, and Suicune. Do not treat those compact records as audited name entries.
+
+The region selector and text search derive published Johto membership from `DATA`. Region validation must remain data-driven; never restore a hard-coded last-published Johto list.
 
 ---
 
@@ -158,7 +182,9 @@ The supported type is `loanword`. Tags:
 - use optional `occurrence` only for repeated exact text;
 - are never inferred by `app.js`.
 
-`scripts/validate-language-tags.mjs` now assembles Generation I and the published Generation II layer. Current validated total after #152–#160 is 111 tags across 93 language analyses.
+`scripts/validate-language-tags.mjs` assembles Generation I and the published Generation II layer. Current validated total after #161–#169 is 121 tags across 96 language analyses.
+
+Alternative roots may be tagged only when they are genuinely presented as lexical borrowing possibilities in that language analysis. A tag does not upgrade an uncertain root to certainty.
 
 ---
 
@@ -176,6 +202,10 @@ Generation I and Generation II have separate bounded registries.
 
 English Quilava has a specific Jeff Kalles override because he identifies it as his suggestion.
 
+No #161–#169 entry received a new individual override. Species-specific French etymology explanations support the constructions but do not, by themselves, prove sole species-by-species coinage beyond the documented team context.
+
+`scripts/validate-naming-credits.mjs` requires every published ID to be contiguous and every published language disclosure to resolve a complete generation-scoped credit. It no longer hard-codes the current maximum ID.
+
 Never extend one generation by simply widening another generation's ID check. Later generations require their own researched registry and validator boundary.
 
 ---
@@ -186,14 +216,17 @@ Run before every name-research PR:
 
 ```bash
 node --check app.js
+node --check region-filter.js
 node --check generation-ii-data.js
 node --check naming-credits.js
 node --check naming-credits-generation-ii.js
 for file in verified-research*.js; do node --check "$file"; done
 node --check scripts/report-name-effects.mjs
+node --check scripts/validate-region-filter.mjs
 node --check scripts/validate-language-tags.mjs
 node --check scripts/validate-name-effects.mjs
 node --check scripts/validate-naming-credits.mjs
+node scripts/validate-region-filter.mjs
 node scripts/validate-language-tags.mjs
 node scripts/validate-name-effects.mjs
 node scripts/validate-naming-credits.mjs
@@ -255,7 +288,7 @@ Preserve:
 - compact disclosures and source drawer;
 - one deterministic render and direct events.
 
-Later-generation family planning may use compact records in `reference-data.js`, but those species must not appear in the visible Generation I index merely because the guide links them.
+Later-generation family planning may use compact records in `reference-data.js`, but those species must not appear in the visible Names list merely because the guide links them.
 
 A historical self-triggering `MutationObserver` remains disabled by a temporary guard. Remove the dead observer and guard together only after full English, French, and Japanese testing. Do not replace it with another observer, timer, polling loop, or background mutation pass.
 
@@ -281,7 +314,9 @@ Do not reintroduce fake controls, source-button walls, universal `Created by`, i
 
 ## 12. Next name batches
 
-Continue Generation II in coherent evolutionary or linguistic groups. A sensible next batch begins with #161 Sentret and proceeds only as far as source quality and review depth allow.
+Continue Generation II from #170 in coherent evolutionary or linguistic groups. The next batch should be chosen only after reviewing source quality, family boundaries, and whether pending guide-reference species would be promoted into the published dataset.
+
+Do not assume every batch must contain exactly nine species. Review depth and coherent linguistic grouping are more important than numerical regularity.
 
 ---
 
