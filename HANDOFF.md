@@ -8,7 +8,7 @@
 **Published Names data:** #001–#169  
 **Audited etymology:** Generation I #001–#151 plus Generation II #152–#169  
 **Name-effect baseline:** 169 Pokémon × 3 languages = 507 reviewed rows  
-**FireRed / LeafGreen guide:** 26 stages from Pallet Town through the northern Route 16 detour after reaching Celadon City
+**FireRed / LeafGreen guide:** 31 stages from Pallet Town through Pokémon Tower and receipt of the Poké Flute
 
 ---
 
@@ -164,7 +164,7 @@ Do not hand-edit `generated-data.js` as research storage. Do not widen `scripts/
 
 Future Generation II batches extend `generation-ii-data.js` and add a numbered research overlay. They must enter every validator and the semantic baseline immediately.
 
-`reference-data.js` contains guide-linked later-generation species that should be directly linkable before entering the published Names list. Crobat was removed when #169 became a published audited record. The compact reference layer currently includes Cleffa, Igglybuff, Bellossom, Espeon, Umbreon, Steelix, Raikou, Entei, and Suicune. Do not treat those compact records as audited name entries.
+`reference-data.js` contains guide-linked later-generation species that should be directly linkable before entering the published Names list. Crobat was removed when #169 became a published audited record. The compact reference layer currently includes Cleffa, Igglybuff, Bellossom, Espeon, Umbreon, Steelix, Scizor, Porygon2, Raikou, Entei, and Suicune. Do not treat those compact records as audited name entries.
 
 The region selector and text search derive published Johto membership from `DATA`. Region validation must remain data-driven; never restore a hard-coded last-published Johto list.
 
@@ -239,7 +239,7 @@ for file in guides/*.js guides/*.mjs; do node --check "$file"; done
 node guides/validate-guide.mjs
 ```
 
-The guide validator currently expects 26 stages and checks unique stage/task IDs, supported task groups, Pokémon tokens in tasks and drawers, required scripts, and script order.
+The guide validator currently expects 31 stages and checks unique stage/task IDs, supported task groups, Pokémon tokens in tasks and drawers, published Generation II data loading, required scripts, and script order.
 
 Pull requests and Pages run the appropriate validators. Pages repeats name validation before rebuilding Generation I data and publishing the complete static repository.
 
@@ -265,18 +265,39 @@ Guide extensions should generally remain under `guides/`, plus tightly necessary
 
 ## 10. Living Dex guide
 
-The FireRed / LeafGreen guide contains 26 stages from Pallet Town through the northern Route 16 detour after first reaching Celadon City.
+The FireRed / LeafGreen guide contains 31 stages from Pallet Town through the Pokémon Tower summit and receipt of the Poké Flute.
 
 Current guide progression:
 
 - Pallet Town through Route 5;
 - Routes 5–6, Vermilion City, S.S. Anne, Route 11, Diglett’s Cave / Route 2, and Lt. Surge;
-- Route 9, Route 10 North, Rock Tunnel, Lavender / Route 8, Celadon setup, and Route 16 North.
+- Route 9, Route 10 North, Rock Tunnel, Lavender / Route 8, Celadon setup, and Route 16 North;
+- Game Corner prizes, Rocket Hideout, Celadon Gym, Pokémon Tower catches, and the summit/Poké Flute.
 
 Research records:
 
 - `guides/research-vermilion.md`;
-- `guides/research-rock-tunnel-celadon.md`.
+- `guides/research-rock-tunnel-celadon.md`;
+- `guides/research-celadon-tower.md`.
+
+Important current plans:
+
+- Porygon is the only required Game Corner prize; deterministic cash costs are documented by version.
+- Scyther in FireRed and Pinsir in LeafGreen are optional guaranteed alternatives to the Safari Zone.
+- The Ghost-family plan uses one Gastly and two wild Haunter on 7F, then trades one Haunter into Gengar.
+- The Marowak spirit is uncatchable.
+- The Poké Flute unlocks the two unique Snorlax encounters on Routes 12 and 16.
+
+The guide factual-data order is:
+
+1. `data.js`;
+2. `generated-data.js`;
+3. `generation-ii-data.js`;
+4. `reference-data.js`;
+5. route and localization files;
+6. `guide.js` and touch corrections.
+
+Published Johto Pokémon resolve from `DATA`; compact references are only for unpublished later-generation family links.
 
 Preserve:
 
@@ -322,11 +343,11 @@ Do not assume every batch must contain exactly nine species. Review depth and co
 
 ## 13. Next Living Dex chunk
 
-The next coherent guide extension should cover:
+The next coherent extension should:
 
-1. the Celadon Game Corner prize plan and version-specific coin costs;
-2. Rocket Hideout and the Silph Scope;
-3. Celadon Gym and its completion-relevant rewards;
-4. the return to Pokémon Tower for the Ghost families and Poké Flute.
+1. choose and explain the first Snorlax encounter without risking both unique copies;
+2. cover Route 12 and its completion-relevant catches, fishing, trades, and items;
+3. continue through Routes 13–15;
+4. arrive in Fuchsia City with the next catch plan prepared.
 
-Keep this as a separate, reviewable chunk. It should explicitly resolve prize-Pokémon quantities, whether buying coins is practical, any one-save or finite constraints, the earliest clean Gastly-family plan, and how the Poké Flute changes the next Snorlax / Cycling Road route choice.
+Keep the Safari Zone as a separate later chunk. Its timed navigation, version-exclusive encounters, fishing tables, HM03 Surf, Gold Teeth, one-save items, and family quantities need their own focused review.
