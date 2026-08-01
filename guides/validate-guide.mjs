@@ -14,6 +14,7 @@ async function run(path,exportName,globalName){
 
 const data=await run("data.js","DATA","DATA_EXPORT");
 await run("generated-data.js");
+await run("generation-ii-data.js");
 const references=await run("reference-data.js","REFERENCE_POKEMON","REFERENCE_EXPORT");
 const opening=await run("guides/guide-stages-opening.js","OPENING_STAGES","OPENING_EXPORT");
 const moon=await run("guides/guide-stages-moon.js","MOON_STAGES","MOON_EXPORT");
@@ -66,6 +67,7 @@ const html=await readFile(new URL("firered-leafgreen.html",guideRoot),"utf8");
 const orderedScripts=[
   "../data.js",
   "../generated-data.js",
+  "../generation-ii-data.js",
   "../reference-data.js",
   "guide-stages-opening.js",
   "guide-stages-moon.js",
