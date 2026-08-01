@@ -296,11 +296,12 @@ Before merging guide changes, test a narrow phone viewport:
 
 ## Current route boundary
 
-At the 2026-07-31 snapshot, the guide contains 26 stages from Pallet Town through the northern Route 16 detour after first arriving in Celadon City.
+At the 2026-07-31 snapshot, the guide contains 31 stages from Pallet Town through the Pokémon Tower summit and receipt of the Poké Flute.
 
 Completed guide research records:
 
 - `guides/research-vermilion.md` — Routes 5–6 through Vermilion Gym;
-- `guides/research-rock-tunnel-celadon.md` — Route 9 through Route 16 North.
+- `guides/research-rock-tunnel-celadon.md` — Route 9 through Route 16 North;
+- `guides/research-celadon-tower.md` — Game Corner prizes through the Poké Flute.
 
-The next coherent extension should cover the Celadon Game Corner prize plan, Rocket Hideout and Silph Scope, Celadon Gym, and the return to Pokémon Tower. Keep those objectives in a separate reviewable chunk rather than mixing them into the Route 9–16 travel leg.
+The next coherent extension should resolve the first Snorlax capture and continue through the connected southern route: Route 12, Routes 13–15, and arrival in Fuchsia City. Keep the Safari Zone as its own later chunk because its timed navigation, version-exclusive catches, fishing tables, HM03 Surf, Gold Teeth, and finite one-save planning require separate review.

@@ -14,12 +14,14 @@ async function run(path,exportName,globalName){
 
 const data=await run("data.js","DATA","DATA_EXPORT");
 await run("generated-data.js");
+await run("generation-ii-data.js");
 const references=await run("reference-data.js","REFERENCE_POKEMON","REFERENCE_EXPORT");
 const opening=await run("guides/guide-stages-opening.js","OPENING_STAGES","OPENING_EXPORT");
 const moon=await run("guides/guide-stages-moon.js","MOON_STAGES","MOON_EXPORT");
 const cerulean=await run("guides/guide-stages-cerulean.js","CERULEAN_STAGES","CERULEAN_EXPORT");
 const vermilion=await run("guides/guide-stages-vermilion.js","VERMILION_STAGES","VERMILION_EXPORT");
 await run("guides/guide-stages-rock-tunnel-celadon.js","ROCK_TUNNEL_CELADON_STAGES","ROCK_TUNNEL_CELADON_EXPORT");
+await run("guides/guide-stages-celadon-tower.js","CELADON_TOWER_STAGES","CELADON_TOWER_EXPORT");
 
 const stages=[...opening,...moon,...cerulean,...vermilion];
 const allowedGroups=new Set(["Catch","Story","Items"]);
@@ -28,7 +30,7 @@ const taskIds=new Set();
 const pokemonIds=new Set([...data,...references].map(item=>Number(item.d)));
 const errors=[];
 
-if(stages.length!==26) errors.push(`Expected 26 stages, found ${stages.length}.`);
+if(stages.length!==31) errors.push(`Expected 31 stages, found ${stages.length}.`);
 
 for(const stage of stages){
   if(!stage.id || !stage.tab || !stage.title || !stage.subtitle || !Array.isArray(stage.tasks)){
@@ -65,15 +67,18 @@ const html=await readFile(new URL("firered-leafgreen.html",guideRoot),"utf8");
 const orderedScripts=[
   "../data.js",
   "../generated-data.js",
+  "../generation-ii-data.js",
   "../reference-data.js",
   "guide-stages-opening.js",
   "guide-stages-moon.js",
   "guide-stages-cerulean.js",
   "guide-stages-vermilion.js",
   "guide-stages-rock-tunnel-celadon.js",
+  "guide-stages-celadon-tower.js",
   "guide-i18n.js",
   "guide-i18n-vermilion.js",
   "guide-i18n-rock-tunnel-celadon.js",
+  "guide-i18n-celadon-tower.js",
   "guide-copy-overrides.js",
   "guide.js",
   "guide-touch.js"
