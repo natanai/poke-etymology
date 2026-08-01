@@ -40,7 +40,20 @@ The compact Living Dex guide selector.
 
 ### `/guides/firered-leafgreen.html`
 
-The FireRed / LeafGreen play companion. Guide development proceeds independently from name-research batches. Name batches should avoid `guides/` unless a cross-feature change is genuinely required.
+The FireRed / LeafGreen play companion. It currently contains 31 stages through the Pokémon Tower summit and receipt of the Poké Flute.
+
+Guide development proceeds independently from name-research batches. Name batches should avoid `guides/` unless a cross-feature change is genuinely required.
+
+The page loads published factual data before compact reference records so guide links use the same authoritative names as the Names page:
+
+1. `data.js`;
+2. `generated-data.js`;
+3. `generation-ii-data.js`;
+4. `reference-data.js`;
+5. route-stage files;
+6. localization files;
+7. `guide.js`;
+8. touch corrections.
 
 ## Names-page data flow
 
@@ -70,6 +83,8 @@ DATA.sort((a, b) => a.d - b.d);
 ```
 
 This architecture deliberately avoids widening the Generation I network-backed build script. Future Johto batches extend this file with individually verified factual records. Do not add unreviewed etymology to it.
+
+The Living Dex guide also loads this layer. A published Johto species must resolve from `DATA`; do not keep or restore a duplicate compact reference merely because the guide links it.
 
 ### `scripts/build-data.mjs`
 
@@ -222,9 +237,26 @@ The validator deliberately derives the published maximum instead of hard-coding 
 
 Prints stable tab-separated final Roots and meaning/effect rows across the assembled dataset. It is a review aid, not a substitute for semantic review.
 
+### `guides/validate-guide.mjs`
+
+Loads Generation I data, published Generation II data, compact reference records, and every route-stage file in a Node VM.
+
+It currently enforces:
+
+- exactly 31 guide stages;
+- unique stage and task IDs;
+- supported task groups;
+- valid Pokémon tokens in tasks and stage drawers;
+- required factual, route, localization, renderer, and touch scripts;
+- the architectural script order.
+
+The validator caught the missing `generation-ii-data.js` guide dependency when Crobat moved from compact reference data into the published #161–#169 batch. Do not weaken this check or re-add published species as duplicate references to make links pass.
+
 ## Reference data
 
 `reference-data.js` contains later-generation Pokémon needed by guide links before they are published in the main Names dataset. When such a species becomes published, remove its duplicate compact reference record. Crobat followed this promotion path in the #161–#169 batch.
+
+The current compact guide layer includes Cleffa, Igglybuff, Bellossom, Espeon, Umbreon, Steelix, Scizor, Porygon2, Raikou, Entei, and Suicune.
 
 `ALL_POKEMON` searches `DATA` first, but duplicate storage is still avoided so one source remains authoritative.
 
@@ -264,6 +296,15 @@ Do not reorder these casually. Research helpers must load before dependent batch
 
 The guide uses local stage files, one-time localization preparation, deterministic rendering, persistent local progress, and direct events.
 
+Current route-stage composition:
+
+- opening, Mt. Moon, and Cerulean files;
+- Vermilion stages;
+- Route 9 through Route 16 stages;
+- Game Corner through Pokémon Tower stages.
+
+New stages append to the existing route, preserving previous stage indices and task IDs. Published Pokémon links resolve from the same assembled `DATA` used by the Names page; unpublished later-generation family links resolve from `REFERENCE_POKEMON`.
+
 The historical self-triggering `MutationObserver` is still disabled by a temporary guard. Remove the dead observer and guard together only after full language testing; removing the guard alone reintroduces the render loop.
 
 Guide changes should preserve stable task IDs and migrate saved state when schema or ordering changes.
@@ -282,7 +323,7 @@ FireRed / LeafGreen guide key:
 poke-etymology-frlg-guide-v2
 ```
 
-Language tags, region search, meaning-effect baselines, and naming credits are static repository data and create no browser storage.
+Language tags, region search, meaning-effect baselines, naming credits, and guide research data are static repository data and create no browser storage.
 
 ## Workflows and deployment
 
@@ -290,9 +331,13 @@ Language tags, region search, meaning-effect baselines, and naming credits are s
 
 Pull-request validation checks syntax for region search, generation-specific data, attribution files, research overlays, and validators, then runs region-filter, language-tag, name-effect, and naming-credit validation.
 
+### `.github/workflows/validate-guide.yml`
+
+Runs on ready Living Dex pull requests. It checks every guide JavaScript file and runs `guides/validate-guide.mjs`.
+
 ### `.github/workflows/pages.yml`
 
-Before publishing from `main`, Pages repeats the same validation, rebuilds the Generation I factual snapshot, and uploads the complete static repository—including the separate Generation II layer.
+Before publishing from `main`, Pages repeats the same validation, rebuilds the Generation I factual snapshot, and uploads the complete static repository—including the separate Generation II layer and all guide files.
 
 ### `.github/workflows/refresh-data.yml`
 
@@ -315,6 +360,8 @@ node scripts/validate-region-filter.mjs
 node scripts/validate-language-tags.mjs
 node scripts/validate-name-effects.mjs
 node scripts/validate-naming-credits.mjs
+for file in guides/*.js guides/*.mjs; do node --check "$file"; done
+node guides/validate-guide.mjs
 ```
 
 Smoke testing must confirm:
@@ -326,6 +373,8 @@ Smoke testing must confirm:
 - authored tags sit over the exact intended tokens;
 - every published disclosure shows a scope-accurate Name credit;
 - the semantic baseline covers every audited row;
+- the Living Dex loads Generation II data before reference-only records;
+- the Living Dex renders 31 stages and does not show `0 / 0`;
 - CPU use settles after rendering;
 - guide state and links still work.
 
