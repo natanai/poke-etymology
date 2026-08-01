@@ -20,18 +20,19 @@ Static scripts may assemble local records, render deterministically, and respond
 
 ### `/index.html`
 
-The Names and etymology index currently publishes #001–#160: complete Generation I plus the first Generation II starter-family batch.
+The Names and etymology index currently publishes #001–#169: complete Generation I plus the first 18 Generation II species.
 
 Responsibilities:
 
 - load generation-scoped factual records;
 - overlay audited research files;
 - load generation-scoped naming attribution;
-- search all supported name fields;
+- search names, numbers, types, regions, and generation aliases;
+- filter to published Kanto or Johto records;
 - save the selected primary language;
 - expand Pokémon entries and languages in place;
 - display Roots, meaning/effect, Notes, entry-owned word tags, naming credit, confidence, comparison, audit metadata, EV yield, and collapsed sources;
-- open direct hashes such as `#156`.
+- open direct hashes such as `#169`.
 
 ### `/guides/index.html`
 
@@ -59,7 +60,7 @@ It contains official names, romanization, current PokeAPI types and EV yields, a
 
 ### `generation-ii-data.js`
 
-The append-only static Generation II factual layer. It currently contains #152–#160 and runs after `generated-data.js`:
+The append-only static Generation II factual layer. It currently contains #152–#169 and runs after `generated-data.js`:
 
 ```js
 for (const record of GENERATION_II_DATA) {
@@ -68,7 +69,7 @@ for (const record of GENERATION_II_DATA) {
 DATA.sort((a, b) => a.d - b.d);
 ```
 
-This pilot architecture deliberately avoids widening the Generation I network-backed build script. Future Johto batches extend this file with researched factual records. Do not add unreviewed etymology to it.
+This architecture deliberately avoids widening the Generation I network-backed build script. Future Johto batches extend this file with individually verified factual records. Do not add unreviewed etymology to it.
 
 ### `scripts/build-data.mjs`
 
@@ -143,7 +144,7 @@ Language order in `x` and `a` is Japanese, French, English. Tags use named langu
 
 - `verified-research.js` defines `sourceSet()`.
 - `verified-research-037-045.js` defines `expandedSourceSet()`.
-- numbered files load in Pokédex order.
+- numbered files load in Pokédex order, currently through `verified-research-161-169.js`.
 - `verified-research-name-effect-fixes.js` remains the final Generation I semantic-correction overlay.
 
 Every research overlay mutates the matching `DATA` object and copies tags into `pokemon.audit`.
@@ -154,7 +155,7 @@ Every research overlay mutates the matching `DATA` object and copies tags into `
 
 Meaning/effect explains what the name says or does linguistically. Notes explain why it fits the Pokémon. `scripts/validate-name-effects.mjs` assembles all published generations, checks recurrent leakage patterns, and verifies a SHA-256 baseline over every audited `(ID, language, Roots, meaning/effect)` row.
 
-The current baseline covers 160 Pokémon and 480 language rows.
+The current baseline covers 169 Pokémon and 507 language rows.
 
 ### Language tags
 
@@ -166,6 +167,25 @@ The current baseline covers 160 Pokémon and 480 language rows.
 - `sourceLanguage` is required for `loanword`;
 - optional `occurrence` selects repeated text;
 - supported keys are `japanese`, `french`, and `english`.
+
+The current assembled dataset contains 121 validated tags across 96 language analyses.
+
+## Region search and filtering
+
+### `region-filter.js`
+
+Defines the National Pokédex ranges and searchable aliases for published regions. It currently maps:
+
+- Kanto: #001–#151;
+- Johto: #152–#251.
+
+Only regions with at least one record in `DATA` appear in the selector. Search documents add the region label and aliases such as `generation ii`, `generation 2`, `gen ii`, and `gen 2` to each matching Pokémon.
+
+The region selector and free-text query are cumulative. Published records hidden by a filter must not be reinserted through the direct-hash reference fallback; only genuinely reference-only Pokémon may bypass the visible filtered list for a direct link.
+
+### `scripts/validate-region-filter.mjs`
+
+Loads the assembled factual dataset and checks region assignment, selector options, region/generation search aliases, combined region/type queries, and conflicting selector/query behavior. Published Johto IDs are derived from runtime data rather than a hard-coded current endpoint, so future batches expand coverage automatically.
 
 ## Validators
 
@@ -191,9 +211,12 @@ Loads both generation registries and validates:
 - defaults and overrides for each generation;
 - supported languages and credit kinds;
 - required people, organization, role, detail, and HTTPS source fields;
-- every published disclosure through #160;
+- every published language disclosure;
+- contiguous published IDs through the assembled maximum;
 - Generation II default coverage through #251;
 - null resolution outside supported generations.
+
+The validator deliberately derives the published maximum instead of hard-coding #169 or any earlier batch boundary.
 
 ### `scripts/report-name-effects.mjs`
 
@@ -201,7 +224,9 @@ Prints stable tab-separated final Roots and meaning/effect rows across the assem
 
 ## Reference data
 
-`reference-data.js` contains later-generation Pokémon needed by guide links before they are published in the main Names dataset. `ALL_POKEMON` searches `DATA` first, so a newly published record supersedes its earlier reference-only copy automatically.
+`reference-data.js` contains later-generation Pokémon needed by guide links before they are published in the main Names dataset. When such a species becomes published, remove its duplicate compact reference record. Crobat followed this promotion path in the #161–#169 batch.
+
+`ALL_POKEMON` searches `DATA` first, but duplicate storage is still avoided so one source remains authoritative.
 
 ## Names renderer
 
@@ -214,7 +239,7 @@ Relevant functions:
 - `namingCreditMarkup()` renders the generation-scoped attribution;
 - `renderDetails()` combines research, Notes, tags, credits, facts, and sources.
 
-No background observer, timer, fetch, semantic inference, tag inference, or attribution inference belongs in the renderer.
+`region-filter.js` adds direct input/change handlers after `app.js` loads. Neither script uses observers, polling, runtime fetching, semantic inference, tag inference, or attribution inference.
 
 ## Names-page script order
 
@@ -231,8 +256,9 @@ The order in `index.html` is an architectural contract:
 9. `verified-research-name-effect-fixes.js`
 10. `reference-data.js`
 11. `app.js`
+12. `region-filter.js`
 
-Do not reorder these casually. Research helpers must load before dependent batches, factual records before overlays, and attribution registries before rendering.
+Do not reorder these casually. Research helpers must load before dependent batches, factual records before overlays, attribution registries before rendering, and the base renderer before the region-filter enhancement.
 
 ## Living Dex architecture
 
@@ -256,13 +282,13 @@ FireRed / LeafGreen guide key:
 poke-etymology-frlg-guide-v2
 ```
 
-Language tags, meaning-effect baselines, and naming credits are static repository data and create no browser storage.
+Language tags, region search, meaning-effect baselines, and naming credits are static repository data and create no browser storage.
 
 ## Workflows and deployment
 
 ### `.github/workflows/validate.yml`
 
-Pull-request validation checks syntax for generation-specific data and attribution files, then runs language-tag, name-effect, and naming-credit validation.
+Pull-request validation checks syntax for region search, generation-specific data, attribution files, research overlays, and validators, then runs region-filter, language-tag, name-effect, and naming-credit validation.
 
 ### `.github/workflows/pages.yml`
 
@@ -276,13 +302,16 @@ Refreshes the committed Generation I generated snapshot. It must not overwrite `
 
 ```bash
 node --check app.js
+node --check region-filter.js
 node --check generation-ii-data.js
 node --check naming-credits.js
 node --check naming-credits-generation-ii.js
 for file in verified-research*.js; do node --check "$file"; done
+node --check scripts/validate-region-filter.mjs
 node --check scripts/validate-language-tags.mjs
 node --check scripts/validate-name-effects.mjs
 node --check scripts/validate-naming-credits.mjs
+node scripts/validate-region-filter.mjs
 node scripts/validate-language-tags.mjs
 node scripts/validate-name-effects.mjs
 node scripts/validate-naming-credits.mjs
@@ -291,6 +320,7 @@ node scripts/validate-naming-credits.mjs
 Smoke testing must confirm:
 
 - all published records populate and search across languages;
+- region selection and region/generation terms return the assembled published records;
 - entries and language rows expand correctly;
 - direct hashes work for Generation I, published Generation II, and reference-only guide links;
 - authored tags sit over the exact intended tokens;
