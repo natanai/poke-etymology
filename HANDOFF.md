@@ -5,9 +5,9 @@
 **Snapshot:** 2026-07-31  
 **Repository:** `natanai/poke-etymology`  
 **Live site:** `https://natanai.github.io/poke-etymology/`  
-**Published Names data:** #001–#169  
-**Audited etymology:** Generation I #001–#151 plus Generation II #152–#169  
-**Name-effect baseline:** 169 Pokémon × 3 languages = 507 reviewed rows  
+**Published Names data:** #001–#178  
+**Audited etymology:** Generation I #001–#151 plus Generation II #152–#178  
+**Name-effect baseline:** 178 Pokémon × 3 languages = 534 reviewed rows  
 **FireRed / LeafGreen guide:** 31 stages from Pallet Town through Pokémon Tower and receipt of the Poké Flute
 
 ---
@@ -30,7 +30,7 @@ Before doing any work:
    - [`CONTRIBUTING.md`](CONTRIBUTING.md)
    - [`AGENTS.md`](AGENTS.md) when operating as an AI agent.
 3. Inspect current `main`, newest merged PRs, open PRs, and relevant branches.
-4. Treat current `main` as the authority whenever this snapshot and the repository disagree.
+4. Treat current `main` as authority whenever this snapshot and the repository disagree.
 5. Make the smallest coherent change that satisfies the request.
 6. Update authoritative standards and this handoff when status, architecture, validation, schema, attribution, or next work changes.
 
@@ -42,7 +42,7 @@ Poké Etymology is a mobile-first Pokémon language and living-dex companion. It
 
 Nat values linguistic nuance, ordinary-word examples, explicit uncertainty, citations close to claims, scope-accurate naming provenance, restrained mobile UX, and handoff-safe documentation.
 
-Do not add generic Pokédex scope, decorative controls, unsupported certainty, false sole-author credit, or convincing prose that converts character knowledge into etymology.
+Do not add generic Pokédex scope, unsupported certainty, false sole-author credit, or convincing prose that converts character knowledge into etymology.
 
 When showing multiple names in prose, use:
 
@@ -62,16 +62,9 @@ Every substantive word in meaning/effect must follow from:
 - the ordinary definition of the whole name;
 - explicitly stated clipping, borrowing, reversal, grammar, pun, register, or sound association.
 
-Do not import appearance, anatomy, behavior, type, powers, evolutionary stage, game mechanics, Pokédex story, cloning, fossil revival, or design inspiration unless the Roots literally encode that content.
+Do not import appearance, anatomy, behavior, type, powers, evolutionary stage, mechanics, Pokédex story, or design inspiration unless the Roots literally encode that content.
 
-Use the blind-name test: hide the sprite, Pokédex, evolution family, mechanics, and story. A reader must still be able to derive the gloss from the written analysis.
-
-Canonical failures include:
-
-- *far-fetched* means implausible, not a duck-and-vegetable creature;
-- 白竜 means white dragon, not “sacred-looking white dragon”;
-- Mew + two means the second Mew, not a genetically engineered counterpart;
-- dodo + duo means a duo of dodos, not necessarily a two-headed dodo.
+Use the blind-name test: hide the sprite, Pokédex, family, mechanics, and story. A reader must still be able to derive the gloss from the written analysis.
 
 ### Semantic lock
 
@@ -79,12 +72,13 @@ Canonical failures include:
 
 Current baseline:
 
-- 169 audited Pokémon;
-- 507 language rows;
-- audited through #169;
+- 178 audited Pokémon;
+- 534 language rows;
+- audited through #178;
+- digest `3552bb17d00aaa25394c7915c87f44cfac4b137a8bddc1f81c87e8bb48c231b8`;
 - reviewed on 2026-07-31.
 
-The exact attestation is:
+Exact attestation:
 
 > I manually compared every changed meaning/effect line against its displayed Roots and moved design/lore context to Notes.
 
@@ -98,63 +92,47 @@ Never copy a digest merely to clear CI, weaken the validator, or exclude a gener
 
 All #001–#151 have complete Japanese, French, and English analysis, Notes, confidence, localization comparison, sources, tags where applicable, and naming credits.
 
-A complete 453-row semantic audit corrected 132 earlier glosses. Its record remains in `research-batches/english-name-effect-corrections-notes.md`; the historical filename now covers all three languages.
+A complete 453-row semantic audit corrected 132 earlier glosses. Its record is `research-batches/english-name-effect-corrections-notes.md`; the historical filename now covers all three languages.
 
-### Generation II batch #152–#160
+### Generation II batches
 
-The Johto starter-family batch contains:
+Completed and audited:
 
-- Chikorita, Bayleef, Meganium;
-- Cyndaquil, Quilava, Typhlosion;
-- Totodile, Croconaw, Feraligatr.
+- **#152–#160:** Chikorita through Feraligatr — `research-batches/152-160-notes.md`;
+- **#161–#169:** Sentret through Crobat — `research-batches/161-169-notes.md`;
+- **#170–#178:** Chinchou through Xatu — `research-batches/170-178-notes.md`.
 
-All 27 language analyses were written under the Roots-only standard. The decision record is [`research-batches/152-160-notes.md`](research-batches/152-160-notes.md).
+Each batch contains 27 manually reviewed language rows.
 
-Important unresolved boundaries remain local and explicit:
+Important #170–#178 uncertainty boundaries:
 
-- Magmarashi's final animal component;
-- Typhlosion's possible secondary Typhon echo;
-- Ordile's opening `ō`, which may evoke king, emperor, or large.
+- Chinchou: general *chōchin* “lantern” versus fuller *chōchin-ankō* “footballfish”;
+- Lanturn: secure lantern respelling with only a possible secondary *turn on* pun;
+- Pichu: secure Pikachu contraction with possible *puchi + chūchū* reinforcement;
+- Cleffa: shortened Clefairy-family name with possible *clef + fa* reinforcement;
+- Igglybuff: family remodeling plus possible *jiggly/wiggly + buff* segmentation;
+- Natu: international *nature* versus inherited Japanese *Naty/native* relationship;
+- Xatu Japanese: *Naty/native + indio* remains plausible, and the donor language for *indio* is unresolved;
+- Xatu English: Jeff Kalles's stated *xat* derivation is confirmed; a Natu echo remains secondary.
 
-### Generation II batch #161–#169
-
-The second Johto batch contains:
-
-- Sentret and Furret;
-- Hoothoot and Noctowl;
-- Ledyba and Ledian;
-- Spinarak and Ariados;
-- Crobat.
-
-All 27 language analyses were individually reviewed, including uncertainty-heavy names. The decision record is [`research-batches/161-169-notes.md`](research-batches/161-169-notes.md).
-
-Do not flatten these unresolved cases:
-
-- Otachi's tail / standing / weasel overlap;
-- Fouinar's possible *renard* versus *fouiner* ending;
-- Rediba/Ledyba's *ladybug* versus *ladybird* clipping and probable *red* component;
-- Redian/Ledian's possible *alien* or *guardian* ending;
-- Ariados's Ariadne, arachnid, Japanese *odosu*, and Spanish *dos* possibilities;
-- Crobat's *cross + bat*, *acrobat*, and Japanese *kuro* overlap.
-
-The uncertainty is part of the audited result, not unfinished prose to be made neater later.
+Do not flatten these into cleaner unsupported answers. Cultural explanations must be no more specific than the cited naming source.
 
 ---
 
 ## 5. Generation-scoped data architecture
 
-The Names page currently publishes #001–#169.
+The Names page publishes #001–#178.
 
 Load order:
 
 1. `data.js`
-2. `generated-data.js` — generated Generation I #001–#151
-3. `generation-ii-data.js` — append-only factual Generation II layer, currently #152–#169
+2. `generated-data.js` — Generation I #001–#151
+3. `generation-ii-data.js` — append-only Generation II facts, currently #152–#178
 4. `associations.js`
-5. `naming-credits.js` — Generation I attribution
-6. `naming-credits-generation-ii.js` — Generation II attribution
+5. `naming-credits.js`
+6. `naming-credits-generation-ii.js`
 7. `verified-research.js`
-8. numbered `verified-research-*.js` files in Pokédex order, currently through `verified-research-161-169.js`
+8. numbered `verified-research-*.js` files in Pokédex order, through `verified-research-170-178.js`
 9. `verified-research-name-effect-fixes.js`
 10. `reference-data.js`
 11. `app.js`
@@ -162,11 +140,17 @@ Load order:
 
 Do not hand-edit `generated-data.js` as research storage. Do not widen `scripts/build-data.mjs` in a way that can overwrite Johto work without a documented migration.
 
-Future Generation II batches extend `generation-ii-data.js` and add a numbered research overlay. They must enter every validator and the semantic baseline immediately.
+Every new Johto batch must:
 
-`reference-data.js` contains guide-linked later-generation species that should be directly linkable before entering the published Names list. Crobat was removed when #169 became a published audited record. The compact reference layer currently includes Cleffa, Igglybuff, Bellossom, Espeon, Umbreon, Steelix, Scizor, Porygon2, Raikou, Entei, and Suicune. Do not treat those compact records as audited name entries.
+- extend `generation-ii-data.js` only with individually checked factual records;
+- add a numbered audited research overlay;
+- enter every validator and the semantic baseline immediately;
+- remove any promoted species from `reference-data.js`;
+- preserve the guide's ability to resolve those species from `DATA`.
 
-The region selector and text search derive published Johto membership from `DATA`. Region validation must remain data-driven; never restore a hard-coded last-published Johto list.
+Cleffa and Igglybuff were promoted from compact guide references in the #170–#178 batch. The current compact reference layer contains Bellossom, Espeon, Umbreon, Steelix, Scizor, Porygon2, Raikou, Entei, and Suicune.
+
+The region selector derives published Johto membership and type combinations from `DATA`. Never restore hard-coded batch endpoints for queries such as `johto water`.
 
 ---
 
@@ -174,39 +158,38 @@ The region selector and text search derive published Johto membership from `DATA
 
 [`LANGUAGE_TAGS.md`](LANGUAGE_TAGS.md) is authoritative.
 
-The supported type is `loanword`. Tags:
+The only supported type is `loanword`. Tags:
 
 - belong to the audited entry and exact language;
 - target an exact Roots substring;
-- record `sourceLanguage` in data and explain it in Roots or Notes;
+- record `sourceLanguage` and name it in Roots or Notes;
 - use optional `occurrence` only for repeated exact text;
-- are never inferred by `app.js`.
+- are never inferred by the renderer.
 
-`scripts/validate-language-tags.mjs` assembles Generation I and the published Generation II layer. Current validated total after #161–#169 is 121 tags across 96 language analyses.
+Current validated total: **139 tags across 111 language analyses**.
 
-Alternative roots may be tagged only when they are genuinely presented as lexical borrowing possibilities in that language analysis. A tag does not upgrade an uncertain root to certainty.
+Do not tag a donor language when the source language itself is unresolved. Xatu's possible *indio* component is deliberately untagged because Spanish and Italian remain possible.
 
 ---
 
 ## 7. Naming credits
 
-[`NAMING_CREDITS.md`](NAMING_CREDITS.md) is authoritative.
+[`NAMING_CREDITS.md`](NAMING_CREDITS.md) is authoritative. Generation I and Generation II have separate bounded registries.
 
-Generation I and Generation II have separate bounded registries.
+Generation II defaults:
 
-### Generation II defaults
+- Japanese: Game Freak naming staff, team-level;
+- French: Nintendo France first-251 localization team;
+- English: Pokémon Gold and Silver US localization coordination team.
 
-- Japanese: Game Freak naming staff, team-level by default.
-- French: Nintendo France first-251 localization context, team-level unless an exact species decision is documented.
-- English: Pokémon Gold and Silver US localization coordination team, not one presumed universal coiner.
+Exact Generation II English overrides currently include:
 
-English Quilava has a specific Jeff Kalles override because he identifies it as his suggestion.
+- **Quilava — Jeff Kalles**;
+- **Xatu — Jeff Kalles**, who says he suggested the X-initial name from *xat*.
 
-No #161–#169 entry received a new individual override. Species-specific French etymology explanations support the constructions but do not, by themselves, prove sole species-by-species coinage beyond the documented team context.
+No Japanese or French #170–#178 entry received a new individual override. A species etymology explanation alone does not prove authorship.
 
-`scripts/validate-naming-credits.mjs` requires every published ID to be contiguous and every published language disclosure to resolve a complete generation-scoped credit. It no longer hard-codes the current maximum ID.
-
-Never extend one generation by simply widening another generation's ID check. Later generations require their own researched registry and validator boundary.
+`scripts/validate-naming-credits.mjs` requires every published ID to be contiguous and every published language disclosure to resolve a complete generation-scoped credit. Later generations need separately researched registries.
 
 ---
 
@@ -232,16 +215,16 @@ node scripts/validate-name-effects.mjs
 node scripts/validate-naming-credits.mjs
 ```
 
-Run before every Living Dex PR:
+When factual or reference data changes, also run:
 
 ```bash
 for file in guides/*.js guides/*.mjs; do node --check "$file"; done
 node guides/validate-guide.mjs
 ```
 
-The guide validator currently expects 31 stages and checks unique stage/task IDs, supported task groups, Pokémon tokens in tasks and drawers, published Generation II data loading, required scripts, and script order.
+`.github/workflows/validate-guide.yml` now triggers when `data.js`, `generated-data.js`, `generation-ii-data.js`, or `reference-data.js` changes. This prevents a Names-data promotion from silently breaking guide links.
 
-Pull requests and Pages run the appropriate validators. Pages repeats name validation before rebuilding Generation I data and publishing the complete static repository.
+The guide validator currently expects 31 stages and checks unique IDs, task groups, Pokémon tokens, factual-data loading, required scripts, and script order.
 
 ---
 
@@ -252,14 +235,14 @@ Name research and FireRed guide work may proceed in parallel, but they share `ma
 For every branch:
 
 1. branch from current `main`;
-2. keep unrelated subsystems isolated whenever possible;
+2. keep unrelated subsystems isolated;
 3. keep the PR draft while research and validation are incomplete;
-4. immediately before ready/merge, inspect all open PRs and compare the branch against current `main`;
-5. incorporate relevant merged work and rerun every affected validator;
-6. inspect overlapping documentation changes rather than choosing one version blindly;
+4. immediately before merge, inspect current `main`, open PRs, and active branches;
+5. reconcile shared documentation and `reference-data.js` deliberately;
+6. rerun every affected validator;
 7. merge only when GitHub reports the PR mergeable and checks pass.
 
-Guide extensions should generally remain under `guides/`, plus tightly necessary reference records and authoritative documentation. Name batches should avoid `guides/` unless a shared architecture change is genuinely required.
+Guide work should generally remain under `guides/`, plus necessary shared references and authoritative documentation. Name batches should not edit guide content files unless a true cross-feature architecture change is required.
 
 ---
 
@@ -267,12 +250,12 @@ Guide extensions should generally remain under `guides/`, plus tightly necessary
 
 The FireRed / LeafGreen guide contains 31 stages from Pallet Town through the Pokémon Tower summit and receipt of the Poké Flute.
 
-Current guide progression:
+Current progression includes:
 
 - Pallet Town through Route 5;
-- Routes 5–6, Vermilion City, S.S. Anne, Route 11, Diglett’s Cave / Route 2, and Lt. Surge;
-- Route 9, Route 10 North, Rock Tunnel, Lavender / Route 8, Celadon setup, and Route 16 North;
-- Game Corner prizes, Rocket Hideout, Celadon Gym, Pokémon Tower catches, and the summit/Poké Flute.
+- Vermilion, S.S. Anne, Diglett's Cave, and Lt. Surge;
+- Route 9, Rock Tunnel, Lavender, Celadon, and Route 16;
+- Game Corner prizes, Rocket Hideout, Erika, Pokémon Tower catches, and the Poké Flute.
 
 Research records:
 
@@ -282,34 +265,13 @@ Research records:
 
 Important current plans:
 
-- Porygon is the only required Game Corner prize; deterministic cash costs are documented by version.
-- Scyther in FireRed and Pinsir in LeafGreen are optional guaranteed alternatives to the Safari Zone.
-- The Ghost-family plan uses one Gastly and two wild Haunter on 7F, then trades one Haunter into Gengar.
-- The Marowak spirit is uncatchable.
-- The Poké Flute unlocks the two unique Snorlax encounters on Routes 12 and 16.
+- Porygon is the only required Game Corner prize;
+- Scyther/ Pinsir prize alternatives are optional;
+- the Ghost-family plan uses one Gastly and two wild Haunter, with one Haunter traded into Gengar;
+- the Marowak spirit is uncatchable;
+- the Poké Flute unlocks the two unique Snorlax encounters.
 
-The guide factual-data order is:
-
-1. `data.js`;
-2. `generated-data.js`;
-3. `generation-ii-data.js`;
-4. `reference-data.js`;
-5. route and localization files;
-6. `guide.js` and touch corrections.
-
-Published Johto Pokémon resolve from `DATA`; compact references are only for unpublished later-generation family links.
-
-Preserve:
-
-- version switching;
-- persistent completion state and stable task IDs;
-- exact living-dex quantities;
-- optional tasks excluded from required progress;
-- localized Pokémon links;
-- compact disclosures and source drawer;
-- one deterministic render and direct events.
-
-Later-generation family planning may use compact records in `reference-data.js`, but those species must not appear in the visible Names list merely because the guide links them.
+Preserve version switching, stable task IDs, saved completion state, exact living-dex quantities, optional-task semantics, localized Pokémon links, deterministic rendering, and direct events.
 
 A historical self-triggering `MutationObserver` remains disabled by a temporary guard. Remove the dead observer and guard together only after full English, French, and Japanese testing. Do not replace it with another observer, timer, polling loop, or background mutation pass.
 
@@ -321,33 +283,31 @@ Preserve:
 
 - mobile-first raw-text speed;
 - no frameworks, hydration, runtime content fetch, polling, recurring timers, or broad persistent observers;
-- in-place entry expansion and scroll position;
+- in-place expansion and scroll position;
 - independent language disclosures;
 - safe mobile wrapping;
 - exact authored word tags;
 - one compact naming-credit block;
-- keyboard focus and touch corrections;
+- keyboard and touch usability;
 - static local data.
 
-Do not reintroduce fake controls, source-button walls, universal `Created by`, inferred tags, inferred semantic claims, or background annotation passes.
+Do not reintroduce inferred tags, inferred semantic claims, universal `Created by`, fake controls, or background annotation passes.
 
 ---
 
-## 12. Next name batches
+## 12. Next name batch
 
-Continue Generation II from #170 in coherent evolutionary or linguistic groups. The next batch should be chosen only after reviewing source quality, family boundaries, and whether pending guide-reference species would be promoted into the published dataset.
-
-Do not assume every batch must contain exactly nine species. Review depth and coherent linguistic grouping are more important than numerical regularity.
+Continue from **#179 Mareep**. Choose the endpoint by coherent family boundaries and source quality, not by a fixed batch size. Review whether any species in the range is already a compact guide reference and promote it cleanly if necessary.
 
 ---
 
 ## 13. Next Living Dex chunk
 
-The next coherent extension should:
+The next coherent guide extension should:
 
 1. choose and explain the first Snorlax encounter without risking both unique copies;
-2. cover Route 12 and its completion-relevant catches, fishing, trades, and items;
+2. cover Route 12 and completion-relevant catches, fishing, trades, and items;
 3. continue through Routes 13–15;
 4. arrive in Fuchsia City with the next catch plan prepared.
 
-Keep the Safari Zone as a separate later chunk. Its timed navigation, version-exclusive encounters, fishing tables, HM03 Surf, Gold Teeth, one-save items, and family quantities need their own focused review.
+Keep the Safari Zone as a separate later chunk because its timed navigation, version exclusives, fishing tables, HM03 Surf, Gold Teeth, one-save items, and family quantities need focused review.
