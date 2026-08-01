@@ -41,7 +41,7 @@ Examples:
 - a stone evolution may require delaying evolution until the stone is available;
 - a trade evolution requires an explicit trade plan;
 - a baby form may require postgame breeding rather than an early catch;
-- a later-generation evolution may belong in `reference-data.js` and should be acknowledged without entering the visible Generation I index;
+- a later-generation evolution may belong in `reference-data.js` and should be acknowledged without entering the published Names list;
 - fossils and mutually exclusive gifts require a one-save limitation warning and a second-game/trade plan.
 
 Do not tell the player to catch extra copies without explaining the family plan.
@@ -296,12 +296,13 @@ Before merging guide changes, test a narrow phone viewport:
 
 ## Current route boundary
 
-At the 2026-07-31 snapshot, the guide contains 31 stages from Pallet Town through the Pokémon Tower summit and receipt of the Poké Flute.
+At the 2026-07-31 snapshot, the guide contains 36 stages from Pallet Town through Fuchsia City’s pre-Safari fishing setup.
 
 Completed guide research records:
 
 - `guides/research-vermilion.md` — Routes 5–6 through Vermilion Gym;
 - `guides/research-rock-tunnel-celadon.md` — Route 9 through Route 16 North;
-- `guides/research-celadon-tower.md` — Game Corner prizes through the Poké Flute.
+- `guides/research-celadon-tower.md` — Game Corner prizes through the Poké Flute;
+- `guides/research-route12-fuchsia.md` — first Snorlax, Routes 12–15, and Fuchsia fishing setup.
 
-The next coherent extension should resolve the first Snorlax capture and continue through the connected southern route: Route 12, Routes 13–15, and arrival in Fuchsia City. Keep the Safari Zone as its own later chunk because its timed navigation, version-exclusive catches, fishing tables, HM03 Surf, Gold Teeth, and finite one-save planning require separate review.
+The next coherent extension should cover the Safari Zone as one focused plan: exact version-specific family quantities, area-by-area encounter priorities, the 500-step navigation constraint, HM03 Surf, the Gold Teeth, high-value finite pickups, and whether the cleanest completion route needs one optimized session or several purpose-specific entries. Do not mix Koga, post-Surf city catches, or Cycling Road into the Safari research chunk unless they are required to make the Safari instructions understandable.
