@@ -8,7 +8,7 @@
 **Published Names data:** #001–#178  
 **Audited etymology:** Generation I #001–#151 plus Generation II #152–#178  
 **Name-effect baseline:** 178 Pokémon × 3 languages = 534 reviewed rows  
-**FireRed / LeafGreen guide:** 31 stages from Pallet Town through Pokémon Tower and receipt of the Poké Flute
+**FireRed / LeafGreen guide:** 36 stages from Pallet Town through Fuchsia City’s pre-Safari fishing setup
 
 ---
 
@@ -148,7 +148,7 @@ Every new Johto batch must:
 - remove any promoted species from `reference-data.js`;
 - preserve the guide's ability to resolve those species from `DATA`.
 
-Cleffa and Igglybuff were promoted from compact guide references in the #170–#178 batch. The current compact reference layer contains Bellossom, Espeon, Umbreon, Steelix, Scizor, Porygon2, Raikou, Entei, and Suicune.
+Cleffa and Igglybuff were promoted from compact guide references in the #170–#178 batch. The current compact reference layer contains Bellossom, Politoed, Espeon, Umbreon, Slowking, Steelix, Scizor, Kingdra, Porygon2, Raikou, Entei, and Suicune.
 
 The region selector derives published Johto membership and type combinations from `DATA`. Never restore hard-coded batch endpoints for queries such as `johto water`.
 
@@ -222,9 +222,9 @@ for file in guides/*.js guides/*.mjs; do node --check "$file"; done
 node guides/validate-guide.mjs
 ```
 
-`.github/workflows/validate-guide.yml` now triggers when `data.js`, `generated-data.js`, `generation-ii-data.js`, or `reference-data.js` changes. This prevents a Names-data promotion from silently breaking guide links.
+`.github/workflows/validate-guide.yml` triggers when guide files or shared Pokémon factual/reference data changes. This prevents a Names-data promotion from silently breaking guide links.
 
-The guide validator currently expects 31 stages and checks unique IDs, task groups, Pokémon tokens, factual-data loading, required scripts, and script order.
+The guide validator currently expects 36 stages and checks unique IDs, task groups, Pokémon tokens, factual-data loading, required scripts, script order, and reference records that duplicate published `DATA`.
 
 ---
 
@@ -248,28 +248,34 @@ Guide work should generally remain under `guides/`, plus necessary shared refere
 
 ## 10. Living Dex guide
 
-The FireRed / LeafGreen guide contains 31 stages from Pallet Town through the Pokémon Tower summit and receipt of the Poké Flute.
+The FireRed / LeafGreen guide contains 36 stages from Pallet Town through Fuchsia City’s pre-Safari fishing setup.
 
 Current progression includes:
 
 - Pallet Town through Route 5;
 - Vermilion, S.S. Anne, Diglett's Cave, and Lt. Surge;
 - Route 9, Rock Tunnel, Lavender, Celadon, and Route 16;
-- Game Corner prizes, Rocket Hideout, Erika, Pokémon Tower catches, and the Poké Flute.
+- Game Corner prizes, Rocket Hideout, Erika, Pokémon Tower catches, and the Poké Flute;
+- the first Snorlax, Route 12 fishing, Routes 13–15, and Fuchsia City fishing setup.
 
 Research records:
 
 - `guides/research-vermilion.md`;
 - `guides/research-rock-tunnel-celadon.md`;
-- `guides/research-celadon-tower.md`.
+- `guides/research-celadon-tower.md`;
+- `guides/research-route12-fuchsia.md`.
 
 Important current plans:
 
 - Porygon is the only required Game Corner prize;
-- Scyther/ Pinsir prize alternatives are optional;
+- Scyther/Pinsir prize alternatives are optional;
 - the Ghost-family plan uses one Gastly and two wild Haunter, with one Haunter traded into Gengar;
 - the Marowak spirit is uncatchable;
-- the Poké Flute unlocks the two unique Snorlax encounters.
+- the Route 12 Snorlax is saved before waking and captured before risking the Route 16 copy;
+- extracted game data establishes FireRed Horsea and LeafGreen Krabby at 84% with the Route 12 Super Rod;
+- Route 14 is the Ditto stop at 15%, rather than the 5% Route 13 or Route 15 encounters;
+- Fuchsia uses the Good Rod for Poliwag and the Super Rod for direct Goldeen/Seaking;
+- the 1% Route 12 Psyduck/Slowpoke encounter waits until Surf makes the version family guaranteed in Fuchsia.
 
 Preserve version switching, stable task IDs, saved completion state, exact living-dex quantities, optional-task semantics, localized Pokémon links, deterministic rendering, and direct events.
 
@@ -303,11 +309,13 @@ Continue from **#179 Mareep**. Choose the endpoint by coherent family boundaries
 
 ## 13. Next Living Dex chunk
 
-The next coherent guide extension should:
+The next coherent guide extension is the Safari Zone as one focused plan. It should resolve:
 
-1. choose and explain the first Snorlax encounter without risking both unique copies;
-2. cover Route 12 and completion-relevant catches, fishing, trades, and items;
-3. continue through Routes 13–15;
-4. arrive in Fuchsia City with the next catch plan prepared.
+1. exact FireRed and LeafGreen family quantities by Safari area;
+2. the 500-step limit and clean area-to-area navigation;
+3. HM03 Surf and the Gold Teeth without avoidable wasted entries;
+4. high-value finite pickups that fit the route;
+5. whether one optimized session or several purpose-specific entries is clearest and most reliable;
+6. which rare catches should be attempted now versus deferred to a better post-Surf or later-game source.
 
-Keep the Safari Zone as a separate later chunk because its timed navigation, version exclusives, fishing tables, HM03 Surf, Gold Teeth, one-save items, and family quantities need focused review.
+Keep Koga, post-Surf Fuchsia catches, Cycling Road, and the second Snorlax outside this chunk unless a brief reference is necessary to make the Safari instructions understandable.
