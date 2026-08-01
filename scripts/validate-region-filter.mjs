@@ -80,6 +80,13 @@ function filteredIds(query,region=""){
   `,context);
 }
 
+function publishedJohtoIdsForType(type){
+  return vm.runInContext(
+    `DATA.filter(pokemon=>pokemon.d>=152 && pokemon.d<=251 && pokemon.t.includes(${JSON.stringify(type)})).map(pokemon=>pokemon.d)`,
+    context
+  );
+}
+
 const publishedJohtoIds=vm.runInContext(
   `DATA.filter(pokemon=>pokemon.d>=152 && pokemon.d<=251).map(pokemon=>pokemon.d)`,
   context
@@ -88,9 +95,9 @@ const publishedJohtoIds=vm.runInContext(
 expectEqual(filteredIds("kanto").length,151,"Kanto text search count");
 expectEqual(filteredIds("johto"),publishedJohtoIds,"Johto text search results");
 expectEqual(filteredIds("","johto"),publishedJohtoIds,"Johto selector results");
-expectEqual(filteredIds("johto water"),[158,159,160],"combined region and Water-type search");
-expectEqual(filteredIds("generation ii grass"),[152,153,154],"generation alias search");
-expectEqual(filteredIds("johto bug"),[165,166,167,168],"new Johto Bug-type search");
+expectEqual(filteredIds("johto water"),publishedJohtoIdsForType("Water"),"combined region and Water-type search");
+expectEqual(filteredIds("generation ii grass"),publishedJohtoIdsForType("Grass"),"generation alias and Grass-type search");
+expectEqual(filteredIds("johto bug"),publishedJohtoIdsForType("Bug"),"combined region and Bug-type search");
 expectEqual(filteredIds("johto","kanto"),[],"selector and conflicting query");
 
 if(errors.length){
