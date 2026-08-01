@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "auditedEntries": 160,
-  "languageRows": 480,
-  "auditedThrough": 160,
-  "digest": "10402e783996b04a8f8c4cd727c9fab13487147631d8643759688792f38928ad",
+  "auditedEntries": 169,
+  "languageRows": 507,
+  "auditedThrough": 169,
+  "digest": "11177bb12be19080700db84fcdb23c963a6e287c2be51c62c3b22256424a7046",
   "reviewedOn": "2026-07-31",
   "attestation": "I manually compared every changed meaning/effect line against its displayed Roots and moved design/lore context to Notes."
 }
