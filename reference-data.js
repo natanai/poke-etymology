@@ -1,6 +1,4 @@
 const REFERENCE_POKEMON=[
-  {d:173,e:"Cleffa",f:"Mélo",j:"ピィ",r:"Pī",t:["Normal"],v:[0,0,0,0,1,0]},
-  {d:174,e:"Igglybuff",f:"Toudoudou",j:"ププリン",r:"Pupurin",t:["Normal"],v:[1,0,0,0,0,0]},
   {d:182,e:"Bellossom",f:"Joliflor",j:"キレイハナ",r:"Kireihana",t:["Grass"],v:[0,0,0,0,3,0]},
   {d:196,e:"Espeon",f:"Mentali",j:"エーフィ",r:"Ēfi",t:["Psychic"],v:[0,0,0,2,0,0]},
   {d:197,e:"Umbreon",f:"Noctali",j:"ブラッキー",r:"Burakkī",t:["Dark"],v:[0,0,0,0,2,0]},
