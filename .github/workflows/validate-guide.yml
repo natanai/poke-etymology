@@ -5,6 +5,10 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
     paths:
       - "guides/**"
+      - "data.js"
+      - "generated-data.js"
+      - "generation-ii-data.js"
+      - "reference-data.js"
       - ".github/workflows/validate-guide.yml"
   workflow_dispatch:
 

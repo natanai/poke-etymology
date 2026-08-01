@@ -16,7 +16,16 @@ const GENERATION_II_DATA=[
   {d:166,e:"Ledian",f:"Coxyclaque",j:"レディアン",r:"Redian",t:["Bug","Flying"],v:[0,0,0,0,2,0],x:[],c:"",reviewed:false},
   {d:167,e:"Spinarak",f:"Mimigal",j:"イトマル",r:"Itomaru",t:["Bug","Poison"],v:[0,1,0,0,0,0],x:[],c:"",reviewed:false},
   {d:168,e:"Ariados",f:"Migalos",j:"アリアドス",r:"Ariados",t:["Bug","Poison"],v:[0,2,0,0,0,0],x:[],c:"",reviewed:false},
-  {d:169,e:"Crobat",f:"Nostenfer",j:"クロバット",r:"Crobat",t:["Poison","Flying"],v:[0,0,0,0,0,3],x:[],c:"",reviewed:false}
+  {d:169,e:"Crobat",f:"Nostenfer",j:"クロバット",r:"Crobat",t:["Poison","Flying"],v:[0,0,0,0,0,3],x:[],c:"",reviewed:false},
+  {d:170,e:"Chinchou",f:"Loupio",j:"チョンチー",r:"Chonchie",t:["Water","Electric"],v:[1,0,0,0,0,0],x:[],c:"",reviewed:false},
+  {d:171,e:"Lanturn",f:"Lanturn",j:"ランターン",r:"Lantern",t:["Water","Electric"],v:[2,0,0,0,0,0],x:[],c:"",reviewed:false},
+  {d:172,e:"Pichu",f:"Pichu",j:"ピチュー",r:"Pichu",t:["Electric"],v:[0,0,0,0,0,1],x:[],c:"",reviewed:false},
+  {d:173,e:"Cleffa",f:"Mélo",j:"ピィ",r:"Py",t:["Fairy"],v:[0,0,0,0,1,0],x:[],c:"",reviewed:false},
+  {d:174,e:"Igglybuff",f:"Toudoudou",j:"ププリン",r:"Pupurin",t:["Normal","Fairy"],v:[1,0,0,0,0,0],x:[],c:"",reviewed:false},
+  {d:175,e:"Togepi",f:"Togepi",j:"トゲピー",r:"Togepy",t:["Fairy"],v:[0,0,0,0,1,0],x:[],c:"",reviewed:false},
+  {d:176,e:"Togetic",f:"Togetic",j:"トゲチック",r:"Togechick",t:["Fairy","Flying"],v:[0,0,0,0,2,0],x:[],c:"",reviewed:false},
+  {d:177,e:"Natu",f:"Natu",j:"ネイティ",r:"Naty",t:["Psychic","Flying"],v:[0,0,0,1,0,0],x:[],c:"",reviewed:false},
+  {d:178,e:"Xatu",f:"Xatu",j:"ネイティオ",r:"Natio",t:["Psychic","Flying"],v:[0,0,0,1,0,1],x:[],c:"",reviewed:false}
 ];
 
 for(const record of GENERATION_II_DATA){

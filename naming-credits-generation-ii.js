@@ -47,6 +47,19 @@ const NAMING_CREDIT_GENERATION_II_OVERRIDES=Object.freeze({
         url:"https://bulbapedia.bulbagarden.net/wiki/Quilava_(Pok%C3%A9mon)#Concept_and_development"
       })
     })
+  }),
+  178:Object.freeze({
+    english:Object.freeze({
+      kind:"specific",
+      people:Object.freeze(["Jeff Kalles"]),
+      organization:"Nintendo of America",
+      role:"Specific English name contribution",
+      detail:"Kalles identifies Xatu as his suggestion while the localization team sought an X-initial name, and says he derived it from xat, which he described as a carved Indigenous American pole.",
+      source:Object.freeze({
+        label:"Bulbapedia: Jeff Kalles's Xatu naming account",
+        url:"https://bulbapedia.bulbagarden.net/wiki/Xatu_(Pok%C3%A9mon)#Concept_and_development"
+      })
+    })
   })
 });
 
