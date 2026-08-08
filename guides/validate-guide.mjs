@@ -23,6 +23,7 @@ const vermilion=await run("guides/guide-stages-vermilion.js","VERMILION_STAGES",
 await run("guides/guide-stages-rock-tunnel-celadon.js","ROCK_TUNNEL_CELADON_STAGES","ROCK_TUNNEL_CELADON_EXPORT");
 await run("guides/guide-stages-celadon-tower.js","CELADON_TOWER_STAGES","CELADON_TOWER_EXPORT");
 await run("guides/guide-stages-route12-fuchsia.js","ROUTE12_FUCHSIA_STAGES","ROUTE12_FUCHSIA_EXPORT");
+await run("guides/guide-stages-safari.js","SAFARI_STAGES","SAFARI_EXPORT");
 
 const stages=[...opening,...moon,...cerulean,...vermilion];
 const allowedGroups=new Set(["Catch","Story","Items"]);
@@ -32,7 +33,7 @@ const publishedIds=new Set(data.map(item=>Number(item.d)));
 const pokemonIds=new Set([...data,...references].map(item=>Number(item.d)));
 const errors=[];
 
-if(stages.length!==36) errors.push(`Expected 36 stages, found ${stages.length}.`);
+if(stages.length!==41) errors.push(`Expected 41 stages, found ${stages.length}.`);
 for(const reference of references){
   if(publishedIds.has(Number(reference.d))) errors.push(`Reference Pokémon [[${reference.d}]] duplicates a published DATA record.`);
 }
@@ -44,6 +45,8 @@ for(const stage of stages){
   }
   if(stageIds.has(stage.id)) errors.push(`Duplicate stage id: ${stage.id}.`);
   stageIds.add(stage.id);
+  const stageValues=[stage.tab,stage.title,stage.subtitle,stage.warning,stage.drawer?.title,stage.drawer?.text].filter(Boolean);
+  if(stageValues.some(value=>/500\s+(?:field\s+)?steps/i.test(String(value)))) errors.push(`Obsolete 500-step Safari limit in ${stage.id}. FireRed / LeafGreen uses 600 steps.`);
   for(const task of stage.tasks){
     const variants=task.variants ? Object.values(task.variants) : [];
     const hasTitle=Boolean(task.title) || (variants.length>0 && variants.every(variant=>Boolean(variant.title)));
@@ -54,6 +57,7 @@ for(const stage of stages){
     const values=[task.title,task.meta,task.detail];
     for(const variant of variants) values.push(variant.title,variant.meta,variant.detail);
     for(const value of values.filter(Boolean)){
+      if(/500\s+(?:field\s+)?steps/i.test(String(value))) errors.push(`Obsolete 500-step Safari limit in ${task.id}. FireRed / LeafGreen uses 600 steps.`);
       for(const match of String(value).matchAll(/\[\[(\d+)\]\]/g)){
         const id=Number(match[1]);
         if(!pokemonIds.has(id)) errors.push(`Unknown Pokémon token [[${id}]] in ${task.id}.`);
@@ -81,11 +85,13 @@ const orderedScripts=[
   "guide-stages-rock-tunnel-celadon.js",
   "guide-stages-celadon-tower.js",
   "guide-stages-route12-fuchsia.js",
+  "guide-stages-safari.js",
   "guide-i18n.js",
   "guide-i18n-vermilion.js",
   "guide-i18n-rock-tunnel-celadon.js",
   "guide-i18n-celadon-tower.js",
   "guide-i18n-route12-fuchsia.js",
+  "guide-i18n-safari.js",
   "guide-copy-overrides.js",
   "guide.js",
   "guide-touch.js"
