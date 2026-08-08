@@ -18,8 +18,8 @@ The interface does not infer tags, semantic scope, or naming authorship from pro
 
 ## Current release
 
-- all 151 Generation I species plus the first 27 Generation II species, #152–#178, in English, French, Japanese, and Japanese romanization;
-- complete audited comparative name research for #001–#178;
+- all 151 Generation I species plus the first 35 Generation II species, #152–#186, in English, French, Japanese, and Japanese romanization;
+- complete audited comparative name research for #001–#186;
 - current structured types and EV yields for the Names index;
 - in-place Pokémon and per-language disclosures;
 - visible audit dates, confidence labels, native-language Notes, localization comparisons, collapsed sources, and entry-owned word-level language tags;
@@ -67,4 +67,4 @@ https://natanai.github.io/poke-etymology/
 
 ## Current next work
 
-See [`HANDOFF.md`](HANDOFF.md) and issue #31. Continue Generation II etymology from **#179 Mareep** in coherent reviewed batches while the FireRed / LeafGreen Living Dex guide advances independently. Before merging either stream, compare it with the latest `main` and review concurrent changes.
+See [`HANDOFF.md`](HANDOFF.md) and issue #31. Continue Generation II etymology from **#187 Hoppip** in coherent reviewed batches while the FireRed / LeafGreen Living Dex guide advances independently. Before merging either stream, compare it with the latest `main` and review concurrent changes.
