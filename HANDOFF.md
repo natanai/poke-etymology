@@ -8,7 +8,7 @@
 **Published Names data:** #001–#186  
 **Audited etymology:** Generation I #001–#151 plus Generation II #152–#186  
 **Name-effect baseline:** 186 Pokémon × 3 languages = 558 reviewed rows  
-**FireRed / LeafGreen guide:** 36 stages from Pallet Town through Fuchsia City’s pre-Safari fishing setup
+**FireRed / LeafGreen guide:** 41 stages from Pallet Town through the Safari Zone and return of the Gold Teeth for HM04 Strength
 
 ---
 
@@ -149,7 +149,7 @@ Every new Johto batch must:
 - remove any promoted species from `reference-data.js`;
 - preserve the guide's ability to resolve those species from `DATA`.
 
-Promotion history includes Crobat, Cleffa, Igglybuff, Bellossom, and Politoed. The current compact reference layer contains Espeon, Umbreon, Slowking, Steelix, Scizor, Kingdra, Porygon2, Raikou, Entei, and Suicune.
+Promotion history includes Crobat, Cleffa, Igglybuff, Bellossom, and Politoed. The current compact reference layer contains Espeon, Umbreon, Slowking, Steelix, Scizor, Kingdra, Porygon2, Blissey, Raikou, Entei, and Suicune.
 
 The region selector derives published Johto membership and type combinations from `DATA`. Never restore hard-coded batch endpoints for queries such as `johto water`.
 
@@ -225,7 +225,7 @@ node guides/validate-guide.mjs
 
 `.github/workflows/validate-guide.yml` triggers when guide files or shared Pokémon factual/reference data changes. This prevents a Names-data promotion from silently breaking guide links.
 
-The guide validator currently expects 36 stages and checks unique IDs, task groups, Pokémon tokens, factual-data loading, required scripts, script order, and compact references that duplicate published `DATA`.
+The guide validator currently expects 41 stages and checks unique IDs, task groups, Pokémon tokens, factual-data loading, required scripts, script order, compact references that duplicate published `DATA`, and the obsolete `500 steps` Safari wording. FireRed / LeafGreen uses **600 field steps** per Safari entry.
 
 ---
 
@@ -249,7 +249,7 @@ Guide work should generally remain under `guides/`, plus necessary shared refere
 
 ## 10. Living Dex guide
 
-The FireRed / LeafGreen guide contains 36 stages from Pallet Town through Fuchsia City’s pre-Safari fishing setup.
+The FireRed / LeafGreen guide contains 41 stages from Pallet Town through the Safari Zone reward/catch loop and return of the Gold Teeth for HM04 Strength.
 
 Current progression includes:
 
@@ -257,26 +257,33 @@ Current progression includes:
 - Vermilion, S.S. Anne, Diglett's Cave, and Lt. Surge;
 - Route 9, Rock Tunnel, Lavender, Celadon, and Route 16;
 - Game Corner prizes, Rocket Hideout, Erika, Pokémon Tower catches, and the Poké Flute;
-- the first Snorlax, Route 12 fishing, Routes 13–15, and Fuchsia City fishing setup.
+- the first Snorlax, Route 12 fishing, Routes 13–15, and Fuchsia City fishing setup;
+- Safari prize route, Center catches, area-specific rare catches, Dratini fishing, and the Warden / HM04 Strength cleanup.
 
 Research records:
 
 - `guides/research-vermilion.md`;
 - `guides/research-rock-tunnel-celadon.md`;
 - `guides/research-celadon-tower.md`;
-- `guides/research-route12-fuchsia.md`.
+- `guides/research-route12-fuchsia.md`;
+- `guides/research-safari.md`.
 
 Important current plans:
 
 - Porygon is the only required Game Corner prize;
-- Scyther/Pinsir prize alternatives are optional;
+- Scyther/Pinsir Game Corner prizes are optional guaranteed alternatives to the Safari Zone;
 - the Ghost-family plan uses one Gastly and two wild Haunter, with one Haunter traded into Gengar;
 - the Marowak spirit is uncatchable;
 - the Route 12 Snorlax is saved before waking and captured before risking the Route 16 copy;
 - extracted game data establishes FireRed Horsea and LeafGreen Krabby at 84% with the Route 12 Super Rod;
 - Route 14 is the Ditto stop at 15%, rather than the 5% Route 13 or Route 15 encounters;
 - Fuchsia uses the Good Rod for Poliwag and the Super Rod for direct Goldeen/Seaking;
-- the 1% Route 12 Psyduck/Slowpoke encounter waits until Surf makes the version family guaranteed in Fuchsia.
+- the 1% Route 12 Psyduck/Slowpoke encounter waits until Surf makes the version family guaranteed in Fuchsia;
+- Safari entries are **600 field steps**, ₽500, and 30 Safari Balls — not 500 steps;
+- the first Safari run goes Center → East → North → West to secure Gold Teeth and HM03 Surf before deliberate rare hunting;
+- Safari rare hunts use their best 4% tables: Scyther/Pinsir in Center, Kangaskhan in East, Chansey in North, Tauros in West;
+- catch three Dratini at the 15% Super Rod slot rather than requiring the 1% Dragonair slot;
+- Chansey’s later Blissey branch uses a postgame bred copy; Blissey is currently a compact guide reference.
 
 Preserve version switching, stable task IDs, saved completion state, exact living-dex quantities, optional-task semantics, localized Pokémon links, deterministic rendering, and direct events.
 
@@ -310,13 +317,12 @@ Continue from **#187 Hoppip**. Choose the endpoint by coherent family boundaries
 
 ## 13. Next Living Dex chunk
 
-The next coherent guide extension is the Safari Zone as one focused plan. It should resolve:
+The next coherent guide extension should begin with the **Fuchsia Gym / Koga** and then use the newly available field HMs rather than leaving them idle:
 
-1. exact FireRed and LeafGreen family quantities by Safari area;
-2. the 500-step limit and clean area-to-area navigation;
-3. HM03 Surf and the Gold Teeth without avoidable wasted entries;
-4. high-value finite pickups that fit the route;
-5. whether one optimized session or several purpose-specific entries is clearest and most reliable;
-6. which rare catches should be attempted now versus deferred to a better post-Surf or later-game source.
+1. verify Koga’s team, Soul Badge effects, and any completion-relevant Gym reward;
+2. use Surf in Fuchsia immediately after the badge to close the version water family — FireRed Psyduck/Golduck or LeafGreen Slowpoke/Slowbro/Slowking planning;
+3. review any concise Strength cleanup that is now worth doing without turning the guide into an item walkthrough;
+4. return to Route 16 for the second unique Snorlax, including its second hidden Leftovers;
+5. cover Cycling Road / Routes 17–18 as one connected western-route cleanup with exact catches, items, and one-way constraints.
 
-Keep Koga, post-Surf Fuchsia catches, Cycling Road, and the second Snorlax outside this chunk unless a brief reference is necessary to make the Safari instructions understandable.
+Keep the same earliest-practical-catch rule. If a Route 17–18 species is substantially easier somewhere later, say so rather than forcing a low-rate catch now. The chunk should end at a natural decision point before the next major story/catch region, likely Saffron or the next Surf-dependent route after the encounter tables are reviewed.
