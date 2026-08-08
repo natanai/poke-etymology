@@ -20,7 +20,7 @@ Static scripts may assemble local records, render deterministically, and respond
 
 ### `/index.html`
 
-The Names and etymology index currently publishes #001–#178: complete Generation I plus the first 27 Generation II species.
+The Names and etymology index currently publishes #001–#186: complete Generation I plus the first 35 Generation II species.
 
 Responsibilities:
 
@@ -31,11 +31,11 @@ Responsibilities:
 - persist the selected primary language;
 - expand Pokémon entries and languages in place;
 - display Roots, meaning/effect, Notes, word tags, naming credit, confidence, comparison, audit metadata, EV yield, and sources;
-- open direct hashes such as `#178`.
+- open direct hashes such as `#186`.
 
 ### `/guides/firered-leafgreen.html`
 
-The Living Dex play companion currently contains 31 stages through Pokémon Tower and receipt of the Poké Flute.
+The Living Dex play companion currently contains 36 stages through Fuchsia City's pre-Safari fishing setup.
 
 It loads factual data in this order:
 
@@ -60,7 +60,7 @@ Committed generated snapshot of Generation I #001–#151. It replaces the seed c
 
 ### `generation-ii-data.js`
 
-Append-only static factual layer for Generation II, currently #152–#178:
+Append-only static factual layer for Generation II, currently #152–#186:
 
 ```js
 for (const record of GENERATION_II_DATA) {
@@ -80,13 +80,14 @@ Contains compact later-generation records needed by the guide before they are pu
 Promotion examples:
 
 - Crobat moved into `DATA` in #161–#169;
-- Cleffa and Igglybuff moved into `DATA` in #170–#178.
+- Cleffa and Igglybuff moved into `DATA` in #170–#178;
+- Bellossom and Politoed moved into `DATA` in #179–#186.
 
-Current compact references: Bellossom, Espeon, Umbreon, Steelix, Scizor, Porygon2, Raikou, Entei, and Suicune.
+Current compact references: Espeon, Umbreon, Slowking, Steelix, Scizor, Kingdra, Porygon2, Raikou, Entei, and Suicune.
 
 ## Audited research overlays
 
-`verified-research.js` defines shared helpers. Numbered `verified-research-*.js` files load in Pokédex order and currently extend through `verified-research-170-178.js`. `verified-research-name-effect-fixes.js` remains the final Generation I semantic-correction overlay.
+`verified-research.js` defines shared helpers. Numbered `verified-research-*.js` files load in Pokédex order and currently extend through `verified-research-179-186.js`. `verified-research-name-effect-fixes.js` remains the final Generation I semantic-correction overlay.
 
 Each audited entry generally contains:
 
@@ -120,10 +121,10 @@ Meaning/effect explains what the name says or does linguistically. Notes explain
 
 Current baseline:
 
-- 178 Pokémon;
-- 534 language rows;
-- audited through #178;
-- digest `3552bb17d00aaa25394c7915c87f44cfac4b137a8bddc1f81c87e8bb48c231b8`.
+- 186 Pokémon;
+- 558 language rows;
+- audited through #186;
+- digest `7a935aa45c9fb9d76526dc1261c541229b4bb60748225ab1e9f319fa4b0d127c`.
 
 ## Language tags
 
@@ -136,9 +137,9 @@ Current baseline:
 - optional `occurrence` selects repeated exact text;
 - supported language keys are `japanese`, `french`, and `english`.
 
-Current dataset: **139 tags across 111 language analyses**.
+Current dataset: **144 tags across 115 language analyses**.
 
-An unresolved donor language must not receive a falsely precise tag. Xatu's possible *indio* root is untagged because Spanish and Italian remain possible.
+An unresolved donor language must not receive a falsely precise tag. Secondary roots may be tagged only when the displayed Roots actually present borrowed material and the donor language is supportable.
 
 ## Naming credits
 
@@ -156,7 +157,7 @@ Generation II defaults cover:
 - Nintendo France's first-251 localization context;
 - the credited Gold/Silver US localization coordinators.
 
-Exact Generation II English overrides currently include Jeff Kalles for **Quilava** and **Xatu**.
+Exact Generation II English overrides currently include Jeff Kalles for **Quilava** and **Xatu**. The #179–#186 batch adds no exact-person override; etymology explanations are not treated as automatic authorship evidence.
 
 Every resolved record contains:
 
@@ -187,7 +188,7 @@ The selector and text query are cumulative. Only genuinely reference-only direct
 `scripts/validate-region-filter.mjs` derives:
 
 - the published Johto ID list;
-- combined Johto/type expectations for Water, Grass, Bug, and future types;
+- combined Johto/type expectations from assembled `DATA`;
 - selector/search compatibility.
 
 Do not restore fixed arrays tied to one batch endpoint.
@@ -214,12 +215,13 @@ Prints stable final Roots and meaning/effect rows for manual review. It is not a
 
 Loads Generation I facts, published Generation II facts, compact references, and all route-stage files. It currently enforces:
 
-- exactly 31 stages;
+- exactly 36 stages;
 - unique stage and task IDs;
 - supported task groups;
 - valid Pokémon tokens;
 - required factual, route, localization, renderer, and touch scripts;
-- architectural script order.
+- architectural script order;
+- no compact reference that duplicates a published `DATA` record.
 
 The guide validator must pass when shared factual/reference layers change, even when no guide content file changes.
 
@@ -253,7 +255,8 @@ Current route composition:
 - opening, Mt. Moon, and Cerulean;
 - Vermilion and Lt. Surge;
 - Route 9 through Route 16;
-- Game Corner through Pokémon Tower.
+- Game Corner through Pokémon Tower;
+- Route 12 through Fuchsia City's pre-Safari fishing setup.
 
 New stages append while preserving previous stage indices and task IDs. Published Pokémon links resolve from `DATA`; unpublished family links resolve from `REFERENCE_POKEMON`.
 
@@ -292,7 +295,7 @@ Runs guide syntax and structure checks for:
 - `reference-data.js`;
 - its own workflow file.
 
-This cross-feature trigger was added when Cleffa and Igglybuff were promoted, closing the gap where shared data could change without guide validation.
+This cross-feature trigger prevents published-data promotion from silently breaking guide links.
 
 ### `.github/workflows/pages.yml`
 
@@ -327,7 +330,7 @@ Smoke testing must confirm:
 - tags target exact tokens;
 - every published disclosure resolves a credit;
 - the semantic baseline covers every audited row;
-- the guide loads Generation II before references and renders 31 stages;
+- the guide loads Generation II before references and renders 36 stages;
 - CPU use settles after rendering;
 - saved guide state and links still work.
 
