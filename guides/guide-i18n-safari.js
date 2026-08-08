@@ -79,9 +79,9 @@
   }
 
   const sourceLabels={
-    e:["Safari Zone encounter tables","Safari Zone step and ball limits","Gold Teeth, HM03 Surf, and Safari map data"],
-    f:["Tables de rencontres du Parc Safari","Limite de pas et Safari Balls","Dent d’Or, CS03 Surf et données des cartes Safari"],
-    j:["サファリゾーン出現データ","サファリゾーンの歩数とボール制限","きんのいれば・ひでんマシン03・サファリマップデータ"]
+    e:["Safari Zone step and ball limits","Safari West and Gold Teeth map data","Secret House and HM03 Surf reward","Warden and HM04 Strength reward"],
+    f:["Limite de pas et Safari Balls","Carte de l’Ouest et Dent d’Or","Maison secrète et récompense CS03 Surf","Gardien et récompense CS04 Force"],
+    j:["サファリゾーンの歩数とボール制限","西エリアときんのいればのマップデータ","ひみつのいえとひでんマシン03","園長とひでんマシン04"]
   }[lang];
   document.querySelectorAll(".guide-sources li a").forEach((link,index)=>{
     if(index>=23 && sourceLabels[index-23]) link.textContent=sourceLabels[index-23];
