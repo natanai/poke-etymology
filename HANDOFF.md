@@ -2,12 +2,12 @@
 
 > **Required starting point for every new GPT, coding agent, and human contributor.** Read this document completely before proposing or making changes. Inspect current `main`, open PRs, and active branches; this snapshot may have been superseded.
 
-**Snapshot:** 2026-07-31  
+**Snapshot:** 2026-08-08  
 **Repository:** `natanai/poke-etymology`  
 **Live site:** `https://natanai.github.io/poke-etymology/`  
-**Published Names data:** #001–#178  
-**Audited etymology:** Generation I #001–#151 plus Generation II #152–#178  
-**Name-effect baseline:** 178 Pokémon × 3 languages = 534 reviewed rows  
+**Published Names data:** #001–#186  
+**Audited etymology:** Generation I #001–#151 plus Generation II #152–#186  
+**Name-effect baseline:** 186 Pokémon × 3 languages = 558 reviewed rows  
 **FireRed / LeafGreen guide:** 36 stages from Pallet Town through Fuchsia City’s pre-Safari fishing setup
 
 ---
@@ -72,11 +72,11 @@ Use the blind-name test: hide the sprite, Pokédex, family, mechanics, and story
 
 Current baseline:
 
-- 178 audited Pokémon;
-- 534 language rows;
-- audited through #178;
-- digest `3552bb17d00aaa25394c7915c87f44cfac4b137a8bddc1f81c87e8bb48c231b8`;
-- reviewed on 2026-07-31.
+- 186 audited Pokémon;
+- 558 language rows;
+- audited through #186;
+- digest `7a935aa45c9fb9d76526dc1261c541229b4bb60748225ab1e9f319fa4b0d127c`;
+- reviewed on 2026-08-08.
 
 Exact attestation:
 
@@ -100,39 +100,40 @@ Completed and audited:
 
 - **#152–#160:** Chikorita through Feraligatr — `research-batches/152-160-notes.md`;
 - **#161–#169:** Sentret through Crobat — `research-batches/161-169-notes.md`;
-- **#170–#178:** Chinchou through Xatu — `research-batches/170-178-notes.md`.
+- **#170–#178:** Chinchou through Xatu — `research-batches/170-178-notes.md`;
+- **#179–#186:** Mareep through Politoed — `research-batches/179-186-notes.md`.
 
-Each batch contains 27 manually reviewed language rows.
+The first three Johto batches contain 27 reviewed language rows each; #179–#186 contains 24.
 
-Important #170–#178 uncertainty boundaries:
+Important #179–#186 uncertainty boundaries:
 
-- Chinchou: general *chōchin* “lantern” versus fuller *chōchin-ankō* “footballfish”;
-- Lanturn: secure lantern respelling with only a possible secondary *turn on* pun;
-- Pichu: secure Pikachu contraction with possible *puchi + chūchū* reinforcement;
-- Cleffa: shortened Clefairy-family name with possible *clef + fa* reinforcement;
-- Igglybuff: family remodeling plus possible *jiggly/wiggly + buff* segmentation;
-- Natu: international *nature* versus inherited Japanese *Naty/native* relationship;
-- Xatu Japanese: *Naty/native + indio* remains plausible, and the donor language for *indio* is unresolved;
-- Xatu English: Jeff Kalles's stated *xat* derivation is confirmed; a Natu echo remains secondary.
+- Merriep: English *merry*, Mary, sheep-baa, and *sheep* overlap without one uniquely documented segmentation;
+- Flaaffy: *fluffy + baa* is the core, while `AA` remains only a secondary spelling echo;
+- Ampharos: *amp/ampere + pharos* is the core; *amparo* remains secondary;
+- Bellossom: *bell + blossom* is the core, with possible French *belle* reinforcement;
+- Marill: Japanese *mari + ruri* and international *marine + rill* are reconstructions, and the adaptation relationship is unresolved;
+- Azumarill: *azur/azure + Marill* is stronger internationally, while Japanese inherits the uncertain Maril material;
+- Nyorotono: *nyoronyoro + tono* is the core, with *tonosama-gaeru* possible reinforcement;
+- Politoed: *polliwog + toad* is the core, with *poly- + toed* only secondary.
 
-Do not flatten these into cleaner unsupported answers. Cultural explanations must be no more specific than the cited naming source.
+Do not flatten these into cleaner unsupported answers. Family resemblance, design, typing, and behavior must not be used to upgrade lexical confidence.
 
 ---
 
 ## 5. Generation-scoped data architecture
 
-The Names page publishes #001–#178.
+The Names page publishes #001–#186.
 
 Load order:
 
 1. `data.js`
 2. `generated-data.js` — Generation I #001–#151
-3. `generation-ii-data.js` — append-only Generation II facts, currently #152–#178
+3. `generation-ii-data.js` — append-only Generation II facts, currently #152–#186
 4. `associations.js`
 5. `naming-credits.js`
 6. `naming-credits-generation-ii.js`
 7. `verified-research.js`
-8. numbered `verified-research-*.js` files in Pokédex order, through `verified-research-170-178.js`
+8. numbered `verified-research-*.js` files in Pokédex order, through `verified-research-179-186.js`
 9. `verified-research-name-effect-fixes.js`
 10. `reference-data.js`
 11. `app.js`
@@ -148,7 +149,7 @@ Every new Johto batch must:
 - remove any promoted species from `reference-data.js`;
 - preserve the guide's ability to resolve those species from `DATA`.
 
-Cleffa and Igglybuff were promoted from compact guide references in the #170–#178 batch. The current compact reference layer contains Bellossom, Politoed, Espeon, Umbreon, Slowking, Steelix, Scizor, Kingdra, Porygon2, Raikou, Entei, and Suicune.
+Promotion history includes Crobat, Cleffa, Igglybuff, Bellossom, and Politoed. The current compact reference layer contains Espeon, Umbreon, Slowking, Steelix, Scizor, Kingdra, Porygon2, Raikou, Entei, and Suicune.
 
 The region selector derives published Johto membership and type combinations from `DATA`. Never restore hard-coded batch endpoints for queries such as `johto water`.
 
@@ -166,9 +167,9 @@ The only supported type is `loanword`. Tags:
 - use optional `occurrence` only for repeated exact text;
 - are never inferred by the renderer.
 
-Current validated total: **139 tags across 111 language analyses**.
+Current validated total: **144 tags across 115 language analyses**.
 
-Do not tag a donor language when the source language itself is unresolved. Xatu's possible *indio* component is deliberately untagged because Spanish and Italian remain possible.
+Do not tag a donor language when the source language itself is unresolved. A plausible secondary root may be tagged only when the displayed Roots actually present it as borrowed material and the donor language is supportable.
 
 ---
 
@@ -187,7 +188,7 @@ Exact Generation II English overrides currently include:
 - **Quilava — Jeff Kalles**;
 - **Xatu — Jeff Kalles**, who says he suggested the X-initial name from *xat*.
 
-No Japanese or French #170–#178 entry received a new individual override. A species etymology explanation alone does not prove authorship.
+No #179–#186 entry receives a new exact-person override. Several French constructions are explained in sources associated with Julien Bardakoff, but an etymology explanation alone does not prove sole species-level coinage.
 
 `scripts/validate-naming-credits.mjs` requires every published ID to be contiguous and every published language disclosure to resolve a complete generation-scoped credit. Later generations need separately researched registries.
 
@@ -224,7 +225,7 @@ node guides/validate-guide.mjs
 
 `.github/workflows/validate-guide.yml` triggers when guide files or shared Pokémon factual/reference data changes. This prevents a Names-data promotion from silently breaking guide links.
 
-The guide validator currently expects 36 stages and checks unique IDs, task groups, Pokémon tokens, factual-data loading, required scripts, script order, and reference records that duplicate published `DATA`.
+The guide validator currently expects 36 stages and checks unique IDs, task groups, Pokémon tokens, factual-data loading, required scripts, script order, and compact references that duplicate published `DATA`.
 
 ---
 
@@ -303,7 +304,7 @@ Do not reintroduce inferred tags, inferred semantic claims, universal `Created b
 
 ## 12. Next name batch
 
-Continue from **#179 Mareep**. Choose the endpoint by coherent family boundaries and source quality, not by a fixed batch size. Review whether any species in the range is already a compact guide reference and promote it cleanly if necessary.
+Continue from **#187 Hoppip**. Choose the endpoint by coherent family boundaries and source quality, not by a fixed batch size. Review whether any species in the range is already a compact guide reference and promote it cleanly if necessary.
 
 ---
 
