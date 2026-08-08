@@ -25,7 +25,15 @@ const GENERATION_II_DATA=[
   {d:175,e:"Togepi",f:"Togepi",j:"トゲピー",r:"Togepy",t:["Fairy"],v:[0,0,0,0,1,0],x:[],c:"",reviewed:false},
   {d:176,e:"Togetic",f:"Togetic",j:"トゲチック",r:"Togechick",t:["Fairy","Flying"],v:[0,0,0,0,2,0],x:[],c:"",reviewed:false},
   {d:177,e:"Natu",f:"Natu",j:"ネイティ",r:"Naty",t:["Psychic","Flying"],v:[0,0,0,1,0,0],x:[],c:"",reviewed:false},
-  {d:178,e:"Xatu",f:"Xatu",j:"ネイティオ",r:"Natio",t:["Psychic","Flying"],v:[0,0,0,1,0,1],x:[],c:"",reviewed:false}
+  {d:178,e:"Xatu",f:"Xatu",j:"ネイティオ",r:"Natio",t:["Psychic","Flying"],v:[0,0,0,1,0,1],x:[],c:"",reviewed:false},
+  {d:179,e:"Mareep",f:"Wattouat",j:"メリープ",r:"Merriep",t:["Electric"],v:[0,0,0,1,0,0],x:[],c:"",reviewed:false},
+  {d:180,e:"Flaaffy",f:"Lainergie",j:"モココ",r:"Mokoko",t:["Electric"],v:[0,0,0,2,0,0],x:[],c:"",reviewed:false},
+  {d:181,e:"Ampharos",f:"Pharamp",j:"デンリュウ",r:"Denryu",t:["Electric"],v:[0,0,0,3,0,0],x:[],c:"",reviewed:false},
+  {d:182,e:"Bellossom",f:"Joliflor",j:"キレイハナ",r:"Kireihana",t:["Grass"],v:[0,0,0,0,3,0],x:[],c:"",reviewed:false},
+  {d:183,e:"Marill",f:"Marill",j:"マリル",r:"Maril",t:["Water","Fairy"],v:[2,0,0,0,0,0],x:[],c:"",reviewed:false},
+  {d:184,e:"Azumarill",f:"Azumarill",j:"マリルリ",r:"Marilli",t:["Water","Fairy"],v:[3,0,0,0,0,0],x:[],c:"",reviewed:false},
+  {d:185,e:"Sudowoodo",f:"Simularbre",j:"ウソッキー",r:"Usokkie",t:["Rock"],v:[0,0,2,0,0,0],x:[],c:"",reviewed:false},
+  {d:186,e:"Politoed",f:"Tarpaud",j:"ニョロトノ",r:"Nyorotono",t:["Water"],v:[0,0,0,0,3,0],x:[],c:"",reviewed:false}
 ];
 
 for(const record of GENERATION_II_DATA){
