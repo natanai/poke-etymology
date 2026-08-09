@@ -56,6 +56,23 @@ Any pull request changing name-analysis data must contain this exact checked lin
 
 Failing to include it is a validation error, not optional documentation.
 
+## Pull-request readiness is a hard gate
+
+All `agent/*` pull requests must be opened as **drafts**. Do not open an agent PR as ready for review while research, baseline renewal, reconciliation, or validation is still in progress.
+
+Before marking an agent PR ready:
+
+1. finish the substantive work and manual review;
+2. renew any intentional semantic baseline change through the documented attested procedure;
+3. run every affected validator locally or in the agent workspace;
+4. resolve every known failure;
+5. recompare against current `main` and reconcile concurrent work;
+6. only then mark the PR ready so hosted CI serves as confirmation rather than as a discovery step.
+
+Never intentionally create a red hosted run just to learn the new semantic digest or to confirm an expected baseline mismatch. The validator may report a digest in local/draft work, but a ready PR must not be knowingly submitted with that mismatch.
+
+Repository CI now enforces this lifecycle for `agent/*` branches: a newly opened ready agent PR is converted back to draft automatically, and normal hosted validation is deferred until a later `ready_for_review` event. Do not work around that safeguard by using a different branch prefix.
+
 ## Other non-negotiable defaults
 
 - reliability over research volume;
@@ -66,7 +83,7 @@ Failing to include it is a validation error, not optional documentation.
 - no fake controls;
 - no generic Pokédex scope expansion;
 - no claims of deployment until deployment is actually verified;
-- branch → validation → PR → merge for normal work;
+- branch → draft PR → validation → ready PR → merge for normal agent work;
 - direct `main` changes only for small emergency hotfixes.
 
 A new agent receiving “Carefully read the handoff document and follow its instructions” should treat `HANDOFF.md` as the authoritative operational record and `NAME_EFFECT_STANDARD.md` as the controlling semantic rule for every Roots→meaning/effect pair.
