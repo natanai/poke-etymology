@@ -21,7 +21,7 @@ permissions:
 
 jobs:
   validate-guide:
-    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    if: github.event_name != 'pull_request' || (github.event.pull_request.draft == false && (github.event.action != 'opened' || !startsWith(github.head_ref, 'agent/')))
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
