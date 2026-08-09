@@ -1,3 +1,11 @@
+## PR readiness
+
+- [ ] This PR stayed draft while substantive work, reconciliation, baseline renewal, or validation was incomplete.
+- [ ] There are no known failing checks or intentional baseline mismatches remaining.
+- [ ] If this is an `agent/*` branch, it was not marked ready merely to obtain a hosted failure/digest.
+
+A ready PR must be expected to pass. Hosted CI confirms completed work; it is not a discovery step for known failures.
+
 ## What changed
 
 <!-- Describe the user-facing and repository changes. -->
