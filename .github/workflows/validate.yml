@@ -11,10 +11,21 @@ concurrency:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
+  enforce-agent-draft:
+    if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.head_ref, 'agent/') && github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Convert agent pull request to draft
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr ready --undo "$PR_URL"
+
   validate:
-    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    if: github.event_name != 'pull_request' || (github.event.pull_request.draft == false && (github.event.action != 'opened' || !startsWith(github.head_ref, 'agent/')))
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
