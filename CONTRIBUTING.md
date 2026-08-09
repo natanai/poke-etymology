@@ -24,11 +24,17 @@ For ordinary changes:
 1. inspect current `main`;
 2. create `agent/<purpose>` from current `main`;
 3. make coherent commits;
-4. compare the branch with `main`;
-5. validate;
-6. open a descriptive PR;
-7. merge only after it is mergeable and required checks pass;
-8. update trackers and handoff documentation.
+4. open the pull request as a draft while work is still in progress;
+5. compare the branch with current `main` and reconcile concurrent work;
+6. run every affected validator and renew any intentional semantic baseline change;
+7. resolve every known failure before marking the PR ready;
+8. mark ready only when hosted CI is expected to pass;
+9. merge only after the PR is mergeable and required checks pass;
+10. update trackers and handoff documentation.
+
+Do not intentionally use a ready PR to obtain an expected red hosted run, including to discover a semantic digest or confirm a known baseline mismatch. Hosted CI is a final confirmation step, not a discovery mechanism for failures already known to the contributor.
+
+For `agent/*` branches this lifecycle is enforced by CI: if an agent PR is opened ready, the static-data workflow converts it back to draft and defers normal hosted validation until a later `ready_for_review` event.
 
 Direct `main` edits are for emergency hotfixes only.
 

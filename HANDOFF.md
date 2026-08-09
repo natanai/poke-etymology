@@ -227,6 +227,19 @@ node guides/validate-guide.mjs
 
 The guide validator currently expects 41 stages and checks unique IDs, task groups, Pokémon tokens, factual-data loading, required scripts, script order, compact references that duplicate published `DATA`, and the obsolete `500 steps` Safari wording. FireRed / LeafGreen uses **600 field steps** per Safari entry.
 
+### Hosted CI readiness lifecycle
+
+Hosted CI is confirmation of completed work, not a mechanism for intentionally producing an expected red run.
+
+- every `agent/*` pull request must begin as a draft;
+- a newly opened `agent/*` PR that is incorrectly opened ready is automatically converted back to draft by `.github/workflows/validate.yml`;
+- the static and guide validators skip their normal validation job for that initial opened-ready agent event;
+- draft synchronizations remain quiet;
+- `ready_for_review` is the normal first hosted validation point after local/agent validation, semantic review, baseline renewal, and reconciliation are complete;
+- once ready, later commits continue to trigger validation normally.
+
+Do not mark a PR ready merely to obtain the new semantic digest or to confirm a known baseline mismatch. A known expected failure must be resolved before the ready state. PR #44 exposed this failure mode when a deliberately stale #178 baseline was submitted as a ready PR for #179–#186; the data was sound, but the expected red run generated an unnecessary failure notification.
+
 ---
 
 ## 9. Concurrent workflow rule
@@ -237,11 +250,13 @@ For every branch:
 
 1. branch from current `main`;
 2. keep unrelated subsystems isolated;
-3. keep the PR draft while research and validation are incomplete;
-4. immediately before merge, inspect current `main`, open PRs, and active branches;
-5. reconcile shared documentation and `reference-data.js` deliberately;
-6. rerun every affected validator;
-7. merge only when GitHub reports the PR mergeable and checks pass.
+3. open the PR as draft and keep it draft while research, reconciliation, baseline renewal, or validation is incomplete;
+4. clear every known failure and renew any intentional semantic baseline change before marking ready;
+5. immediately before ready/merge, inspect current `main`, open PRs, and active branches;
+6. reconcile shared documentation and `reference-data.js` deliberately;
+7. rerun every affected validator;
+8. mark ready only when the PR is expected to pass hosted CI;
+9. merge only when GitHub reports the PR mergeable and checks pass.
 
 Guide work should generally remain under `guides/`, plus necessary shared references and authoritative documentation. Name batches should not edit guide content files unless a true cross-feature architecture change is required.
 
